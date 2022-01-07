@@ -7,7 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.forecastmvvm.R
-import com.example.forecastmvvm.data.WeatherstackApiService
+import com.example.forecastmvvm.data.network.WeatherstackApiService
+
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
