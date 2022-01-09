@@ -25,7 +25,9 @@ interface WeatherstackApiService {
     ):Deferred<CurrentWeatherResponse>
     //we need to create object which will actually fetch data from API and handle with interface
     companion object{
-        operator fun invoke():WeatherstackApiService{
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ):WeatherstackApiService{
             val requestInterceptor = Interceptor{ chain ->
                 val url = chain.request()
                     .url()
@@ -41,6 +43,8 @@ interface WeatherstackApiService {
             }
             val okHttpClient= OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
+
                 .build()
 
             return Retrofit.Builder()
