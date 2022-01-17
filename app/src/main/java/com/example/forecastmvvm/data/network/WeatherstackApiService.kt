@@ -15,7 +15,7 @@ const val API_KEY = "de5507f9445655f86f6cbcff4b04c2f7"
 
 ////http://api.apixu.com/v1/current.json?key=89e8bd89085b41b7a4b142029180210&q=London&lang=en
 
-//http://api.weatherstack.com/current?access_key=de5507f9445655f86f6cbcff4b04c2f7&query=Krasnoyarsk&lang=en
+//http://api.weatherstack.com/current?access_key=de5507f9445655f86f6cbcff4b04c2f7&query=Krasnoyarsk&lang=en&unit=f
 
 interface WeatherstackApiService {
     @GET("current")
@@ -23,6 +23,19 @@ interface WeatherstackApiService {
         @Query("query") location: String,
         @Query("lang") languageCode:String="en"
     ):Deferred<CurrentWeatherResponse>
+
+
+    //http://api.weatherstack.com/forecast?access_key=de5507f9445655f86f6cbcff4b04c2f7&query=Krasnoyarsk&days=3
+
+/*
+    fun getFuturetWeather(
+        @Query("query") location: String,
+        @Query("days") days: Int,
+    ): Deferred<FutureWeatherResponse>
+*/
+
+
+
     //we need to create object which will actually fetch data from API and handle with interface
     companion object{
         operator fun invoke(
