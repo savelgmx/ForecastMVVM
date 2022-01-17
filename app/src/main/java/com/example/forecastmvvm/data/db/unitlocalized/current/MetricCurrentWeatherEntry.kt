@@ -1,6 +1,7 @@
 package com.resocoder.forecastmvvm.data.db.unitlocalized.current
 
 import androidx.room.ColumnInfo
+import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 
 
 data class MetricCurrentWeatherEntry(
