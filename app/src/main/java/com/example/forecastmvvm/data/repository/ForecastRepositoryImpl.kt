@@ -51,7 +51,7 @@ class ForecastRepositoryImpl(
     private suspend fun fetchCurrentWeather(){
         weatherNetworkDataSource.fetchCurrentWeather(
             location = "Krasnoyrask",
-            Locale.getDefault().language
+            languageCode = Locale.getDefault().language
 
         )
 
