@@ -11,11 +11,13 @@ As usual factories creates new instances of objects
 
  */
 class CurrentWeatherViewModelFactory(
-    private val forecastRepository: ForecastRepository,
+    private val forecastRepository: ForecastRepository
+  //  private val unitProvider: UnitProvider
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return CurrentWeatherViewModel(forecastRepository) as T
+        //return CurrentWeatherViewModel(forecastRepository,unitProvider) as T
     }
 }

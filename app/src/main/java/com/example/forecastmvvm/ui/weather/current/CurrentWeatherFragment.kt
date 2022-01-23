@@ -44,9 +44,11 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+/*
 
-      //  viewModel = ViewModelProviders.of(this, viewModelFactory)
-        //    .get(CurrentWeatherViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(CurrentWeatherViewModel::class.java)
+*/
 
         viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
 
@@ -54,7 +56,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     }
 
 
-    @SuppressLint("FragmentLiveDataObserve")
+   // @SuppressLint("FragmentLiveDataObserve")
     private fun bindUI()=launch{
 
         val currentWeather = viewModel.weather.await()
