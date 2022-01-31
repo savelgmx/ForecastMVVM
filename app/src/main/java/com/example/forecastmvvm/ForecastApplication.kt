@@ -15,21 +15,21 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-public class ForecastApplication : Application(),KodeinAware {
-
+class ForecastApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
-        import(androidXModule(this@ForecastApplication)) //provides us with Context,various services and anything related to Android
-        bind() from singleton { ForecastDatabase(instance()) } //instance() gives us Context
+        import(androidXModule(this@ForecastApplication))
+
+        bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
         bind() from singleton { WeatherstackApiService(instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance()) }
     }
+
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
     }
-
 }

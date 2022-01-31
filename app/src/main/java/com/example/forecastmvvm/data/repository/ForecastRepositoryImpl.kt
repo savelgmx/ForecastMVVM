@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CurrentWeatherDao
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
@@ -36,7 +37,11 @@ class ForecastRepositoryImpl(
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
-                currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+                if (fetchedWeather.currentWeatherEntry != null) {
+                 //   if (fetchedWeather != null) {
+                        currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+                  //  }
+                } else { Log.d("fetchedWeather","currenWeatherEntry=null")}
             }
         }
 
