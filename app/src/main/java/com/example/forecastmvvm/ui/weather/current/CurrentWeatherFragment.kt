@@ -49,8 +49,10 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             .get(CurrentWeatherViewModel::class.java)
 
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
-
         bindUI()
+
+  //      oldBindUI()
+
     }
 
 
@@ -66,4 +68,21 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     }
 
+
+    private fun oldBindUI() {
+      //  val apiServiceOne = WeatherstackApiService()
+        val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
+            Observer {
+                textView.text = it.toString()
+            })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk").await()
+            textView.text = currentWeatherResponse.toString()
+            weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "en")
+
+        }
+    }
 }

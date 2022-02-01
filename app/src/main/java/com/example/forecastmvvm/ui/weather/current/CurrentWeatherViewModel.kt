@@ -19,3 +19,16 @@ class CurrentWeatherViewModel (
     }
 
 }
+
+/*val apiService = WeatherstackApiService()
+val apiService = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
+val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
+Observer {
+    textView.text= it.toString()
+})
+
+GlobalScope.launch(Dispatchers.Main) {
+    val currentWeatherResponse = apiService.getCurrentWeather("Krasnoyarsk").await()
+    textView.text= currentWeatherResponse.toString()
+    weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk","en")*/
