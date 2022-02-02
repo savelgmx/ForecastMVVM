@@ -51,7 +51,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         bindUI()
 
-  //      oldBindUI()
+      oldBindUI()
 
     }
 
