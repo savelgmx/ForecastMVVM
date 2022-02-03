@@ -1,6 +1,7 @@
 package com.example.forecastmvvm;
 
 import android.app.Application;
+import android.content.Context
 import com.example.forecastmvvm.data.db.ForecastDatabase
 import com.example.forecastmvvm.data.network.*
 import com.example.forecastmvvm.data.repository.ForecastRepository
@@ -18,6 +19,8 @@ import org.kodein.di.generic.singleton
 class ForecastApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
         import(androidXModule(this@ForecastApplication))
+
+        bind<Context>("ApplicationContext") with singleton { this@ForecastApplication.applicationContext }
 
         bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }

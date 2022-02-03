@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.kodein.di.KodeinAware
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 
@@ -27,7 +28,7 @@ class ForecastRepositoryImpl(
 
 
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Main) {
             initWeatherData()
             return@withContext if (metric) currentWeatherDao.getWeatherMetric()
             else currentWeatherDao.getWeatherImperial()

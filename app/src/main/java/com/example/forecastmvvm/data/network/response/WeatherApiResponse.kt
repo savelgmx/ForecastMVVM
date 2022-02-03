@@ -8,14 +8,16 @@ import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
 
 /*Desigend for right response on API Query
 
  */
 
-class WeatherApiResponse {
+class WeatherApiResponse(override val kodein: Kodein) :KodeinAware {
 
-/*
+    huithis.applicationContext
     private fun oldBindUI() {
         //  val apiServiceOne = WeatherstackApiService()
         val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
@@ -32,6 +34,5 @@ class WeatherApiResponse {
 
         }
     }
-*/
 
 }

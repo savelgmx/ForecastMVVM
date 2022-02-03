@@ -51,7 +51,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         bindUI()
 
-      oldBindUI()
+    //  oldBindUI()
 
     }
 
@@ -73,7 +73,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
       //  val apiServiceOne = WeatherstackApiService()
         val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
-        weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
+        weatherNetworkDataSource.downloadedCurrentWeather.observeForever(viewLifecycleOwner,
             Observer {
                 textView.text = it.toString()
             })
