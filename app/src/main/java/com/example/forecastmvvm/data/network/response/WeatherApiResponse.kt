@@ -17,19 +17,15 @@ import org.kodein.di.KodeinAware
 
 class WeatherApiResponse(override val kodein: Kodein) :KodeinAware {
 
-    huithis.applicationContext
-    private fun oldBindUI() {
-        //  val apiServiceOne = WeatherstackApiService()
-        val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
+
+    public fun oldBindUI() {
+          val apiServiceOne = WeatherstackApiService()
+       // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this@ForecastApplication.applicationContext!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
-        weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
-            Observer {
-                textView.text = it.toString()
-            })
 
         GlobalScope.launch(Dispatchers.Main) {
             val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk").await()
-            textView.text = currentWeatherResponse.toString()
+         //   textView.text = currentWeatherResponse.toString()
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "en")
 
         }
