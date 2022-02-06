@@ -17,6 +17,7 @@ import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.WeatherstackApiService
 import com.example.forecastmvvm.ui.base.ScopedFragment
+import com.resocoder.forecastmvvm.internal.glide.GlideApp
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -91,10 +92,25 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
 
             group_loading.visibility =View.GONE
-
-
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "en")
+            //===========================
+            updateLocation(currentWeatherResponse.location.name)
+            updateDateToToday()
+            updateTemperatures(currentWeatherResponse.currentWeatherEntry.temperature,
+                currentWeatherResponse.currentWeatherEntry.temperature)
+            updateCondition(currentWeatherResponse.currentWeatherEntry.weatherDescriptions.toString())
+            updatePrecipitation(currentWeatherResponse.currentWeatherEntry.precip)
+            updateWind(currentWeatherResponse.currentWeatherEntry.windDir,
+                currentWeatherResponse.currentWeatherEntry.windSpeed)
+            updateVisibility(currentWeatherResponse.currentWeatherEntry.visibility)
+            //==============================================
 
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load(
+                    "${currentWeatherResponse.currentWeatherEntry.weatherIcons[0]}"
+                    )
+                .into(imageView_condition_icon)
+            //===============================================
         }
     }
 
@@ -116,7 +132,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     //currentWeatherResponse.currentWeatherEntry.temperature
 
-    private fun updateTemperatures(temperature: Double, feelsLike: Double) {
+    private fun updateTemperatures(temperature: Int, feelsLike: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
         textView_temperature.text = "$temperature$unitAbbreviation"
         textView_feels_like_temperature.text = "Feels like $feelsLike$unitAbbreviation"
@@ -126,17 +142,17 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         textView_condition.text = condition
     }
   //currentWeatherResponse.currentWeatherEntry.precip
-    private fun updatePrecipitation(precipitationVolume: Double) {
+    private fun updatePrecipitation(precipitationVolume: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
         textView_precipitation.text = "Preciptiation: $precipitationVolume $unitAbbreviation"
     }
 
-    private fun updateWind(windDirection: String, windSpeed: Double) {
+    private fun updateWind(windDirection: String, windSpeed: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
         textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
     }
 
-    private fun updateVisibility(visibilityDistance: Double) {
+    private fun updateVisibility(visibilityDistance: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("km", "mi.")
         textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
     }
