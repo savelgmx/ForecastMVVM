@@ -2,6 +2,7 @@ package com.example.forecastmvvm;
 
 import android.app.Application;
 import android.content.Context
+import android.preference.PreferenceManager
 import com.example.forecastmvvm.data.db.ForecastDatabase
 import com.example.forecastmvvm.data.network.*
 import com.example.forecastmvvm.data.repository.ForecastRepository
@@ -37,5 +38,7 @@ class ForecastApplication : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
+
     }
 }
