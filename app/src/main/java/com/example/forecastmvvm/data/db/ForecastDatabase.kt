@@ -14,6 +14,7 @@ import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 
 abstract class ForecastDatabase:RoomDatabase() {
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun weatherlocationDao():WeatherLocationDao
 
     companion object {
         @Volatile private var instance: ForecastDatabase? = null

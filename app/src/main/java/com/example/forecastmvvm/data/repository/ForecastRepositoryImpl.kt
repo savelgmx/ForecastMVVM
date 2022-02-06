@@ -3,6 +3,8 @@ package com.example.forecastmvvm.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CurrentWeatherDao
+import com.example.forecastmvvm.data.db.WeatherLocationDao
+import com.example.forecastmvvm.data.db.entity.WeatherLocation
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
@@ -18,6 +20,7 @@ import java.util.*
 
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao,
+    private val weatherLocationDao: WeatherLocationDao,
     private val weatherNetworkDataSource:WeatherNetworkDataSource
 ) :ForecastRepository{
     init {
@@ -35,12 +38,22 @@ class ForecastRepositoryImpl(
         }
     }
 
+    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
+
+        return withContext(Dispatchers.IO){
+            return@withContext weatherLocationDao.getLocation()
+        }
+
+    }
+
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
                 if (fetchedWeather.currentWeatherEntry != null) {
                  //   if (fetchedWeather != null) {
                         currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+                         weatherLocationDao.upsert(fetchedWeather.weatherLocation)
+
                   //  }
                 } else { Log.d("fetchedWeather","currenWeatherEntry=null")}
             }
@@ -49,8 +62,12 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(){
-        if (isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
-            fetchCurrentWeather()
+        val lastWeatherLocation = weatherLocationDao.getLocation().value
+
+        if (lastWeatherLocation != null) {
+            if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
+                fetchCurrentWeather()
+        } else return
 
     }
 
@@ -69,17 +86,4 @@ class ForecastRepositoryImpl(
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
-
 }
-/*val apiService = WeatherstackApiService()
-val apiService = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
-val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
-weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
-Observer {
-    textView.text= it.toString()
-})
-
-GlobalScope.launch(Dispatchers.Main) {
-    val currentWeatherResponse = apiService.getCurrentWeather("Krasnoyarsk").await()
-    textView.text= currentWeatherResponse.toString()
-    weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk","en")*/
