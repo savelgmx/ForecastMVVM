@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.data.repository
 
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CurrentWeatherDao
@@ -8,12 +9,11 @@ import com.example.forecastmvvm.data.db.entity.WeatherLocation
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
+import com.example.forecastmvvm.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.kodein.di.KodeinAware
-import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 
 import java.util.*
@@ -21,7 +21,8 @@ import java.util.*
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao,
     private val weatherLocationDao: WeatherLocationDao,
-    private val weatherNetworkDataSource:WeatherNetworkDataSource
+    private val weatherNetworkDataSource: WeatherNetworkDataSource,
+    private val locationProvider: LocationProvider
 ) :ForecastRepository{
     init {
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever {newCurrentWeather ->
@@ -31,7 +32,7 @@ class ForecastRepositoryImpl(
 
 
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
-        return withContext(Dispatchers.Main) {
+        return withContext(Dispatchers.IO) {
             initWeatherData()
             return@withContext if (metric) currentWeatherDao.getWeatherMetric()
             else currentWeatherDao.getWeatherImperial()
@@ -64,26 +65,31 @@ class ForecastRepositoryImpl(
     private suspend fun initWeatherData(){
         val lastWeatherLocation = weatherLocationDao.getLocation().value
 
-        if (lastWeatherLocation != null) {
+        if (lastWeatherLocation == null
+            || locationProvider.hasLocationChanged(lastWeatherLocation)) {
+            fetchCurrentWeather()
+            return
+        }
+
             if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
                 fetchCurrentWeather()
-        } else return
+        }
 
-    }
+
 
     private suspend fun fetchCurrentWeather(){
         weatherNetworkDataSource.fetchCurrentWeather(
-            location = "Krasnoyrask",
-            languageCode = Locale.getDefault().language
-
+            locationProvider.getPreferredLocationString(),
+            Locale.getDefault().language
         )
 
 
     }
 
-    private suspend fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime):Boolean{
+    private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime): Boolean {
         val thirtyMinutesAgo =ZonedDateTime.now().minusMinutes(30)
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
 }
+

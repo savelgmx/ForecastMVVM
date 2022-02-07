@@ -6,9 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.WeatherLocation
 
 @Database(
-    entities = [CurrentWeatherEntry::class],version = 1
+
+    entities = [CurrentWeatherEntry::class, WeatherLocation::class],version = 1
 )
 @TypeConverters(StringListConverter::class)
 
