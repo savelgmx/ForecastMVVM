@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
@@ -44,11 +45,11 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(CurrentWeatherViewModel::class.java)
+     viewModel = ViewModelProviders.of(this, viewModelFactory)
+          .get(CurrentWeatherViewModel::class.java)
 
-//        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
-        bindUI()
+//      viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
+    //    bindUI()
 
       oldBindUI()
 
