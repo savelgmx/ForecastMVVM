@@ -4,19 +4,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
+import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.internal.NoConnectivityException
 
 class WeatherNetworkDataSourceImpl(
-    private val weatherstackApiService:WeatherstackApiService
+    private val openWeatherApiService:OpenWeatherApiService
 ) : WeatherNetworkDataSource {
-    private val _downloadedCurrentWeather = MutableLiveData<CurrentWeatherResponse>()
-    override val downloadedCurrentWeather: LiveData<CurrentWeatherResponse>
+    private val _downloadedCurrentWeather = MutableLiveData<OpenWeatherResponse>()
+    override val downloadedCurrentWeather: LiveData<OpenWeatherResponse>
         get() = _downloadedCurrentWeather
 
-    override suspend fun fetchCurrentWeather(location: String, languageCode: String) {
+    override suspend fun fetchCurrentWeather(q: String, units: String) {
         try {
-            val fetchedCurrentWeather = weatherstackApiService
-                .getCurrentWeather(location, languageCode)
+            val fetchedCurrentWeather = openWeatherApiService
+                .getCurrentWeather(q,units)
                 .await()
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
         }
@@ -25,19 +26,8 @@ class WeatherNetworkDataSourceImpl(
         }
     }
 
-    override suspend fun fetchFutureWeather(location: String, languageCode: String) {
+    override suspend fun fetchFutureWeather(q: String, units: String) {
         TODO("Not yet implemented")
-        //        val apiService = WeatherstackApiService()
-        //        val apiService = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
-        //        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
-        //        weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
-        //            Observer {
-        //                textView.text= it.toString()
-        //        })
-        //
-        //        GlobalScope.launch(Dispatchers.Main) {
-        //            val currentWeatherResponse = apiService.getCurrentWeather("Krasnoyarsk").await()
-        //            textView.text= currentWeatherResponse.toString()
-        //            weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk","en")
+
     }
 }

@@ -1,6 +1,8 @@
 package com.example.forecastmvvm.data.network
 
+import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,25 +15,26 @@ const val APIKEY="33cc710b4ef18155198d89c3b2033f56"
 
 //we will use openweather API
 //https://api.openweathermap.org/data/2.5/weather?q=Krasnoyarsk&appid=33cc710b4ef18155198d89c3b2033f56&units=metric
+//https://api.openweathermap.org/data/2.5/weather?appid=33cc710b4ef18155198d89c3b2033f56&units=metric&q=Krasnoyarsk
 
-interface OpenWeatherMapApiService {
+interface OpenWeatherApiService {
 
-    @GET("main")
-    fun getCurrentWeather(
-        @Query("q") location:String
-    )
-    fun getFutureWeather()
+
+    @GET("/data/2.5/weather")
+    fun getCurrentWeather(@Query("q") q: String,
+                   @Query("units") units: String): Deferred<OpenWeatherResponse>
 
 
 
     //we need to create object which will actually fetch data from API and handle with interface
-    companion object{
-        operator fun invoke():OpenWeatherMapApiService{
+//
+    companion   object{
+        operator fun invoke():OpenWeatherApiService{
             val requestInterceptor = Interceptor{ chain ->
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("access_key", APIKEY)
+                    .addQueryParameter("appid", APIKEY)
                     .build()
                 val request=chain.request()
                     .newBuilder()
@@ -42,7 +45,7 @@ interface OpenWeatherMapApiService {
             }
             val okHttpClient= OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
-                //          .addInterceptor(connectivityInterceptor)
+          //      .addInterceptor(connectivityInterceptor)
 
                 .build()
 
@@ -52,7 +55,7 @@ interface OpenWeatherMapApiService {
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(OpenWeatherMapApiService::class.java)
+                .create(OpenWeatherApiService::class.java)
 
         }
     }
