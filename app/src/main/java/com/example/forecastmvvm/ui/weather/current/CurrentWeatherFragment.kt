@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.WeatherstackApiService
+import com.example.forecastmvvm.data.network.OpenWeatherApiService
+
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.resocoder.forecastmvvm.internal.glide.GlideApp
 import kotlinx.android.synthetic.main.current_weather_fragment.*
@@ -48,7 +50,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             .get(CurrentWeatherViewModel::class.java)
 
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
-        bindUI()
+       // bindUI()
 
       oldBindUI()
 
@@ -71,7 +73,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
 
     private fun oldBindUI() {
-       val apiServiceOne = WeatherstackApiService()
+       val apiServiceOne = OpenWeatherApiService()
        // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
@@ -83,12 +85,13 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             })
 
         GlobalScope.launch(Dispatchers.Main) {
-            val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk") .await()
+            val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk","metric") .await()
            // textView.text = currentWeatherResponse.toString()
             Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
 
             group_loading.visibility =View.GONE
-            weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "en")
+            weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
+/*
             //===========================
             updateLocation(currentWeatherResponse.weatherLocation.name)
             updateDateToToday()
@@ -107,6 +110,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
                     )
                 .into(imageView_condition_icon)
             //===============================================
+*/
         }
     }
 

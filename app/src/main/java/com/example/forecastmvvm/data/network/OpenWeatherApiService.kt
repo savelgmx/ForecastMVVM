@@ -51,7 +51,7 @@ interface OpenWeatherApiService {
 
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl("api.openweathermap.org")
+                .baseUrl("https://api.openweathermap.org")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
