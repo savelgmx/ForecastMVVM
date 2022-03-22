@@ -86,31 +86,33 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         GlobalScope.launch(Dispatchers.Main) {
             val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk","metric") .await()
-           // textView.text = currentWeatherResponse.toString()
             Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
-
             group_loading.visibility =View.GONE
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
-/*
             //===========================
-            updateLocation(currentWeatherResponse.weatherLocation.name)
+            updateLocation(currentWeatherResponse.name.toString())
             updateDateToToday()
-            updateTemperatures(currentWeatherResponse.currentWeatherEntry.temperature,
-                currentWeatherResponse.currentWeatherEntry.temperature)
-            updateCondition(currentWeatherResponse.currentWeatherEntry.weatherDescriptions.toString())
-            updatePrecipitation(currentWeatherResponse.currentWeatherEntry.precip)
-            updateWind(currentWeatherResponse.currentWeatherEntry.windDir,
-                currentWeatherResponse.currentWeatherEntry.windSpeed)
-            updateVisibility(currentWeatherResponse.currentWeatherEntry.visibility)
+            currentWeatherResponse.main?.temp?.let {
+                updateTemperatures(
+                    it.toInt(),
+                    currentWeatherResponse.main.temp.toInt())
+            }
+            updateCondition(currentWeatherResponse.weather?.get(0)?.description.toString())
+            currentWeatherResponse.main?.let { updatePrecipitation(it.pressure) }
+            currentWeatherResponse.wind?.speed?.let {
+                updateWind(
+                    currentWeatherResponse.wind?.deg.toString(),
+                    it.toInt())
+            }
+           // updateVisibility(currentWeatherResponse.currentWeatherEntry.visibility)
             //==============================================
 
             GlideApp.with(this@CurrentWeatherFragment)
                 .load(
-                    "${currentWeatherResponse.currentWeatherEntry.weatherIcons[0]}"
+                    "${currentWeatherResponse.weather?.get(0)?.icon}"
                     )
                 .into(imageView_condition_icon)
             //===============================================
-*/
         }
     }
 
@@ -149,7 +151,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     private fun updateWind(windDirection: String, windSpeed: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
-        textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
+        textView_wind.text = "Wind: $windDirection * , $windSpeed $unitAbbreviation"
     }
 
     private fun updateVisibility(visibilityDistance: Int) {
