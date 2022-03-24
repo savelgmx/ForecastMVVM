@@ -22,8 +22,18 @@ interface OpenWeatherApiService {
 
     @GET("/data/2.5/weather")
     fun getCurrentWeather(@Query("q") q: String,
-                   @Query("units") units: String): Deferred<OpenWeatherResponse>
+                          @Query("units") units: String): Deferred<OpenWeatherResponse>
 
+
+//for Forecast Weather we must use
+//https://api.openweathermap.org/data/2.5/onecall?appid=33cc710b4ef18155198d89c3b2033f56&lon=92.791&lat=56.0097&exclude=current,hourly&units=metric
+
+    @GET("/data/2.5/onecall")
+    fun getForecastweather(@Query("lon") lon:String,
+                           @Query("lat")  lat:String,
+                           @Query("exclude") exclude:String="current,hourly",
+                           @Query("units") units: String
+    ):Deferred<OpenWeatherResponse>
 
 
     //we need to create object which will actually fetch data from API and handle with interface
@@ -45,7 +55,7 @@ interface OpenWeatherApiService {
             }
             val okHttpClient= OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
-          //      .addInterceptor(connectivityInterceptor)
+                //      .addInterceptor(connectivityInterceptor)
 
                 .build()
 

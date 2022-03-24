@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.network.WeatherstackApiService
 import com.example.forecastmvvm.data.network.OpenWeatherApiService
 
 import com.example.forecastmvvm.ui.base.ScopedFragment
@@ -98,7 +97,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
                     currentWeatherResponse.main.temp.toInt())
             }
             updateCondition(currentWeatherResponse.weather?.get(0)?.description.toString())
-            currentWeatherResponse.main?.let { updatePrecipitation(it.pressure) }
+            currentWeatherResponse.main?.let { updatePressure(it.pressure) }
             currentWeatherResponse.wind?.speed?.let {
                 updateWind(
                     currentWeatherResponse.wind?.deg.toString(),
@@ -144,14 +143,14 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         textView_condition.text = condition
     }
   //currentWeatherResponse.currentWeatherEntry.precip
-    private fun updatePrecipitation(precipitationVolume: Int) {
+    private fun updatePressure(pressureValue: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
-        textView_precipitation.text = "Preciptiation: $precipitationVolume $unitAbbreviation"
+        textView_pressure.text = "Pressure: $pressureValue $unitAbbreviation"
     }
 
     private fun updateWind(windDirection: String, windSpeed: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
-        textView_wind.text = "Wind: $windDirection * , $windSpeed $unitAbbreviation"
+        textView_wind.text = "Wind: $windDirection ° , $windSpeed $unitAbbreviation"
     }
 
     private fun updateVisibility(visibilityDistance: Int) {
