@@ -29,6 +29,8 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
 
+
+
 /*
     companion object{fun newInstance() = CurrentWeatherFragment()}
 */
@@ -72,6 +74,9 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
 
     private fun oldBindUI() {
+
+        val iconurl = "http://openweathermap.org/img/w/"
+
        val apiServiceOne = OpenWeatherApiService()
        // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
@@ -108,7 +113,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
             GlideApp.with(this@CurrentWeatherFragment)
                 .load(
-                    "${currentWeatherResponse.weather?.get(0)?.icon}"
+                    "$iconurl${currentWeatherResponse.weather?.get(0)?.icon}"+".png"
                     )
                 .into(imageView_condition_icon)
             //===============================================
@@ -131,7 +136,6 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
     }
 
-    //currentWeatherResponse.currentWeatherEntry.temperature
 
     private fun updateTemperatures(temperature: Int, feelsLike: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")

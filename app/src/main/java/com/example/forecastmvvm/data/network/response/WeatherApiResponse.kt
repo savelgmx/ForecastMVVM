@@ -4,8 +4,7 @@ import androidx.lifecycle.Observer
 import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.network.WeatherstackApiService
-import kotlinx.android.synthetic.main.current_weather_fragment.*
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
