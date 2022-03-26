@@ -1,7 +1,6 @@
 package com.example.forecastmvvm.data.network
 
 import androidx.lifecycle.LiveData
-import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 
 

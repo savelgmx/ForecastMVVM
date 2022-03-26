@@ -1,3 +1,4 @@
+
 package com.example.forecastmvvm.ui.weather.current
 
 import android.annotation.SuppressLint
@@ -51,7 +52,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             .get(CurrentWeatherViewModel::class.java)
 
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
-       // bindUI()
+//        bindUI()
 
       oldBindUI()
 

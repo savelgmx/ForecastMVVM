@@ -20,7 +20,6 @@ class WeatherApiResponse(override val kodein: Kodein) :KodeinAware {
 
     public fun oldBindUI() {
           val apiServiceOne = OpenWeatherApiService()
-       // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this@ForecastApplication.applicationContext!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
 
         GlobalScope.launch(Dispatchers.Main) {
