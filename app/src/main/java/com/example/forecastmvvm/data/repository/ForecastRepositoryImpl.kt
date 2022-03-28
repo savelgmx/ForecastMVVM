@@ -1,9 +1,8 @@
 package com.example.forecastmvvm.data.repository
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.forecastmvvm.data.db.CurrentWeatherDao
+import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.WeatherLocationDao
 import com.example.forecastmvvm.data.db.entity.WeatherLocation
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
@@ -19,7 +18,7 @@ import org.threeten.bp.ZonedDateTime
 import java.util.*
 
 class ForecastRepositoryImpl(
-    private val currentWeatherDao: CurrentWeatherDao,
+    private val cityDao: CityDao,
     private val weatherLocationDao: WeatherLocationDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource,
     private val locationProvider: LocationProvider
@@ -34,8 +33,9 @@ class ForecastRepositoryImpl(
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext if (metric) currentWeatherDao.getWeatherMetric()
-            else currentWeatherDao.getWeatherImperial()
+            return@withContext if (metric) cityDao.getAllCities()
+            else cityDao.getWeatherImperial()
+
         }
     }
 

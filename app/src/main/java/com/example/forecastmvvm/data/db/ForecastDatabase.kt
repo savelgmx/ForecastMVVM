@@ -5,18 +5,25 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
-import com.example.forecastmvvm.data.db.entity.WeatherLocation
+import com.example.forecastmvvm.data.db.entity.CityModel
+import com.example.forecastmvvm.data.db.entity.ForecastCityModel
+
 
 @Database(
 
-    entities = [CurrentWeatherEntry::class, WeatherLocation::class],version = 1
+//    entities = [CurrentWeatherEntry::class, WeatherLocation::class],version = 1
+        entities = [CityModel::class , ForecastCityModel::class], version = 2
+
 )
-@TypeConverters(StringListConverter::class)
+@TypeConverters(Converters::class)
 
 abstract class ForecastDatabase:RoomDatabase() {
+/*
     abstract fun currentWeatherDao(): CurrentWeatherDao
     abstract fun weatherlocationDao():WeatherLocationDao
+*/
+
+
 
     companion object {
         @Volatile private var instance: ForecastDatabase? = null
