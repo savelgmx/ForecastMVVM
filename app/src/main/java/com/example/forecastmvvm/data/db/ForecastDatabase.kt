@@ -18,10 +18,9 @@ import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 @TypeConverters(Converters::class)
 
 abstract class ForecastDatabase:RoomDatabase() {
-/*
-    abstract fun currentWeatherDao(): CurrentWeatherDao
-    abstract fun weatherlocationDao():WeatherLocationDao
-*/
+    abstract fun cityDao(): CityDao
+    abstract fun forecastCityDao():ForecastCityDao
+
 
 
 

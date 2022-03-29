@@ -4,6 +4,7 @@ package com.example.forecastmvvm.data.repository
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.WeatherLocationDao
+import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.WeatherLocation
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
@@ -30,11 +31,11 @@ class ForecastRepositoryImpl(
     }
 
 
-    override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
+    override suspend fun getCurrentWeather(metric: Boolean): List<CityModel> {
         return withContext(Dispatchers.IO) {
             initWeatherData()
             return@withContext if (metric) cityDao.getAllCities()
-            else cityDao.getWeatherImperial()
+            else cityDao.getAllCities()
 
         }
     }
