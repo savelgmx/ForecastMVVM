@@ -63,6 +63,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     private fun bindUI()=launch{
 
         val currentWeather = viewModel.weather.await()
+/*
 
         currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it==null) return@Observer
@@ -70,6 +71,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             Log.d("UnitCurrentWeatherEntry",it.toString())
 
         })
+*/
 
     }
 

@@ -6,7 +6,7 @@ import com.example.forecastmvvm.data.db.entity.WeatherLocation
 import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 
 interface ForecastRepository {
-    suspend fun getCurrentWeather(metric:Boolean): LiveData<out CityModel>
+    suspend fun getCurrentWeather(metric:Boolean): List<CityModel>
     suspend fun getWeatherLocation():LiveData<WeatherLocation>
 
 
