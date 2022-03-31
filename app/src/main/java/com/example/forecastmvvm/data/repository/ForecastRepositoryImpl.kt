@@ -40,7 +40,7 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
+    suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
 
         return withContext(Dispatchers.IO){
             return@withContext weatherLocationDao.getLocation()
@@ -66,16 +66,16 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(){
-        val lastWeatherLocation = weatherLocationDao.getLocation().value
+ //       val lastWeatherLocation = weatherLocationDao.getLocation().value
 
-        if (lastWeatherLocation == null
-            || locationProvider.hasLocationChanged(lastWeatherLocation)) {
+   //     if (lastWeatherLocation == null
+     //       || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
             return
-        }
+       // }
 
-            if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
-                fetchCurrentWeather()
+        //    if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
+          //      fetchCurrentWeather()
         }
 
 
