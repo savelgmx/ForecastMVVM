@@ -149,15 +149,28 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     private fun updateCondition(condition: String) {
         textView_condition.text = condition
     }
-  //currentWeatherResponse.currentWeatherEntry.precip
-    private fun updatePressure(pressureValue: Int) {
+
+     private fun updatePressure(pressureValue: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
         textView_pressure.text = "Pressure: $pressureValue $unitAbbreviation"
     }
 
     private fun updateWind(windDirection: String, windSpeed: Int) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
-        textView_wind.text = "Wind: $windDirection ° , $windSpeed $unitAbbreviation"
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
+
+        val wind=degToCompass((windDirection).toInt())
+
+        textView_wind.text = "Wind: $wind , $windSpeed $unitAbbreviation"
+    }
+
+
+    private fun degToCompass(num:Int): String {
+        var winDir = Math.floor((num / 22.5) + 0.5);
+        var directions = listOf<String>("North", "NorthNorthEast", "NorthEast", "EastNorthEast", "East", "EastSouthEast"
+            , "SouthEast", "SouthSouthEast", "South",
+            "SouthSouthWest", "SouthWest", "WestSouthWest", "West", "WestNorthWest", "NorthWest", "NorthNorthWest")
+        return directions[(winDir % 16).toInt()]
+
     }
 
     private fun updateVisibility(visibilityDistance: Int) {
