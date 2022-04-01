@@ -1,12 +1,7 @@
 package com.example.forecastmvvm.data.repository
 
-
-import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CityDao
-import com.example.forecastmvvm.data.db.WeatherLocationDao
 import com.example.forecastmvvm.data.db.entity.CityModel
-import com.example.forecastmvvm.data.db.entity.WeatherLocation
-import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
@@ -20,7 +15,6 @@ import java.util.*
 
 class ForecastRepositoryImpl(
     private val cityDao: CityDao,
-    private val weatherLocationDao: WeatherLocationDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource,
     private val locationProvider: LocationProvider
 ) :ForecastRepository{
@@ -40,13 +34,6 @@ class ForecastRepositoryImpl(
         }
     }
 
-    suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
-
-        return withContext(Dispatchers.IO){
-            return@withContext weatherLocationDao.getLocation()
-        }
-
-    }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
