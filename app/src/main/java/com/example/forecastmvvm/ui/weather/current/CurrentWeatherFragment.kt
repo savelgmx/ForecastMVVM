@@ -23,6 +23,8 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
@@ -54,7 +56,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
 //        bindUI()
 
-      oldBindUI()
+        oldBindUI()
 
     }
 
@@ -80,8 +82,8 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         val iconurl = "http://openweathermap.org/img/w/"
 
-       val apiServiceOne = OpenWeatherApiService()
-       // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
+        val apiServiceOne = OpenWeatherApiService()
+        // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
             Observer {
@@ -98,7 +100,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
             //===========================
             updateLocation(currentWeatherResponse.name.toString())
-            updateDateToToday()
+            updateDateToToday(currentWeatherResponse.dt)
             currentWeatherResponse.main?.temp?.let {
                 updateTemperatures(
                     it.toInt(),
@@ -111,20 +113,20 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
                     currentWeatherResponse.wind?.deg.toString(),
                     it.toInt())
             }
-           // updateVisibility(currentWeatherResponse.currentWeatherEntry.visibility)
+            currentWeatherResponse.visibility?.let { updateVisibility(it) }
             //==============================================
 
             GlideApp.with(this@CurrentWeatherFragment)
                 .load(
                     "$iconurl${currentWeatherResponse.weather?.get(0)?.icon}"+".png"
-                    )
+                )
                 .into(imageView_condition_icon)
             //===============================================
         }
     }
 
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
-       // return if (viewModel.isMetricUnit) metric else imperial
+        // return if (viewModel.isMetricUnit) metric else imperial
         return metric
     }
 
@@ -135,8 +137,16 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.title = location
     }
 
-    private fun updateDateToToday() {
-        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
+    private fun updateDateToToday(dt: Int?) {
+        //API returns date/time as a UnixEpoc integer timestamp
+        //we must transform this with datetime format
+        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+        var today:String="Today"
+        if (dt != null) {
+            today=simpleDateFormat.format(dt * 1000L)
+        }
+
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = today //"Today"
     }
 
 
@@ -150,7 +160,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         textView_condition.text = condition
     }
 
-     private fun updatePressure(pressureValue: Int) {
+    private fun updatePressure(pressureValue: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
         textView_pressure.text = "Pressure: $pressureValue $unitAbbreviation"
     }
@@ -166,15 +176,16 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     private fun degToCompass(num:Int): String {
         var winDir = Math.floor((num / 22.5) + 0.5);
-        var directions = listOf<String>("North", "NorthNorthEast", "NorthEast", "EastNorthEast", "East", "EastSouthEast"
-            , "SouthEast", "SouthSouthEast", "South",
-            "SouthSouthWest", "SouthWest", "WestSouthWest", "West", "WestNorthWest", "NorthWest", "NorthNorthWest")
+        var directions = listOf<String>("North", "North North East", "North East", "East North East",
+            "East", "East South East", "South East", "South South East", "South",
+            "South South West", "South West", "West South West", "West", "West North West",
+            "North West", "North North West")
         return directions[(winDir % 16).toInt()]
 
     }
 
     private fun updateVisibility(visibilityDistance: Int) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation("km", "mi.")
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("m", "mi.")
         textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
     }
 
