@@ -8,6 +8,7 @@ import com.example.forecastmvvm.data.db.unitlocalized.current.UnitSpecificCurren
 interface ForecastRepository {
     suspend fun getCurrentWeather(metric:Boolean): List<CityModel>
   //  suspend fun getWeatherLocation():LiveData<WeatherLocation>
+   // fun getFutureWeather
 
 
 
