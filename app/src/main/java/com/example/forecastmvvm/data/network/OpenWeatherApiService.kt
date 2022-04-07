@@ -39,7 +39,9 @@ interface OpenWeatherApiService {
     //we need to create object which will actually fetch data from API and handle with interface
 //
     companion   object{
-        operator fun invoke():OpenWeatherApiService{
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ):OpenWeatherApiService{
             val requestInterceptor = Interceptor{ chain ->
                 val url = chain.request()
                     .url()
@@ -53,9 +55,11 @@ interface OpenWeatherApiService {
 
                 return@Interceptor chain.proceed(request)
             }
+
+
             val okHttpClient= OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
-                //      .addInterceptor(connectivityInterceptor)
+                .addInterceptor(connectivityInterceptor)
 
                 .build()
 

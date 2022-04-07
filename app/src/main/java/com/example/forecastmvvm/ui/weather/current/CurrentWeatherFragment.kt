@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
+import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.OpenWeatherApiService
 
@@ -82,7 +83,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         val iconurl = "http://openweathermap.org/img/w/"
 
-        val apiServiceOne = OpenWeatherApiService()
+        val apiServiceOne = OpenWeatherApiService(ConnectivityInterceptorImpl(this.context!!))
         // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
