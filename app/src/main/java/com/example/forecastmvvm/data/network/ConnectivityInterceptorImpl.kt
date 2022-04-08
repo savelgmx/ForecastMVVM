@@ -2,11 +2,9 @@ package com.example.forecastmvvm.data.network
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import com.example.forecastmvvm.internal.NoConnectivityException
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.security.AccessControlContext
 
 class ConnectivityInterceptorImpl(
     context: Context
@@ -15,7 +13,7 @@ class ConnectivityInterceptorImpl(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isOnline())
-            throw NoConnectivityException()
+            throw NoConnectivityException("Make sure you have an active data connection")
         return chain.proceed(chain.request())
     }
 
@@ -28,26 +26,4 @@ class ConnectivityInterceptorImpl(
   //    return   connectivityManager.isDefaultNetworkActive
     }
 
-
-
- /*   private boolean isInternetAvailable() {
-
-
-        ConnectivityManager connectivityManager =
-        (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-
-
-        Network network = connectivityManager.getActiveNetwork();
-        NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
-
-
-        if (networkCapabilities == null) {
-            Log.d("DataMobile", "No network capabilities found");
-            return false;
-        }
-
-
-        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-    }
-*/
 }
