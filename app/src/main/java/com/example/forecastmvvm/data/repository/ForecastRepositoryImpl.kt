@@ -1,7 +1,9 @@
 package com.example.forecastmvvm.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.entity.CityModel
+import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
@@ -34,6 +36,9 @@ class ForecastRepositoryImpl(
         }
     }
 
+    override suspend fun getFutureWeather(latitude:String, longitude:String): LiveData<ForecastCityModel> {
+        TODO("Not yet implemented")
+    }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
