@@ -10,6 +10,7 @@ import com.example.forecastmvvm.data.provider.LocationProviderImpl
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
+import com.example.forecastmvvm.ui.weather.future.list.FutureListWeatherViewModelFactory
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import com.resocoder.forecastmvvm.data.provider.UnitProviderImpl
@@ -38,6 +39,8 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
+        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
+
     }
 
     override fun onCreate() {
