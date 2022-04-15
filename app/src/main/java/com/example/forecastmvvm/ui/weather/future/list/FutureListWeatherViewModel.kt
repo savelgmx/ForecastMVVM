@@ -12,10 +12,8 @@ class FutureListWeatherViewModel(
     unitProvider: UnitProvider
 ) : WeatherViewModel(forecastRepository, unitProvider) {
 
-/*
-    val weatherEntries by lazyDeferred {
-        forecastRepository.getFutureWeatherList(LocalDate.now(), super.isMetricUnit)
+    val weatherEntries by lazyDeffered {
+     //   forecastRepository.getFutureWeather(latitude,longitude )
     }
-*/
 }
 
