@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class OpenWeatherResponse(
 
+        @field:SerializedName("coord")
+        val coord:Coord?=null,
+
         @field:SerializedName("dt")
         val dt: Int? = null,
 
