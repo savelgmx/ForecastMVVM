@@ -39,7 +39,7 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
-        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
+        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance(),instance(), instance()) }
 
     }
 

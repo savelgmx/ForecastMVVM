@@ -9,11 +9,13 @@ import org.threeten.bp.LocalDate
 
 class FutureListWeatherViewModel(
     private val forecastRepository: ForecastRepository,
+    private val latitude:Double,
+    private val longitude:Double,
     unitProvider: UnitProvider
-) : WeatherViewModel(forecastRepository, unitProvider) {
+) : WeatherViewModel(forecastRepository,latitude, longitude, unitProvider) {
 
     val weatherEntries by lazyDeffered {
-     //   forecastRepository.getFutureWeather(latitude,longitude )
+        forecastRepository.getFutureWeather(latitude,longitude )
     }
 }
 

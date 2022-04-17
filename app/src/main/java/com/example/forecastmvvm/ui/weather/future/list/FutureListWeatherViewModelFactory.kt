@@ -9,6 +9,8 @@ import com.resocoder.forecastmvvm.data.provider.UnitProvider
 
 class FutureListWeatherViewModelFactory(
     private val forecastRepository: ForecastRepository,
+    private val latitude:Double,
+    private val longitude:Double,
     private val unitProvider: UnitProvider
 ) : ViewModelProvider.NewInstanceFactory() {
 
@@ -16,6 +18,8 @@ class FutureListWeatherViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return FutureListWeatherViewModel(
             forecastRepository,
+            latitude,
+            longitude,
             unitProvider
         ) as T
     }
