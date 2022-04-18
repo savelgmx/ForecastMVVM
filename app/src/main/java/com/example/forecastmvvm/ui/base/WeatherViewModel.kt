@@ -10,8 +10,8 @@ import com.example.forecastmvvm.internal.lazyDeffered
 
 abstract class WeatherViewModel(
     private val forecastRepository: ForecastRepository,
-    private val latitude:Double,
-    private val longitude:Double,
+    private val latitude:String,
+    private val longitude:String,
     unitProvider: UnitProvider
 ) : ViewModel() {
 

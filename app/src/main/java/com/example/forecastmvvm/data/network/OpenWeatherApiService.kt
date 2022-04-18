@@ -1,6 +1,7 @@
 package com.example.forecastmvvm.data.network
 
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
+import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -33,7 +34,7 @@ interface OpenWeatherApiService {
                            @Query("lat")  lat:String,
                            @Query("exclude") exclude:String="current,hourly",
                            @Query("units") units: String
-    ):Deferred<OpenWeatherResponse>
+    ):Deferred<FutureWeatherResponse>
 
 
     //we need to create object which will actually fetch data from API and handle with interface

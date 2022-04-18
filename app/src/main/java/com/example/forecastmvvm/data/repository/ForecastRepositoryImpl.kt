@@ -36,7 +36,7 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getFutureWeather(latitude:Double, longitude:Double): LiveData<ForecastCityModel> {
+    override suspend fun getFutureWeather(latitude:String, longitude:String): LiveData<ForecastCityModel> {
         TODO("Not yet implemented")
     }
 

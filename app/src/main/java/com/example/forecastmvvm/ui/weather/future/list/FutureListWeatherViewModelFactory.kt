@@ -9,8 +9,8 @@ import com.resocoder.forecastmvvm.data.provider.UnitProvider
 
 class FutureListWeatherViewModelFactory(
     private val forecastRepository: ForecastRepository,
-    private val latitude:Double,
-    private val longitude:Double,
+    private val latitude:String,
+    private val longitude:String,
     private val unitProvider: UnitProvider
 ) : ViewModelProvider.NewInstanceFactory() {
 

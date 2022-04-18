@@ -42,6 +42,7 @@ class WeatherNetworkDataSourceImpl(
             val fetchedFutureWeather = openWeatherApiService
                 .getForecastweather(lon,lat,exclude,units)
                 .await()
+            _downloadedFutureWeather.postValue(fetchedFutureWeather)
 
 
         }

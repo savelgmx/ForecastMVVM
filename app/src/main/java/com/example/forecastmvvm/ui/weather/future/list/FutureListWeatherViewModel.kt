@@ -9,8 +9,8 @@ import org.threeten.bp.LocalDate
 
 class FutureListWeatherViewModel(
     private val forecastRepository: ForecastRepository,
-    private val latitude:Double,
-    private val longitude:Double,
+    private val latitude:String,
+    private val longitude:String,
     unitProvider: UnitProvider
 ) : WeatherViewModel(forecastRepository,latitude, longitude, unitProvider) {
 

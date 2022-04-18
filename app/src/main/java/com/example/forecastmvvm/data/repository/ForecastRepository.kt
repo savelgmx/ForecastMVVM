@@ -7,7 +7,7 @@ import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 
 interface ForecastRepository {
     suspend fun getCurrentWeather(metric:Boolean): List<CityModel>
-    suspend fun getFutureWeather(latitude:Double, longitude:Double):LiveData<ForecastCityModel>
+    suspend fun getFutureWeather(latitude:String, longitude:String):LiveData<ForecastCityModel>
 
 
 
