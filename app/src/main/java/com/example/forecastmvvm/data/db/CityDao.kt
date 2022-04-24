@@ -12,7 +12,7 @@ import com.example.forecastmvvm.data.db.entity.CityModel
 interface CityDao {
 
     // insert new city
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCity(jobs : CityModel) : Long
 
     // Get all cities

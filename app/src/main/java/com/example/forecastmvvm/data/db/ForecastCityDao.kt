@@ -10,7 +10,7 @@ import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 interface ForecastCityDao {
 
     // insert new ForecastCity suspend
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertForecastCity(forecastCity : ForecastCityModel) : Long
 
     // Get forecastCity suspend

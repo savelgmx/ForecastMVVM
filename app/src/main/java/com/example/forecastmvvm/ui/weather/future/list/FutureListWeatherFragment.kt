@@ -41,8 +41,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this,viewModelFactory)
-            .get(FutureListWeatherViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this,viewModelFactory)
+  //          .get(FutureListWeatherViewModel::class.java)
 //        viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // TODO: Use the ViewModel
         callAPI()
@@ -70,9 +70,10 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 "56.0097",
                 "current,hourly" ,
                 "metric"
-            )
-            Log.d("FutureWaetherResponse",futureWeatherResponse.toString())
-         //   textView_condition.text = futureWeatherResponse.toString()
+            ).await()
+
+            Log.d("FutureWeatherResponse",futureWeatherResponse.toString())
+//            textView_condition.text = futureWeatherResponse.toString()
 
         }
 
