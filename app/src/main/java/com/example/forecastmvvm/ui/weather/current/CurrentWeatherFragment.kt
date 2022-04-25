@@ -105,7 +105,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             currentWeatherResponse.main?.temp?.let {
                 updateTemperatures(
                     it.toInt(),
-                    currentWeatherResponse.main.temp.toInt())
+                    currentWeatherResponse.main.feelsLike.toInt())
             }
             updateCondition(currentWeatherResponse.weather?.get(0)?.description.toString())
             currentWeatherResponse.main?.let { updatePressure(it.pressure) }

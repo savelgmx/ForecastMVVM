@@ -9,12 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.ui.base.ScopedFragment
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.current_weather_fragment.*
+import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_condition
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_temperature
+import kotlinx.android.synthetic.main.future_list_weather_fragment.*
+import kotlinx.android.synthetic.main.item_future_weather.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -74,9 +82,39 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
             Log.d("FutureWeatherResponse",futureWeatherResponse.toString())
 //            textView_condition.text = futureWeatherResponse.toString()
+            val range = futureWeatherResponse.daily.size
+
+            for (i in 0 until range) {
+
+                textView_temperature.text = futureWeatherResponse.daily[i].temp.day.toString()
+                textView_date.text = futureWeatherResponse.daily[i].dt.toString()
+                textView_condition.text = futureWeatherResponse.daily[i].toString()
+
+            }
+
+
+
 
         }
 
     }
 
+    private fun initRecyclerView(items: List<FutureWeatherItem>) {
+        val groupAdapter = GroupAdapter<ViewHolder>().apply {
+            addAll(items)
+        }
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@FutureListWeatherFragment.context)
+            adapter = groupAdapter
+        }
+
+        groupAdapter.setOnItemClickListener { item, view ->
+            (item as? FutureWeatherItem)?.let {
+               // showWeatherDetail(it.weatherEntry.date, view)
+            }
+        }
+    }
+
 }
+
