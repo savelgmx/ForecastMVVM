@@ -14,6 +14,7 @@ import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
+import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -37,6 +38,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
     private val viewModelFactory:FutureListWeatherViewModelFactory by instance()
 
+//    private val futureWeatherResponse:FutureWeatherResponse
+
     private lateinit var viewModel: FutureListWeatherViewModel
 
     override fun onCreateView(
@@ -49,8 +52,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        viewModel = ViewModelProviders.of(this,viewModelFactory)
-  //          .get(FutureListWeatherViewModel::class.java)
+        viewModel = ViewModelProviders.of(this,viewModelFactory)
+            .get(FutureListWeatherViewModel::class.java)
 //        viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // TODO: Use the ViewModel
         callAPI()
@@ -97,6 +100,12 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         }
 
+    }
+
+    private fun List<FutureWeatherResponse>.toFutureWeatherItems() : List<FutureWeatherItem> {
+        return this.map {
+            FutureWeatherItem(it)
+        }
     }
 
     private fun initRecyclerView(items: List<FutureWeatherItem>) {
