@@ -17,10 +17,7 @@ import com.resocoder.forecastmvvm.data.provider.UnitProviderImpl
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
+import org.kodein.di.generic.*
 
 class ForecastApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
@@ -39,7 +36,7 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
-        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance(),instance(), instance()) }
+        bind() from factory { latitude:String,longitude:String-> FutureListWeatherViewModelFactory(instance(),latitude ,longitude, instance()) }
 
     }
 
