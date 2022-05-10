@@ -29,6 +29,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.M
 import org.kodein.di.generic.instance
 
 
@@ -36,7 +37,7 @@ import org.kodein.di.generic.instance
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory:FutureListWeatherViewModelFactory by instance()
+    private val viewModelFactory:FutureListWeatherViewModelFactory by instance(arg=M("latitude","longitude"))
 
 //    private val futureWeatherResponse:FutureWeatherResponse
 
@@ -89,13 +90,18 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
             for (i in 0 until range) {
 
+/*
                 textView_temperature.text = futureWeatherResponse.daily[i].temp.day.toString()
                 textView_date.text = futureWeatherResponse.daily[i].dt.toString()
                 textView_condition.text = futureWeatherResponse.daily[i].toString()
+*/
+
+                Log.d("t-FutureWeatherResponse",futureWeatherResponse.daily[i].temp.day.toString())
+                Log.d("d-FutureWeatherResponse",futureWeatherResponse.daily[i].dt.toString())
+                Log.d("c-FutureWeatherResponse",futureWeatherResponse.daily[i].toString())
+
 
             }
-
-
 
 
         }
