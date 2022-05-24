@@ -2,6 +2,7 @@ package com.example.forecastmvvm.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CityDao
+import com.example.forecastmvvm.data.db.ForecastCityDao
 import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
@@ -16,9 +17,10 @@ import org.threeten.bp.ZonedDateTime
 import java.util.*
 
 class ForecastRepositoryImpl(
-    private val cityDao: CityDao,
-    private val weatherNetworkDataSource: WeatherNetworkDataSource,
-    private val locationProvider: LocationProvider
+    private val cityDao: CityDao, //1
+    private val forecastCityDao: ForecastCityDao, //2
+    private val weatherNetworkDataSource: WeatherNetworkDataSource, //3
+    private val locationProvider: LocationProvider  //4
 ) :ForecastRepository{
     init {
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever {newCurrentWeather ->
@@ -37,7 +39,11 @@ class ForecastRepositoryImpl(
     }
 
     override suspend fun getFutureWeather(latitude:String, longitude:String): LiveData<ForecastCityModel> {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO){
+                fetchFutureWeather(latitude,longitude,"current,hourly","metric")
+            return@withContext forecastCityDao.getForecastCity()
+        }
+
     }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
@@ -63,6 +69,7 @@ class ForecastRepositoryImpl(
    //     if (lastWeatherLocation == null
      //       || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
+      //      fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
             return
        // }
 
@@ -78,6 +85,16 @@ class ForecastRepositoryImpl(
             Locale.getDefault().language
         )
 
+
+    }
+
+    private suspend fun fetchFutureWeather(
+        lon:String,
+        lat:String,
+        exclude:String="current,hourly",
+        units:String="metric"
+    ){
+        weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)
 
     }
 

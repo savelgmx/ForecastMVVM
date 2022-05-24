@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.data.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,9 +14,9 @@ interface ForecastCityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertForecastCity(forecastCity : ForecastCityModel) : Long
 
-    // Get forecastCity suspend
-    @Query("select * from forecast_city_table where id =:id")
-     fun getForecastCity(id : Long): ForecastCityModel
+    // Get forecastCity suspend where id =:id
+    @Query("select * from forecast_city_table ")
+     fun getForecastCity(): LiveData<ForecastCityModel>
 
     // Get size forecastCities suspend
     @Query("select COUNT(*) FROM forecast_city_table")
