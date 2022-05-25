@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 
 const val APIKEY="33cc710b4ef18155198d89c3b2033f56"
@@ -59,8 +60,12 @@ interface OpenWeatherApiService {
 
 
             val okHttpClient= OkHttpClient.Builder()
+                .connectTimeout(40, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+
                 .addInterceptor(requestInterceptor)
-         //       .addInterceptor(connectivityInterceptor)
+                .addInterceptor(connectivityInterceptor)
 
                 .build()
 
