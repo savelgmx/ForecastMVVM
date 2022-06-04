@@ -16,13 +16,13 @@ data class WeatherLocation(
     @SerializedName("country")
     val country: String,
     @SerializedName("lat")
-    val lat: String,
+    val lat: Double,
     @SerializedName("localtime")
     val localtime: String,
     @SerializedName("localtime_epoch")
     val localtimeEpoch: Int,
     @SerializedName("lon")
-    val lon: String,
+    val lon: Double,
     @SerializedName("name")
     val name: String,
     @SerializedName("region")

@@ -1,9 +1,7 @@
 package com.example.forecastmvvm.ui.weather.future.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,14 +14,12 @@ import com.example.forecastmvvm.data.network.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.ui.base.ScopedFragment
+import com.resocoder.forecastmvvm.data.db.unitlocalized.future.list.UnitSpecificSimpleFutureWeatherEntry
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
 import kotlinx.android.synthetic.main.current_weather_fragment.textView_condition
-import kotlinx.android.synthetic.main.current_weather_fragment.textView_temperature
 import kotlinx.android.synthetic.main.future_list_weather_fragment.*
-import kotlinx.android.synthetic.main.item_future_weather.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,28 +33,52 @@ import org.kodein.di.generic.instance
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory:FutureListWeatherViewModelFactory by instance(arg=M("latitude","longitude"))
+    private val viewModelFactory:FutureListWeatherViewModelFactory by instance(arg=M("92.7917","56.0097"))
 
-//    private val futureWeatherResponse:FutureWeatherResponse
+
+/*
+    private val viewModelFactoryInstanceFactory
+            : (lat:String,lon:String) -> FutureListWeatherViewModelFactory) by factory()
+*/
 
     private lateinit var viewModel: FutureListWeatherViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.future_list_weather_fragment, container, false)
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this,viewModelFactory)
+        val lon= "92.7917"
+        val lat="56.0097"
+        // val exclude="current,hourly"
+        val units="metric"
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
 //        viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
-        // TODO: Use the ViewModel
-        callAPI()
+        callViewModel()        // callAPI()
     }
+    private fun callViewModel()=launch{
+        val futureWeatherEntries=viewModel.weather.await()
+        futureWeatherEntries.observe(this@FutureListWeatherFragment, Observer { weatherEntries ->
+            if (weatherEntries == null) return@Observer
+            Log.d("t-weatherEntryResponse",weatherEntries.temp.toString())
+            Log.d("d-weatherEntryResponse",weatherEntries.toString())
+
+        //    initRecyclerView(weatherEntries.toFutureWeatherItems())
+
+        })
+
+    }
+
+    private fun List<FutureWeatherResponse>.toFutureWeatherItems() : List<FutureWeatherItem> {
+        return this.map {
+            FutureWeatherItem(it)
+        }
+    }
+
+
     private fun callAPI(){
         val iconurl = "http://openweathermap.org/img/w/"
 
@@ -86,6 +106,11 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
             Log.d("FutureWeatherResponse",futureWeatherResponse.toString())
 //            textView_condition.text = futureWeatherResponse.toString()
+
+
+
+
+
             val range = futureWeatherResponse.daily.size
 
             for (i in 0 until range) {
@@ -108,11 +133,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     }
 
-    private fun List<FutureWeatherResponse>.toFutureWeatherItems() : List<FutureWeatherItem> {
-        return this.map {
-            FutureWeatherItem(it)
-        }
-    }
 
     private fun initRecyclerView(items: List<FutureWeatherItem>) {
         val groupAdapter = GroupAdapter<ViewHolder>().apply {
@@ -126,7 +146,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? FutureWeatherItem)?.let {
-               // showWeatherDetail(it.weatherEntry.date, view)
+                // showWeatherDetail(it.weatherEntry.date, view)
             }
         }
     }

@@ -38,15 +38,12 @@ class WeatherNetworkDataSourceImpl(
         units: String
     ) {
 
-        val lon= "92.7917"
-        val lat="56.0097"
-       // val exclude="current,hourly"
-        val units="metric"
-
         try{
             val fetchedFutureWeather = openWeatherApiService
                 .getForecastweather(lon,lat,exclude,units)
                 .await()
+
+            Log.d("FetchedWeatherResponse",fetchedFutureWeather.toString())
             _downloadedFutureWeather.postValue(fetchedFutureWeather)
 
 

@@ -11,6 +11,7 @@ import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
 import com.example.forecastmvvm.ui.weather.future.list.FutureListWeatherViewModelFactory
+import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import com.resocoder.forecastmvvm.data.provider.UnitProviderImpl
@@ -32,7 +33,8 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
         bind() from singleton {OpenWeatherApiService(instance())}
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
-        bind<LocationProvider>() with singleton { LocationProviderImpl() }
+        bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
+        bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }

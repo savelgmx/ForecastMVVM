@@ -7,11 +7,13 @@ import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
+import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 
 import java.util.*
@@ -26,7 +28,11 @@ class ForecastRepositoryImpl(
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever {newCurrentWeather ->
             persistFetchedCurrentWeather(newCurrentWeather)
         }
-    }
+        weatherNetworkDataSource.downloadedFutureWeather.observeForever { newFutureWeather ->
+                persistFetchedFutureWeather(newFutureWeather)
+            }
+        }
+
 
 
     override suspend fun getCurrentWeather(metric: Boolean): List<CityModel> {
@@ -61,6 +67,21 @@ class ForecastRepositoryImpl(
             }
         }
 
+    }
+
+    private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse) {
+
+        fun deleteOldForecastData() {
+            val today = LocalDate.now()
+            forecastCityDao.deleteAllForecastCities()
+        }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            deleteOldForecastData()
+            val futureWeatherList = fetchedWeather.copy()
+        //    forecastCityDao.insertForecastCity(futureWeatherList)
+        //    weatherLocationDao.upsert(fetchedWeather.location)
+        }
     }
 
     private suspend fun initWeatherData(){

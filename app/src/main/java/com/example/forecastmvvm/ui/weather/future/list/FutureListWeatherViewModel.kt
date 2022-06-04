@@ -24,7 +24,7 @@ class FutureListWeatherViewModel(
     unitProvider: UnitProvider
 ) : WeatherViewModel(forecastRepository,latitude, longitude, unitProvider) {
 
-    val weatherEntries by lazyDeffered {
+    val weather by lazyDeffered {
         forecastRepository.getFutureWeather(latitude,longitude )
     }
 
