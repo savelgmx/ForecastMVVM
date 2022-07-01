@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
@@ -25,13 +26,15 @@ class ForecastRepositoryImpl(
     private val locationProvider: LocationProvider  //4
 ) :ForecastRepository{
     init {
-        weatherNetworkDataSource.downloadedCurrentWeather.observeForever {newCurrentWeather ->
-            persistFetchedCurrentWeather(newCurrentWeather)
-        }
-        weatherNetworkDataSource.downloadedFutureWeather.observeForever { newFutureWeather ->
+        weatherNetworkDataSource.apply {
+            downloadedCurrentWeather.observeForever { newCurrentWeather ->
+                persistFetchedCurrentWeather(newCurrentWeather)
+            }
+            downloadedFutureWeather.observeForever { newFutureWeather ->
                 persistFetchedFutureWeather(newFutureWeather)
             }
         }
+    }
 
 
 
@@ -46,7 +49,9 @@ class ForecastRepositoryImpl(
 
     override suspend fun getFutureWeather(latitude:String, longitude:String): LiveData<ForecastCityModel> {
         return withContext(Dispatchers.IO){
-                fetchFutureWeather(latitude,longitude,"current,hourly","metric")
+             //   fetchFutureWeather(latitude,longitude,"current,hourly","metric")
+            initWeatherData()
+            Log.d("FetchedWeatherResponse","ForecastRepostoryImpl-1"+forecastCityDao.getForecastCity().toString())
             return@withContext forecastCityDao.getForecastCity()
         }
 
@@ -80,7 +85,7 @@ class ForecastRepositoryImpl(
             deleteOldForecastData()
             val futureWeatherList = fetchedWeather.copy()
         //    forecastCityDao.insertForecastCity(futureWeatherList)
-        //    weatherLocationDao.upsert(fetchedWeather.location)
+        //   weatherLocationDao.upsert(fetchedWeather.location)
         }
     }
 
@@ -90,7 +95,7 @@ class ForecastRepositoryImpl(
    //     if (lastWeatherLocation == null
      //       || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
-      //      fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
+            fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
             return
        // }
 
@@ -116,6 +121,8 @@ class ForecastRepositoryImpl(
         units:String="metric"
     ){
         weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)
+        Log.d("FetchedWeatherResponse","ForecastRepostoryImpl "+(weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)).toString())
+
 
     }
 
