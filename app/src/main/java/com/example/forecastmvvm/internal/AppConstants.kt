@@ -2,8 +2,6 @@ package com.example.forecastmvvm.internal
 
 import com.example.forecastmvvm.BuildConfig
 
-//import com.example.forecastmvvm.BuildConfig
-
 object AppConstants {
 
     const val CITY = "city"
