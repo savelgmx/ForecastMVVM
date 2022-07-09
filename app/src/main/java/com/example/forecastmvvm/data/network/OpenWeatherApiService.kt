@@ -42,7 +42,7 @@ interface OpenWeatherApiService {
 
 
 
-    @GET("weather")
+    @GET("onecall")
     suspend fun getWeatherOfLatLon(
         @Query("lon") lon:String,
         @Query("lat")  lat:String,
