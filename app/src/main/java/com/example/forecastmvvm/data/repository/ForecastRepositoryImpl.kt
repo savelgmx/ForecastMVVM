@@ -2,6 +2,7 @@ package com.example.forecastmvvm.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
 import com.example.forecastmvvm.data.db.entity.CityModel
@@ -12,6 +13,8 @@ import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResp
 import com.example.forecastmvvm.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
@@ -130,6 +133,13 @@ class ForecastRepositoryImpl(
         val thirtyMinutesAgo =ZonedDateTime.now().minusMinutes(30)
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
+
+    fun getWeatherOfLatLon(): Flow<ResultData<FutureWeatherResponse>> = flow {
+        emit(weatherNetworkDataSource.getWeatherOfLatLon("56.0097",
+            "92.7917"))
+        //TODO remove hardcoded param long latitude
+    }
+
 
 }
 
