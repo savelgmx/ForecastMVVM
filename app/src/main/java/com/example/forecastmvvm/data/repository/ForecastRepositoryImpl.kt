@@ -87,8 +87,17 @@ class ForecastRepositoryImpl(
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
             val futureWeatherList = fetchedWeather.copy()
-        //    forecastCityDao.insertForecastCity(futureWeatherList)
+         //   forecastCityDao.insertForecastCity(futureWeatherList)
         //   weatherLocationDao.upsert(fetchedWeather.location)
+
+            // Local Room
+
+            suspend fun insertForecastCity(forecastCity: ForecastCityModel) = try {
+                ResultData.Success(data = forecastCityDao.insertForecastCity(forecastCity))
+            }catch (e : Exception){
+         //       ResultData.Failure(msg = e.message.toString())
+            }
+
         }
     }
 
@@ -134,7 +143,7 @@ class ForecastRepositoryImpl(
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
-    fun getWeatherOfLatLon(): Flow<ResultData<FutureWeatherResponse>> = flow {
+    override fun getWeatherOfLatLon(): Flow<ResultData<FutureWeatherResponse>> = flow {
         emit(weatherNetworkDataSource.getWeatherOfLatLon("56.0097",
             "92.7917"))
         //TODO remove hardcoded param long latitude

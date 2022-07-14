@@ -61,6 +61,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     }
     private fun callViewModel()=launch{
         val futureWeatherEntries=viewModel.weather.await()
+
         futureWeatherEntries.observe(this@FutureListWeatherFragment, Observer { weatherEntries ->
             if (weatherEntries == null) return@Observer
             Log.d("t-weatherEntryResponse",weatherEntries.temp.toString())

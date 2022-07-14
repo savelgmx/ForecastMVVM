@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.ui.weather.future.list
 
+import android.location.Location
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,9 @@ class FutureListWeatherViewModel(
     val weather by lazyDeffered {
         forecastRepository.getFutureWeather(latitude,longitude )
     }
+
+
+    fun getWeatherOfLatLon() =  forecastRepository.getWeatherOfLatLon()//.asLiveData()
 
 }
 
