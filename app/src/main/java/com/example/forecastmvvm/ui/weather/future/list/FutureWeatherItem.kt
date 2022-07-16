@@ -46,8 +46,7 @@ class FutureWeatherItem(
     }
 
     private fun ViewHolder.updateTemperature(temp:String) {
-        val unitAbbreviation = "°C" /*if (weatherEntry is MetricSimpleFutureWeatherEntry) "°C"
-        else "°F"*/
+        val unitAbbreviation = "°C"
         textView_temperature.text =  "${temp}$unitAbbreviation"
     }
 
