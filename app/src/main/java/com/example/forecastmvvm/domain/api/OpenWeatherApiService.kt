@@ -1,6 +1,5 @@
-package com.example.forecastmvvm.data.network
+package com.example.forecastmvvm.domain.api
 
-import com.example.forecastmvvm.BuildConfig
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.internal.AppConstants
@@ -56,7 +55,7 @@ interface OpenWeatherApiService {
     companion   object{
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor
-        ):OpenWeatherApiService{
+        ): OpenWeatherApiService {
             val requestInterceptor = Interceptor{ chain ->
                 val url = chain.request()
                     .url()

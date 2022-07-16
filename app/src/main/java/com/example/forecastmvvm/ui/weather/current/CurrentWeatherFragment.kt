@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
-import com.example.forecastmvvm.data.network.ConnectivityInterceptorImpl
+import com.example.forecastmvvm.domain.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.network.OpenWeatherApiService
+import com.example.forecastmvvm.domain.api.OpenWeatherApiService
 
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.resocoder.forecastmvvm.internal.glide.GlideApp

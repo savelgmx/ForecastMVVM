@@ -9,6 +9,9 @@ import com.example.forecastmvvm.data.provider.LocationProvider
 import com.example.forecastmvvm.data.provider.LocationProviderImpl
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
+import com.example.forecastmvvm.domain.api.ConnectivityInterceptor
+import com.example.forecastmvvm.domain.api.ConnectivityInterceptorImpl
+import com.example.forecastmvvm.domain.api.OpenWeatherApiService
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
 import com.example.forecastmvvm.ui.weather.future.list.FutureListWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
@@ -31,7 +34,7 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { instance<ForecastDatabase>().forecastCityDao() }
 
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
-        bind() from singleton {OpenWeatherApiService(instance())}
+        bind() from singleton { OpenWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
