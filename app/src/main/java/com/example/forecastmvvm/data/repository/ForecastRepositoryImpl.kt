@@ -2,6 +2,7 @@ package com.example.forecastmvvm.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
@@ -143,7 +144,7 @@ class ForecastRepositoryImpl(
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
-    override fun getWeatherOfLatLon(): Flow<ResultData<FutureWeatherResponse>> = flow {
+    override fun getWeatherOfLatLon(): Flow<ResultData<WeatherCityResponse>> = flow {
         emit(weatherNetworkDataSource.getWeatherOfLatLon("56.0097",
             "92.7917"))
         //TODO remove hardcoded param long latitude

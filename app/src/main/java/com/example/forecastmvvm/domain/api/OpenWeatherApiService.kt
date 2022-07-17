@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.domain.api
 
+import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.internal.AppConstants
@@ -47,7 +48,7 @@ interface OpenWeatherApiService {
         @Query("lat")  lat:String,
         @Query("exclude") exclude:String="current,hourly",
         @Query("units") units: String=AppConstants.WEATHER_UNIT
-    ): Response<FutureWeatherResponse>
+    ): Response<WeatherCityResponse>
 
 
     //we need to create object which will actually fetch data from API and handle with interface
