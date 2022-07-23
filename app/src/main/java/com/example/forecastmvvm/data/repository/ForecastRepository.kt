@@ -5,7 +5,6 @@ import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
-import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import kotlinx.coroutines.flow.Flow
 
 

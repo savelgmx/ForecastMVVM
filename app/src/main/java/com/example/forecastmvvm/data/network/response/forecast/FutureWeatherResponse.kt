@@ -1,6 +1,7 @@
 package com.example.forecastmvvm.data.network.response.forecast
 
 
+import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.db.entity.FutureWeatherEntry
 import com.google.gson.annotations.SerializedName
 
@@ -12,5 +13,6 @@ data class FutureWeatherResponse(
     val timezone: String,
     @SerializedName("timezone_offset")
     val timezoneOffset: Int,
-    val futureWeatherEntry: FutureWeatherEntry
+    val futureWeatherEntry: FutureWeatherEntry,
+    val forecastCityModel: ForecastCityModel
 )

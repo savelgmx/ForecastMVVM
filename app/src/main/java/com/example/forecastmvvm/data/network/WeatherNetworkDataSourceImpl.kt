@@ -48,7 +48,7 @@ class WeatherNetworkDataSourceImpl(
                 .getForecastweather(lon,lat,exclude,units)
                 .await()
 
-            Log.d("FetchedWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedFutureWeather.toString())
+           // Log.d("FetchedWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedFutureWeather.toString())
             _downloadedFutureWeather.postValue(fetchedFutureWeather)
 
 

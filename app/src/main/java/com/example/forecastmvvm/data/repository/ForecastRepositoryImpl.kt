@@ -64,15 +64,8 @@ class ForecastRepositoryImpl(
     private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
-/*
-                if (fetchedWeather.currentWeatherEntry != null) {
-                 //   if (fetchedWeather != null) {
-                        currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
-                         weatherLocationDao.upsert(fetchedWeather.weatherLocation)
-
-                  //  }
-                } else { Log.d("fetchedWeather","currenWeatherEntry=null")}
-*/
+                      //  cityDao.insertCity(fetchedWeather)
+                       //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
             }
         }
 
@@ -81,14 +74,13 @@ class ForecastRepositoryImpl(
     private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse) {
 
         fun deleteOldForecastData() {
-            val today = LocalDate.now()
             forecastCityDao.deleteAllForecastCities()
         }
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
-            val futureWeatherList = fetchedWeather.copy()
-         //   forecastCityDao.insertForecastCity(futureWeatherList)
+            val futureWeatherList = fetchedWeather.forecastCityModel
+           forecastCityDao.insertForecastCity(futureWeatherList)
         //   weatherLocationDao.upsert(fetchedWeather.location)
 
             // Local Room
