@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 
 import java.util.*
@@ -64,7 +63,7 @@ class ForecastRepositoryImpl(
     private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
-                      //  cityDao.insertCity(fetchedWeather)
+                  //     cityDao.insertCity(fetchedWeather)
                        //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
             }
         }
@@ -95,17 +94,9 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun initWeatherData(){
- //       val lastWeatherLocation = weatherLocationDao.getLocation().value
-
-   //     if (lastWeatherLocation == null
-     //       || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
             fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
             return
-       // }
-
-        //    if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
-          //      fetchCurrentWeather()
         }
 
 

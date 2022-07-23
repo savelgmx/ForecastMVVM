@@ -12,7 +12,7 @@ interface ForecastCityDao {
 
     // insert new ForecastCity suspend
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertForecastCity(forecastCity : ForecastCityModel) : Long
+    fun insertForecastCity(forecastCity : ForecastCityModel)
 
     // Get forecastCity suspend where id =:id
     @Query("select * from forecast_city_table ")
