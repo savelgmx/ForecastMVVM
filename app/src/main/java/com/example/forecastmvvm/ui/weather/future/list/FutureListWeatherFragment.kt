@@ -111,7 +111,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
 
 
-            val range = futureWeatherResponse.daily.size
+            val range = futureWeatherResponse.futureWeatherEntry.daily.size
 
             for (i in 0 until range) {
 
@@ -121,9 +121,9 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 textView_condition.text = futureWeatherResponse.daily[i].toString()
 */
 
-                Log.d("t-FutureWeatherResponse",futureWeatherResponse.daily[i].temp.day.toString())
-                Log.d("d-FutureWeatherResponse",futureWeatherResponse.daily[i].dt.toString())
-                Log.d("c-FutureWeatherResponse",futureWeatherResponse.daily[i].toString())
+                Log.d("t-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].temp.day.toString())
+                Log.d("d-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].dt.toString())
+                Log.d("c-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].toString())
 
 
             }

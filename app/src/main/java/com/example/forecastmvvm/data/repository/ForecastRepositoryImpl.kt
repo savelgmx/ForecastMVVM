@@ -6,6 +6,7 @@ import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.CityDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
+import com.example.forecastmvvm.data.db.FutureWeatherDao
 import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
@@ -25,6 +26,7 @@ import java.util.*
 class ForecastRepositoryImpl(
     private val cityDao: CityDao, //1
     private val forecastCityDao: ForecastCityDao, //2
+    private val futureWeatherDao: FutureWeatherDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource, //3
     private val locationProvider: LocationProvider  //4
 ) :ForecastRepository{
@@ -73,15 +75,18 @@ class ForecastRepositoryImpl(
     private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse) {
 
         fun deleteOldForecastData() {
-            forecastCityDao.deleteAllForecastCities()
+         //   forecastCityDao.deleteAllForecastCities()
+            futureWeatherDao.deleteAllFutureWeatherEntrys()
         }
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
             val futureWeatherList = fetchedWeather.futureWeatherEntry
-         //  forecastCityDao.insertForecastCity(futureWeatherList)
-            forecastCityDao.insert(futureWeatherList)
-        //   weatherLocationDao.upsert(fetchedWeather.location)
+
+            futureWeatherDao.insert(futureWeatherList)
+
+         //   weatherLocationDao.upsert(fetchedWeather.location)
+
 
             // Local Room
 
