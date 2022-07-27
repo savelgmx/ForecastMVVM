@@ -21,18 +21,18 @@ class FutureWeatherItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
 
-            textView_condition.text = weatherEntry.daily[1].dt.toString()
+            textView_condition.text = weatherEntry.futureWeatherEntry.daily[1].dt.toString()
 
-            val range = weatherEntry.daily.size
+            val range = weatherEntry.futureWeatherEntry.daily.size
 
             for (i in 0 until range) {
-                Log.d("t-WeatherEntry",weatherEntry.daily[i].temp.day.toString())
-                Log.d("d-WeatherEntry",weatherEntry.daily[i].dt.toString())
-                Log.d("c-WeatherEntry",weatherEntry.daily[i].toString())
+                Log.d("t-WeatherEntry",weatherEntry.futureWeatherEntry.daily[i].temp.day.toString())
+                Log.d("d-WeatherEntry",weatherEntry.futureWeatherEntry.daily[i].dt.toString())
+                Log.d("c-WeatherEntry",weatherEntry.futureWeatherEntry.daily[i].toString())
 
-                updateDate(weatherEntry.daily[i].dt.toString())
-                updateTemperature(weatherEntry.daily[i].temp.day.toString())
-                updateConditionImage(weatherEntry.daily[i].weather?.get(0)?.icon)
+                updateDate(weatherEntry.futureWeatherEntry.daily[i].dt.toString())
+                updateTemperature(weatherEntry.futureWeatherEntry.daily[i].temp.day.toString())
+                updateConditionImage(weatherEntry.futureWeatherEntry.daily[i].weather?.get(0)?.icon)
 
             }
         }

@@ -71,13 +71,12 @@ class ForecastRepositoryImpl(
         }
 
     }
+    fun deleteOldForecastData() {
+        //   forecastCityDao.deleteAllForecastCities()
+        futureWeatherDao.deleteAllFutureWeatherEntrys()
+    }
 
     private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse) {
-
-        fun deleteOldForecastData() {
-         //   forecastCityDao.deleteAllForecastCities()
-            futureWeatherDao.deleteAllFutureWeatherEntrys()
-        }
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
