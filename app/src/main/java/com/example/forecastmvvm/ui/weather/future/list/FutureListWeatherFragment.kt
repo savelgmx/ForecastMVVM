@@ -56,9 +56,11 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
 //        viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
-        callViewModel()        // callAPI()
+        // callViewModel()
+     callAPI()
     }
     private fun callViewModel()=launch{
+/*
         val futureWeatherEntries=viewModel.weather.await()
 
         futureWeatherEntries.observe(this@FutureListWeatherFragment, Observer { weatherEntries ->
@@ -69,6 +71,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         //    initRecyclerView(weatherEntries.toFutureWeatherItems())
 
         })
+*/
 
     }
 

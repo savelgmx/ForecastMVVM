@@ -16,7 +16,7 @@ interface ForecastCityDao {
 
     // Get forecastCity suspend where id =:id
     @Query("select * from forecast_city_table ")
-     fun getForecastCity(): LiveData<ForecastCityModel>
+     fun getForecastCity(): List<ForecastCityModel>
 
     // Get size forecastCities suspend
     @Query("select COUNT(*) FROM forecast_city_table")

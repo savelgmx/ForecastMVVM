@@ -1,7 +1,6 @@
 package com.example.forecastmvvm.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.CityDao
@@ -52,7 +51,7 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getFutureWeather(latitude:String, longitude:String): LiveData<ForecastCityModel> {
+    override suspend fun getFutureWeather(latitude:String, longitude:String): List<ForecastCityModel> {
         return withContext(Dispatchers.IO){
              //   fetchFutureWeather(latitude,longitude,"current,hourly","metric")
             initWeatherData()
@@ -76,13 +75,13 @@ class ForecastRepositoryImpl(
         futureWeatherDao.deleteAllFutureWeatherEntrys()
     }
 
-    private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse) {
+    private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse?) {
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
-            val futureWeatherList = fetchedWeather.futureWeatherEntry
+            val futureWeatherList = fetchedWeather?.futureWeatherEntry
 
-            futureWeatherDao.insert(futureWeatherList)
+//            futureWeatherDao.insert(futureWeatherList)
 
          //   weatherLocationDao.upsert(fetchedWeather.location)
 

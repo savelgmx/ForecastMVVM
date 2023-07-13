@@ -24,6 +24,9 @@ class WeatherNetworkDataSourceImpl(
             val fetchedCurrentWeather = openWeatherApiService
                 .getCurrentWeather(q,units)
                 .await()
+
+            Log.d("CurrentWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedCurrentWeather.toString())
+
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
         }
         catch (e: NoConnectivityException) {
@@ -48,7 +51,7 @@ class WeatherNetworkDataSourceImpl(
                 .getForecastweather(lon,lat,exclude,units)
                 .await()
 
-           // Log.d("FetchedWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedFutureWeather.toString())
+            Log.d("FetchedWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedFutureWeather.toString())
             _downloadedFutureWeather.postValue(fetchedFutureWeather)
 
 
