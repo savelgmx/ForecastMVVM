@@ -25,7 +25,7 @@ class WeatherNetworkDataSourceImpl(
                 .getCurrentWeather(q,units)
                 .await()
 
-            Log.d("CurrentWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedCurrentWeather.toString())
+        //    Log.d("CurrentWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedCurrentWeather.toString())
 
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
         }

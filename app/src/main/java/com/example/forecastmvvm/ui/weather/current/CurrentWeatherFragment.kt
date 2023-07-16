@@ -94,7 +94,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         GlobalScope.launch(Dispatchers.Main) {
             val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk","metric") .await()
-            Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
+        //    Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
             group_loading.visibility =View.GONE
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
             //===========================

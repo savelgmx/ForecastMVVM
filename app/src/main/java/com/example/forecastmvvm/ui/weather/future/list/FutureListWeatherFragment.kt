@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
@@ -55,7 +56,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         val units="metric"
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
-//        viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
+   //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // callViewModel()
      callAPI()
     }
@@ -107,14 +108,14 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 "metric"
             ).await()
 
-            Log.d("FutureWeatherResponse",futureWeatherResponse.toString())
-//            textView_condition.text = futureWeatherResponse.toString()
+            Log.d("FutureWeatherResponse","FutureListWeatherFragment "+futureWeatherResponse.toString())
+         //   textView_condition.text = futureWeatherResponse.toString()
 
 
 
 
 
-            val range = futureWeatherResponse.futureWeatherEntry.daily.size
+            val range = futureWeatherResponse.daily.size
 
             for (i in 0 until range) {
 
@@ -124,9 +125,9 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 textView_condition.text = futureWeatherResponse.daily[i].toString()
 */
 
-                Log.d("t-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].temp.day.toString())
-                Log.d("d-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].dt.toString())
-                Log.d("c-FutureWeatherResponse",futureWeatherResponse.futureWeatherEntry.daily[i].toString())
+                Log.d("t-FutureWeatherResponse",futureWeatherResponse.daily[i].temp.day.toString())
+                Log.d("d-FutureWeatherResponse",futureWeatherResponse.daily[i].dt.toString())
+                Log.d("c-FutureWeatherResponse",futureWeatherResponse.daily[i].toString())
 
 
             }
