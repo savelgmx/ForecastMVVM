@@ -56,7 +56,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         val units="metric"
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
-   //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
+  //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // callViewModel()
      callAPI()
     }

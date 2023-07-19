@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface ForecastRepository {
-    suspend fun getCurrentWeather(metric:Boolean): List<CityModel>
+    suspend fun  getCurrentWeather(metric:Boolean): List<CityModel>
     suspend fun getFutureWeather(latitude:String, longitude:String):List<ForecastCityModel>
     fun getWeatherOfLatLon(): Flow<ResultData<WeatherCityResponse>>
 

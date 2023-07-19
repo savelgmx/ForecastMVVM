@@ -14,6 +14,13 @@ class CurrentWeatherViewModel (
 
     val isMetric:Boolean
         get() = unitSystem==UnitSystem.METRIC
+/*
+    we have to call getCurrentweather from within lazy
+    block as is getCurrentWeather a suspend function
+    within lazy block it calls only when necessary
+    to provide coroutine context we also have write lazyDeffered function
+
+*/
 
     val weather by lazyDeffered {
         forecastRepository.getCurrentWeather(isMetric)

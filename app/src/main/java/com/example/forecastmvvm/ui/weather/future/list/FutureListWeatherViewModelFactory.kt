@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 
-
+//we cannot create many instances of viewModel from inside of view ,that's why we need viewmodelfactory
+// it's about saving state of current view model
 
 class FutureListWeatherViewModelFactory(
     private val forecastRepository: ForecastRepository,

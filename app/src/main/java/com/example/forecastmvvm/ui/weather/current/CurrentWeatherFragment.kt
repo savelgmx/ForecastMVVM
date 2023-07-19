@@ -65,14 +65,19 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     @SuppressLint("FragmentLiveDataObserve")
     private fun bindUI()=launch{
 
-/*        val currentWeather = viewModel.weather.await()
+        val currentWeather = viewModel.weather.await()
 
+
+        Log.d("CurrentWeatherResponse","CurrentWeatherFragment "+"viewModel"+currentWeather.toString())
+
+/*
         currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it==null) return@Observer
            // textView.text = it.toString() no more present
             Log.d("UnitCurrentWeatherEntry",it.toString())
 
-        })*/
+        })
+*/
 
     }
 
