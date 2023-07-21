@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
-import com.example.forecastmvvm.domain.api.ConnectivityInterceptorImpl
-import com.example.forecastmvvm.domain.api.OpenWeatherApiService
+import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
+import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.ui.base.ScopedFragment

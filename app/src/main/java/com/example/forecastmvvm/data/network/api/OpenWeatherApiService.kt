@@ -1,4 +1,4 @@
-package com.example.forecastmvvm.domain.api
+package com.example.forecastmvvm.data.network.api
 
 import com.alialfayed.weathertask.domain.model.WeatherCityResponse
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse

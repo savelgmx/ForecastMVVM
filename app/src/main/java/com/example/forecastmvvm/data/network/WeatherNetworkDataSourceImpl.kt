@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
-import com.example.forecastmvvm.domain.api.OpenWeatherApiService
+import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.NoConnectivityException
 import com.example.forecastmvvm.internal.NoInternetException
 import com.google.android.gms.common.api.ApiException

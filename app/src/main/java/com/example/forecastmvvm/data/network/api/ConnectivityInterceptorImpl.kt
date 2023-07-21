@@ -1,4 +1,4 @@
-package com.example.forecastmvvm.domain.api
+package com.example.forecastmvvm.data.network.api
 
 import android.content.Context
 import android.net.ConnectivityManager

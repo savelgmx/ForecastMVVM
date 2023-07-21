@@ -9,9 +9,9 @@ import com.example.forecastmvvm.data.provider.LocationProvider
 import com.example.forecastmvvm.data.provider.LocationProviderImpl
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
-import com.example.forecastmvvm.domain.api.ConnectivityInterceptor
-import com.example.forecastmvvm.domain.api.ConnectivityInterceptorImpl
-import com.example.forecastmvvm.domain.api.OpenWeatherApiService
+import com.example.forecastmvvm.data.network.api.ConnectivityInterceptor
+import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
+import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
 import com.example.forecastmvvm.ui.weather.future.list.FutureListWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
