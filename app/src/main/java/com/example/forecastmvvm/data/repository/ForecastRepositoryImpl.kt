@@ -9,7 +9,7 @@ import com.example.forecastmvvm.data.db.FutureWeatherDao
 import com.example.forecastmvvm.data.db.entity.CityModel
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
-import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
+import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +61,7 @@ class ForecastRepositoryImpl(
 
     }
 
-    private fun persistFetchedCurrentWeather(fetchedWeather: OpenWeatherResponse?) {
+    private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
                   //     cityDao.insertCity(fetchedWeather)

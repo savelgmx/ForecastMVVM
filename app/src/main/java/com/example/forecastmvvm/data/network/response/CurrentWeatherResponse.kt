@@ -3,7 +3,7 @@ package com.example.forecastmvvm.data.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class OpenWeatherResponse(
+data class CurrentWeatherResponse(
 
         @field:SerializedName("coord")
         val coord:Coord?=null,

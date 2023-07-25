@@ -1,7 +1,7 @@
 package com.example.forecastmvvm.data.network.api
 
 import com.alialfayed.weathertask.domain.model.WeatherCityResponse
-import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
+import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.internal.AppConstants
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -27,7 +27,7 @@ interface OpenWeatherApiService {
 
     @GET("weather")
     fun getCurrentWeather(@Query("q") q: String,
-                          @Query("units") units: String): Deferred<OpenWeatherResponse>
+                          @Query("units") units: String): Deferred<CurrentWeatherResponse>
 
 
 //for Forecast Weather we must use

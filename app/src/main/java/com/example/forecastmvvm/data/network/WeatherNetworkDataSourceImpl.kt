@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.forecastmvvm.data.ResultData
-import com.example.forecastmvvm.data.network.response.OpenWeatherResponse
+import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.NoConnectivityException
@@ -15,8 +15,8 @@ import retrofit2.Response
 class WeatherNetworkDataSourceImpl(
     private val openWeatherApiService: OpenWeatherApiService
 ) : WeatherNetworkDataSource {
-    private val _downloadedCurrentWeather = MutableLiveData<OpenWeatherResponse>()
-    override val downloadedCurrentWeather: LiveData<OpenWeatherResponse>
+    private val _downloadedCurrentWeather = MutableLiveData<CurrentWeatherResponse>()
+    override val downloadedCurrentWeather: LiveData<CurrentWeatherResponse>
         get() = _downloadedCurrentWeather
 
     override suspend fun fetchCurrentWeather(q: String, units: String) {
