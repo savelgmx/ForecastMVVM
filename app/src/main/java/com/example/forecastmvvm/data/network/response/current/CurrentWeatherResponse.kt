@@ -1,12 +1,13 @@
-package com.example.forecastmvvm.data.network.response
+package com.example.forecastmvvm.data.network.response.current
 
 
+import com.example.forecastmvvm.data.network.response.*
 import com.google.gson.annotations.SerializedName
 
 data class CurrentWeatherResponse(
 
         @field:SerializedName("coord")
-        val coord:Coord?=null,
+        val coord: Coord?=null,
 
         @field:SerializedName("dt")
         val dt: Int? = null,

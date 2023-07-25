@@ -1,7 +1,7 @@
 package com.example.forecastmvvm.data.network.api
 
 import com.alialfayed.weathertask.domain.model.WeatherCityResponse
-import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
+import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.internal.AppConstants
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

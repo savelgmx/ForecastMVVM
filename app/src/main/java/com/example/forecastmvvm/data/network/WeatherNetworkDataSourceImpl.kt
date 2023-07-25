@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.forecastmvvm.data.ResultData
-import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
+import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.NoConnectivityException
