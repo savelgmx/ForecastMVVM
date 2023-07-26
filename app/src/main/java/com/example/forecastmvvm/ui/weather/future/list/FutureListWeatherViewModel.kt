@@ -17,7 +17,5 @@ class FutureListWeatherViewModel(
     }
 
 
-    fun getWeatherOfLatLon() =  forecastRepository.getWeatherOfLatLon()//.asLiveData()
-
 }
 

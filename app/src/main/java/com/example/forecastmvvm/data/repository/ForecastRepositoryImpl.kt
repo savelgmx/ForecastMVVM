@@ -64,6 +64,8 @@ class ForecastRepositoryImpl(
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
+
+                Log.d("CurrentWeatherResponse","ForecastWeatherImp"+fetchedWeather.toString())
                   //     cityDao.insertCity(fetchedWeather)
                        //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
             }
@@ -130,13 +132,6 @@ class ForecastRepositoryImpl(
         val thirtyMinutesAgo =ZonedDateTime.now().minusMinutes(30)
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
-
-    override fun getWeatherOfLatLon(): Flow<ResultData<WeatherCityResponse>> = flow {
-        emit(weatherNetworkDataSource.getWeatherOfLatLon("56.0097",
-            "92.7917"))
-        //TODO remove hardcoded param long latitude
-    }
-
 
 }
 

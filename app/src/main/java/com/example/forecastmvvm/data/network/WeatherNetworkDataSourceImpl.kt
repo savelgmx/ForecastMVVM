@@ -62,9 +62,6 @@ class WeatherNetworkDataSourceImpl(
 
     }
 
-    override suspend fun getWeatherOfLatLon(latitude:String, longitude:String) = getResult {
-        openWeatherApiService.getWeatherOfLatLon(latitude, longitude)
-    }
 
 
         protected suspend fun <T> getResult(call: suspend () -> Response<T>): ResultData<T> {
