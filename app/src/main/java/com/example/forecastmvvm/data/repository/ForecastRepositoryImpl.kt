@@ -12,6 +12,7 @@ import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
+import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,8 @@ class ForecastRepositoryImpl(
     private val forecastCityDao: ForecastCityDao, //2
     private val futureWeatherDao: FutureWeatherDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource, //3
-    private val locationProvider: LocationProvider  //4
+    private val locationProvider: LocationProvider,  //4
+    private val unitProvider: UnitProvider
 ) :ForecastRepository{
     init {
         weatherNetworkDataSource.apply {
@@ -65,7 +67,7 @@ class ForecastRepositoryImpl(
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
 
-                Log.d("CurrentWeatherResponse","ForecastWeatherImp"+fetchedWeather.toString())
+                Log.d("CurrentWeatherResponse","ForecastWeatherImp "+fetchedWeather.toString())
                   //     cityDao.insertCity(fetchedWeather)
                        //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
             }
@@ -108,9 +110,13 @@ class ForecastRepositoryImpl(
 
 
     private suspend fun fetchCurrentWeather(){
+
+        Log.d("CurrentWeatherResponse","fetchCurrentWeather location "+locationProvider.getPreferredLocationString())
+        Log.d("CurrentWeatherResponse","fetchCurrentWeather units "+unitProvider.getUnitSystem().toString())
+
         weatherNetworkDataSource.fetchCurrentWeather(
             locationProvider.getPreferredLocationString(),
-            Locale.getDefault().language
+            unitProvider.getUnitSystem().toString()
         )
 
 
