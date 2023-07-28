@@ -47,8 +47,7 @@ class ForecastRepositoryImpl(
     override suspend fun getCurrentWeather(metric: Boolean): List<CityModel> {
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext if (metric) cityDao.getAllCities()
-            else cityDao.getAllCities()
+            return@withContext cityDao.getAllCities()
 
         }
     }
