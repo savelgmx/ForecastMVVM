@@ -6,19 +6,27 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.forecastmvvm.data.network.response.Main
 import com.example.forecastmvvm.data.network.response.Wind
-import com.example.forecastmvvm.data.network.response.forecast.Weather
+import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "city_table")
-data class CityModel(
+const val CURRENT_WEATHER_ID = 0
 
-    @ColumnInfo(name = "name")
-    val name: String? = null,
+@Entity(tableName = "current_weather")
+data class CurrentWeatherEntry(
 
-    @ColumnInfo(name = "temp")
-    val temp: Double? = null ,
 
-    @ColumnInfo(name = "icon")
-    val icon: String? = null,
+@SerializedName("feels_like")
+val feelsLike: Double,
+@SerializedName("grnd_level")
+val grndLevel: Int,
+val humidity: Int,
+val pressure: Int,
+@SerializedName("sea_level")
+val seaLevel: Int,
+val temp: Double,
+@SerializedName("temp_max")
+val tempMax: Double,
+@SerializedName("temp_min")
+val tempMin: Double,
 
 
     @Embedded(prefix="main_")

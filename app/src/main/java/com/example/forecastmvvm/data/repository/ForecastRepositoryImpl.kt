@@ -1,12 +1,12 @@
 package com.example.forecastmvvm.data.repository
 
 import android.util.Log
-import com.alialfayed.weathertask.domain.model.WeatherCityResponse
+import androidx.lifecycle.LiveData
 import com.example.forecastmvvm.data.ResultData
-import com.example.forecastmvvm.data.db.CityDao
+import com.example.forecastmvvm.data.db.CurrentWeatherDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
 import com.example.forecastmvvm.data.db.FutureWeatherDao
-import com.example.forecastmvvm.data.db.entity.CityModel
+import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
@@ -15,16 +15,15 @@ import com.example.forecastmvvm.data.provider.LocationProvider
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 
-import java.util.*
+private var longitude:Double = 0.0
+private var latitude:Double = 0.0
 
 class ForecastRepositoryImpl(
-    private val cityDao: CityDao, //1
+    private val currentWeatherDao: CurrentWeatherDao, //1
     private val forecastCityDao: ForecastCityDao, //2
     private val futureWeatherDao: FutureWeatherDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource, //3
@@ -44,10 +43,10 @@ class ForecastRepositoryImpl(
 
 
 
-    override suspend fun getCurrentWeather(metric: Boolean): List<CityModel> {
+    override suspend fun getCurrentWeather(metric: Boolean): LiveData<CurrentWeatherEntry> {
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext cityDao.getAllCities()
+            return@withContext currentWeatherDao.getWeather()
 
         }
     }
@@ -67,7 +66,7 @@ class ForecastRepositoryImpl(
             if (fetchedWeather != null) {
 
                 Log.d("CurrentWeatherResponse","ForecastWeatherImp "+fetchedWeather.toString())
-                  //     cityDao.insertCity(fetchedWeather)
+                  //     currentWeatherDao.insertCity(fetchedWeather)
                        //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
             }
         }
@@ -113,10 +112,11 @@ class ForecastRepositoryImpl(
         Log.d("CurrentWeatherResponse","fetchCurrentWeather location "+locationProvider.getPreferredLocationString())
         Log.d("CurrentWeatherResponse","fetchCurrentWeather units "+unitProvider.getUnitSystem().toString())
 
-        weatherNetworkDataSource.fetchCurrentWeather(
+   var fetchedWeather= weatherNetworkDataSource.fetchCurrentWeather(
             locationProvider.getPreferredLocationString(),
             unitProvider.getUnitSystem().toString()
         )
+        fetchedWeather.toString()
 
 
     }

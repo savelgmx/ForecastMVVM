@@ -70,14 +70,12 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         Log.d("CurrentWeatherResponse","CurrentWeatherFragment "+"viewModel"+currentWeather.toString())
 
-/*
         currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it==null) return@Observer
            // textView.text = it.toString() no more present
             Log.d("UnitCurrentWeatherEntry",it.toString())
 
         })
-*/
 
     }
 
