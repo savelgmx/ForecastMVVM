@@ -53,7 +53,7 @@ class ForecastRepositoryImpl(
 
     override suspend fun getFutureWeather(latitude:String, longitude:String): List<ForecastCityModel> {
         return withContext(Dispatchers.IO){
-             //   fetchFutureWeather(latitude,longitude,"current,hourly","metric")
+            //   fetchFutureWeather(latitude,longitude,"current,hourly","metric")
             initWeatherData()
             Log.d("FetchedWeatherResponse","ForecastRepostoryImpl-1"+forecastCityDao.getForecastCity().toString())
             return@withContext forecastCityDao.getForecastCity()
@@ -65,9 +65,8 @@ class ForecastRepositoryImpl(
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
 
-                Log.d("CurrentWeatherResponse","ForecastWeatherImp "+fetchedWeather.toString())
-                  //     currentWeatherDao.insertCity(fetchedWeather)
-                       //  weatherLocationDao.upsert(fetchedWeather.weatherLocation)
+               currentWeatherDao.upsert(fetchedWeather.main)
+
             }
         }
 
@@ -85,7 +84,7 @@ class ForecastRepositoryImpl(
 
 //            futureWeatherDao.insert(futureWeatherList)
 
-         //   weatherLocationDao.upsert(fetchedWeather.location)
+            //   weatherLocationDao.upsert(fetchedWeather.location)
 
 
             // Local Room
@@ -93,17 +92,17 @@ class ForecastRepositoryImpl(
             suspend fun insertForecastCity(forecastCity: ForecastCityModel) = try {
                 ResultData.Success(data = forecastCityDao.insertForecastCity(forecastCity))
             }catch (e : Exception){
-         //       ResultData.Failure(msg = e.message.toString())
+                //       ResultData.Failure(msg = e.message.toString())
             }
 
         }
     }
 
     private suspend fun initWeatherData(){
-            fetchCurrentWeather()
-            fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
-            return
-        }
+        fetchCurrentWeather()
+        fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
+        return
+    }
 
 
 
@@ -112,11 +111,11 @@ class ForecastRepositoryImpl(
         Log.d("CurrentWeatherResponse","fetchCurrentWeather location "+locationProvider.getPreferredLocationString())
         Log.d("CurrentWeatherResponse","fetchCurrentWeather units "+unitProvider.getUnitSystem().toString())
 
-   var fetchedWeather= weatherNetworkDataSource.fetchCurrentWeather(
+        weatherNetworkDataSource.fetchCurrentWeather(
             locationProvider.getPreferredLocationString(),
             unitProvider.getUnitSystem().toString()
         )
-        fetchedWeather.toString()
+
 
 
     }
@@ -129,7 +128,6 @@ class ForecastRepositoryImpl(
     ){
         weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)
         Log.d("FetchedWeatherResponse","ForecastRepostoryImpl "+(weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)).toString())
-
 
     }
 

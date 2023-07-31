@@ -26,7 +26,7 @@ val temp: Double,
 @SerializedName("temp_max")
 val tempMax: Double,
 @SerializedName("temp_min")
-val tempMin: Double,
+val tempMin: Double/*,
 
 
     @Embedded(prefix="main_")
@@ -34,7 +34,7 @@ val tempMin: Double,
 
     @Embedded(prefix="wind_")
     val wind:Wind
-
+*/
 
     ){
     // PrimaryKey annotation to set idItem is unique [if you want that id autoGenerate set @field:PrimaryKey(autoGenerate = true)]

@@ -1,6 +1,7 @@
 package com.example.forecastmvvm.data.network.response.current
 
 
+import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.network.response.*
 import com.google.gson.annotations.SerializedName
 
@@ -26,7 +27,8 @@ data class CurrentWeatherResponse(
         val cod: Int? = null,
 
         @field:SerializedName("main")
-        val main: Main? = null,
+        //val main: Main? = null,
+        val main:CurrentWeatherEntry,
 
         @field:SerializedName("clouds")
         val clouds: Clouds? = null,
