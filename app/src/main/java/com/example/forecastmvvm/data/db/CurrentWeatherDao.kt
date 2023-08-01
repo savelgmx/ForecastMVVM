@@ -19,6 +19,9 @@ interface CurrentWeatherDao {
     @Query("select * from current_weather where id = $CURRENT_WEATHER_ID")
     fun getWeather(): LiveData<CurrentWeatherEntry>
 
+    @Query("delete from current_weather")
+    fun deleteAllCurrentWeather()
+
 
 
 }

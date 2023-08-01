@@ -100,6 +100,11 @@ class ForecastRepositoryImpl(
 
     private suspend fun initWeatherData(){
         fetchCurrentWeather()
+        var fetchedCurrentWeather = weatherNetworkDataSource.fetchCurrentWeather(
+            locationProvider.getPreferredLocationString(),
+            unitProvider.getUnitSystem().toString() )
+        Log.d("CurrentWeatherResponse","initweatherData fetchedCurrentWeather "+fetchedCurrentWeather.toString())
+
         fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
         return
     }
