@@ -32,13 +32,6 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
-
-
-
-/*
-    companion object{fun newInstance() = CurrentWeatherFragment()}
-*/
-
     private lateinit var viewModel: CurrentWeatherViewModel
 
     override fun onCreateView(
@@ -51,8 +44,15 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
+ /*       viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(CurrentWeatherViewModel::class.java)
+*/
+       viewModel: CurrentWeatherViewModel by viewModels {
+            viewModelFactory(
+                forecastRepository,
+                unitProvider
+            )
+       }
 
 //        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         bindUI()
@@ -62,15 +62,13 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     }
 
 
-    @SuppressLint("FragmentLiveDataObserve")
+
     private fun bindUI()=launch{
 
         val currentWeather = viewModel.weather.await()
-
-
         Log.d("CurrentWeatherResponse","CurrentWeatherFragment "+"viewModel"+currentWeather.toString())
 
-        currentWeather.observe(this@CurrentWeatherFragment, Observer {
+        currentWeather.observe(viewLifecycleOwner, Observer {
             if (it==null) return@Observer
            // textView.text = it.toString() no more present
             Log.d("UnitCurrentWeatherEntry",it.toString())

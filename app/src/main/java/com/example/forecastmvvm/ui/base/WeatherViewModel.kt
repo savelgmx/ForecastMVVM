@@ -10,8 +10,10 @@ import com.example.forecastmvvm.internal.lazyDeffered
 
 abstract class WeatherViewModel(
     private val forecastRepository: ForecastRepository,
+/*
     private val latitude:String,
     private val longitude:String,
+*/
     unitProvider: UnitProvider
 ) : ViewModel() {
 
@@ -20,9 +22,9 @@ abstract class WeatherViewModel(
     val isMetricUnit: Boolean
         get() = unitSystem == UnitSystem.METRIC
 
-    val weatherLocation by lazyDeffered {
+ /*   val weatherLocation by lazyDeffered {
         forecastRepository.getFutureWeather(latitude,longitude)
     }
-
+*/
 
 }

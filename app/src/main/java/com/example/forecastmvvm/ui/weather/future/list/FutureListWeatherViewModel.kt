@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.ui.weather.future.list
 
+import androidx.lifecycle.viewModelScope
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.ui.base.WeatherViewModel
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
@@ -10,12 +11,11 @@ class FutureListWeatherViewModel(
     private val latitude:String,
     private val longitude:String,
     unitProvider: UnitProvider
-) : WeatherViewModel(forecastRepository,latitude, longitude, unitProvider) {
+) : WeatherViewModel(forecastRepository, unitProvider) {
 
-    val weather by lazyDeffered {
-        forecastRepository.getFutureWeather(latitude,longitude )
+    val weatherLocation by lazyDeffered(viewModelScope) {
+        forecastRepository.getFutureWeather(latitude, longitude)
     }
-
 
 }
 
