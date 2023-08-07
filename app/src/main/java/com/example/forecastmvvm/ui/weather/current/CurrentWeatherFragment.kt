@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
@@ -32,8 +33,9 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
-    private lateinit var viewModel: CurrentWeatherViewModel
-
+    private val viewModel: CurrentWeatherViewModel by viewModels {
+        viewModelFactory
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,38 +45,28 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
- /*       viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(CurrentWeatherViewModel::class.java)
-*/
-       viewModel: CurrentWeatherViewModel by viewModels {
-            viewModelFactory(
-                forecastRepository,
-                unitProvider
-            )
-       }
-
-//        viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         bindUI()
-
         oldBindUI()
-
     }
 
 
 
-    private fun bindUI()=launch{
+    private fun bindUI() {
+        val currentWeatherLiveData = viewModel.weather
 
-        val currentWeather = viewModel.weather.await()
-        Log.d("CurrentWeatherResponse","CurrentWeatherFragment "+"viewModel"+currentWeather.toString())
+        currentWeatherLiveData.observe(viewLifecycleOwner, Observer { currentWeather ->
+            // Check if the data is not null and process it
+            if (currentWeather != null) {
+                Log.d("UnitCurrentWeatherEntry", currentWeather.toString())
 
-        currentWeather.observe(viewLifecycleOwner, Observer {
-            if (it==null) return@Observer
-           // textView.text = it.toString() no more present
-            Log.d("UnitCurrentWeatherEntry",it.toString())
-
+                // Now you have access to the actual data in the currentWeather variable.
+                // You can use it to update your UI or perform any other processing.
+                // For example, if the data is a String, you can update a TextView like this:
+                // textView.text = currentWeather.someProperty
+            } else {
+                // Handle the case when data is null (if needed)
+            }
         })
-
     }
 
 
@@ -82,7 +74,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         val iconurl = "http://openweathermap.org/img/w/"
 
-        val apiServiceOne = OpenWeatherApiService(ConnectivityInterceptorImpl(this.context!!))
+        val apiServiceOne = OpenWeatherApiService(ConnectivityInterceptorImpl(this.requireContext()))
         // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
@@ -95,7 +87,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         GlobalScope.launch(Dispatchers.Main) {
             val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk","metric") .await()
-        //    Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
+            //    Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
             group_loading.visibility =View.GONE
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
             //===========================

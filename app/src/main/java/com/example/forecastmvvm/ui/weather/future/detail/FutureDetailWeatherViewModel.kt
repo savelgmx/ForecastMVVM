@@ -5,8 +5,8 @@ import com.example.forecastmvvm.internal.lazyDeffered
 
 class FutureDetailWeatherViewModel : ViewModel() {
     // TODO: Implement the ViewModel
-    val weather by lazyDeffered {
+    //val weather by lazyDeffered {
      //   forecastRepository.getFutureWeather(latitude:String, longitude:String)
-    }
+   // }
 
 }
