@@ -61,6 +61,10 @@ class ForecastRepositoryImpl(
 
     }
 
+    override suspend fun refreshCurrentWeather() {
+        fetchCurrentWeather()
+    }
+
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
             if (fetchedWeather != null) {
