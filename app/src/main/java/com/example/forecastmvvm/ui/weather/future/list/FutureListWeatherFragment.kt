@@ -76,13 +76,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     }
 
-    private fun List<FutureWeatherResponse>.toFutureWeatherItems() : List<FutureWeatherItem> {
-        return this.map {
-            FutureWeatherItem(it)
-        }
-    }
-
-
     private fun callAPI(){
         val iconurl = "http://openweathermap.org/img/w/"
 
@@ -112,7 +105,13 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
          //   textView_condition.text = futureWeatherResponse.toString()
 
 
+            val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
+            for (daily in futureWeatherResponse.daily) {
+                futureWeatherItems.add(FutureWeatherItem(daily))
+            }
+
+            initRecyclerView(futureWeatherItems)
 
 
             val range = futureWeatherResponse.daily.size
