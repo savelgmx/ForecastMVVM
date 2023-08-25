@@ -36,11 +36,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     private val viewModelFactory:FutureListWeatherViewModelFactory by instance(arg=M("92.7917","56.0097"))
 
 
-/*
-    private val viewModelFactoryInstanceFactory
-            : (lat:String,lon:String) -> FutureListWeatherViewModelFactory) by factory()
-*/
-
     private lateinit var viewModel: FutureListWeatherViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,8 +97,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             ).await()
 
             Log.d("FutureWeatherResponse","FutureListWeatherFragment "+futureWeatherResponse.toString())
-         //   textView_condition.text = futureWeatherResponse.toString()
-
 
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
@@ -112,24 +105,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             }
 
             initRecyclerView(futureWeatherItems)
-
-
-            val range = futureWeatherResponse.daily.size
-
-            for (i in 0 until range) {
-
-/*
-                textView_temperature.text = futureWeatherResponse.daily[i].temp.day.toString()
-                textView_date.text = futureWeatherResponse.daily[i].dt.toString()
-                textView_condition.text = futureWeatherResponse.daily[i].toString()
-*/
-
-                Log.d("t-FutureWeatherResponse",futureWeatherResponse.daily[i].temp.day.toString())
-                Log.d("d-FutureWeatherResponse",futureWeatherResponse.daily[i].dt.toString())
-                Log.d("c-FutureWeatherResponse",futureWeatherResponse.daily[i].toString())
-
-
-            }
 
 
         }
