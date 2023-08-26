@@ -21,7 +21,7 @@ class FutureWeatherItem(
 ) : Item() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
-            textView_condition.text = dailyWeather.dt.toString()
+            textView_condition.text = dailyWeather.weather[0].description
 
             updateDate(dailyWeather.dt.toString())
             updateTemperature(dailyWeather.temp.day.toString())
