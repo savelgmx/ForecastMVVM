@@ -11,16 +11,14 @@ class WeatherUtils {
             return metric
         }
 
-        fun updateLocationTitle(activity: AppCompatActivity, location: String) {
-            activity.supportActionBar?.title = location
-        }
-
-        fun updateDateSubtitle(activity: AppCompatActivity, dt: Int?) {
+        fun formatDateSubtitle(dt: Int?): String {
             val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
-            val today = dt?.let { simpleDateFormat.format(it * 1000L) } ?: "Today"
-            activity.supportActionBar?.subtitle = today
+            return if (dt != null) {
+                simpleDateFormat.format(dt * 1000L)
+            } else {
+                "Today" // Or another default value if dt is null
+            }
         }
-
         // Implement other common update functions here
         // updateTemperatures, updateCondition, updatePressure, updateWind, updateVisibility, degToCompass, etc.
 

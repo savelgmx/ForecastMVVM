@@ -1,20 +1,18 @@
 package com.example.forecastmvvm.ui.weather.future.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.ui.base.ScopedFragment
+import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
@@ -33,7 +31,12 @@ import org.kodein.di.generic.instance
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
-    private val viewModelFactory:FutureListWeatherViewModelFactory by instance(arg=M("92.7917","56.0097"))
+    private val viewModelFactory: FutureListWeatherViewModelFactory by instance(
+        arg = M(
+            "92.7917",
+            "56.0097"
+        )
+    )
 
 
     private lateinit var viewModel: FutureListWeatherViewModel
@@ -43,19 +46,21 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     ): View? {
         return inflater.inflate(R.layout.future_list_weather_fragment, container, false)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val lon= "92.7917"
-        val lat="56.0097"
+        val lon = "92.7917"
+        val lat = "56.0097"
         // val exclude="current,hourly"
-        val units="metric"
+        val units = "metric"
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
-  //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
+        //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // callViewModel()
-     callAPI()
+        callAPI()
     }
-    private fun callViewModel()=launch{
+
+    private fun callViewModel() = launch {
 /*
         val futureWeatherEntries=viewModel.weather.await()
 
@@ -71,7 +76,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     }
 
-    private fun callAPI(){
+    private fun callAPI() {
         val iconurl = "http://openweathermap.org/img/w/"
 
 /*
@@ -87,16 +92,14 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 group_loading.visibility = View.GONE
             })
 
-        GlobalScope.launch(Dispatchers.Main){
+        GlobalScope.launch(Dispatchers.Main) {
 
             val futureWeatherResponse = apiServiceOne.getForecastweather(
                 "92.7917",
                 "56.0097",
-                "current,hourly" ,
+                "current,hourly",
                 "metric"
             ).await()
-
-            Log.d("FutureWeatherResponse","FutureListWeatherFragment "+futureWeatherResponse.toString())
 
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
@@ -124,10 +127,13 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? FutureWeatherItem)?.let {
-                // showWeatherDetail(it.weatherEntry.date, view)
+                val detailFragment = FutureDetailWeatherFragment.newInstance(it.dailyWeather)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, detailFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }
-
 }
 
