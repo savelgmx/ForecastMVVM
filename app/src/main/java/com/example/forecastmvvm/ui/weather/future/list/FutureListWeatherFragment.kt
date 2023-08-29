@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
+import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherFragment
 import com.xwray.groupie.GroupAdapter
@@ -25,7 +27,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.M
 import org.kodein.di.generic.instance
-
+import org.threeten.bp.LocalDate
 
 
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
@@ -127,13 +129,17 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? FutureWeatherItem)?.let {
-                val detailFragment = FutureDetailWeatherFragment.newInstance(it.dailyWeather)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, detailFragment)
-                    .addToBackStack(null)
-                    .commit()
+                showWeatherDetail(it.dailyWeather, view)
             }
         }
     }
+
+    private fun showWeatherDetail(daily: Daily, view: View) {
+        val actionDetail = FutureListWeatherFragmentDirections.actionDetail(daily.toString())
+        Navigation.findNavController(view).navigate(actionDetail)
+    }
+
+
+
 }
 

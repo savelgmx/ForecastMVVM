@@ -12,7 +12,7 @@ class WeatherUtils {
         }
 
         fun formatDateSubtitle(dt: Int?): String {
-            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
             return if (dt != null) {
                 simpleDateFormat.format(dt * 1000L)
             } else {
