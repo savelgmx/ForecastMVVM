@@ -6,7 +6,11 @@ import com.example.forecastmvvm.internal.WeatherUtils
 import com.resocoder.forecastmvvm.internal.glide.GlideApp
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.android.synthetic.main.item_future_weather.*
+import kotlinx.android.synthetic.main.item_future_weather.imageView_condition_icon
+import kotlinx.android.synthetic.main.item_future_weather.textView_condition
+import kotlinx.android.synthetic.main.item_future_weather.textView_temperature
 
 
 class FutureWeatherItem(
@@ -16,7 +20,7 @@ class FutureWeatherItem(
         viewHolder.apply {
             textView_condition.text = dailyWeather.weather[0].description
             updateDate(dailyWeather.dt)
-            updateTemperature(dailyWeather.temp.day.toString())
+            updateTemperature(dailyWeather.temp.day.toInt())
             updateConditionImage(dailyWeather.weather?.get(0)?.icon)
         }
     }
@@ -28,9 +32,9 @@ class FutureWeatherItem(
         textView_date.text = formattedDate
     }
 
-    private fun ViewHolder.updateTemperature(temp: String) {
-        val unitAbbreviation = "°C"
-        textView_temperature.text = "${temp}$unitAbbreviation"
+    private fun ViewHolder.updateTemperature(temp: Int) {
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
+        textView_temperature.text = "$temp$unitAbbreviation"
     }
 
     private fun ViewHolder.updateConditionImage(icon: String) {
@@ -38,5 +42,11 @@ class FutureWeatherItem(
         GlideApp.with(this.containerView)
             .load("$iconurl${icon}.png")
             .into(imageView_condition_icon)
+    }
+
+
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        // return if (viewModel.isMetricUnit) metric else imperial
+        return metric
     }
 }
