@@ -22,6 +22,8 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
 
     override val kodein by closestKodein()
 
+    private val ARG_SELECTED_DAY = "selected_day"
+
     private val viewModelFactoryInstanceFactory
             : ((Daily) -> FutureDetailWeatherViewModelFactory) by factory()
 
@@ -36,11 +38,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val safeArgs = arguments?.let { FutureDetailWeatherFragmentArgs.fromBundle(it)
+        val selectedDay = arguments?.getParcelable<Daily>(ARG_SELECTED_DAY)
 
-        Log.d("FutureWeatherDetail","FutureWeatherDetail"+it.toString())
+        selectedDay?.let {
+            viewModel = ViewModelProvider(this, viewModelFactoryInstanceFactory(it))
+                .get(FutureDetailWeatherViewModel::class.java)
+            populateUI(it)
         }
-
     }
 
     private fun populateUI(selectedDay: Daily) {

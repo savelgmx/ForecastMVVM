@@ -13,8 +13,13 @@ class FutureDetailWeatherViewModelFactory (
     ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return FutureDetailWeatherViewModel(daily, forecastRepository, unitProvider) as T
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T
+        {
+            return FutureDetailWeatherViewModel(
+                daily,
+                forecastRepository,
+                unitProvider
+            ) as T
         }
     }
 

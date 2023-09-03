@@ -1,8 +1,11 @@
 package com.example.forecastmvvm.data.network.response.forecast
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Daily(
     val clouds: Int,
     @SerializedName("dew_point")
@@ -30,4 +33,4 @@ data class Daily(
     val windGust: Double,
     @SerializedName("wind_speed")
     val windSpeed: Double
-)
+): Parcelable
