@@ -26,8 +26,9 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
 
     private val ARG_SELECTED_DAY = "selected_day"
 
-  //  private var viewModel: FutureDetailWeatherViewModel by activityViewModels()
-    private val viewModel: FutureDetailWeatherViewModel by activityViewModels<FutureDetailWeatherViewModel>()
+    private val viewModelFactoryInstanceFactory: ((Daily) -> FutureDetailWeatherViewModelFactory) by factory()
+
+    private lateinit var viewModel: FutureDetailWeatherViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,9 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         val selectedDay = arguments?.getParcelable<Daily>(ARG_SELECTED_DAY)
 
         selectedDay?.let {
-
+            val viewModelFactory = viewModelFactoryInstanceFactory(it)
+            viewModel = ViewModelProvider(this, viewModelFactory)
+                .get(FutureDetailWeatherViewModel::class.java)
             populateUI(it)
         }
     }

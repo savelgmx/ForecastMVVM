@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -18,6 +19,7 @@ import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
+import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModelFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
@@ -43,12 +45,14 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             "56.0097"
         )
     )
-
-    //private val sharedViewModel: SharedViewModel by activityViewModels()
-
-    private val  futureDetailWeatherViewModel: FutureDetailWeatherViewModel by activityViewModels()
-
     private lateinit var viewModel: FutureListWeatherViewModel
+
+    private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
+    private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by viewModels {
+        futureDetailWeatherViewModelFactory
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -141,7 +145,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         // Inside your setOnClickListener in initRecyclerView
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? FutureWeatherItem)?.let {
-                futureDetailWeatherViewModel.selectedDaily = it.dailyWeather
+                futureDetailWeatherViewModelFactory.setDaily(it.dailyWeather)
                 val actionDetail = FutureListWeatherFragmentDirections.actionDetail(it.dailyWeather.toString())
                 view.findNavController().navigate(actionDetail)
             }

@@ -6,11 +6,13 @@ import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 
 
-class FutureDetailWeatherViewModel(
-    private val daily: Daily,
-    private val forecastRepository: ForecastRepository,
-    private val unitProvider: UnitProvider
-) : ViewModel() {
+class FutureDetailWeatherViewModel : ViewModel() {
     // ViewModel logic here
     var selectedDaily: Daily? = null
+        private set
+
+    fun setSelectedDaily(daily: Daily) {
+        selectedDaily = daily
+    }
 }
+

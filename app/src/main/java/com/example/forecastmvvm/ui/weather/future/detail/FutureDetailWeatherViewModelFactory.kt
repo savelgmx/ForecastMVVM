@@ -6,21 +6,20 @@ import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 
-class FutureDetailWeatherViewModelFactory (
-    private val daily: Daily,
-    private val forecastRepository: ForecastRepository,
-    private val unitProvider: UnitProvider
-    ) : ViewModelProvider.NewInstanceFactory() {
+class FutureDetailWeatherViewModelFactory : ViewModelProvider.NewInstanceFactory() {
+    private lateinit var daily: Daily
 
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T
-        {
-            return FutureDetailWeatherViewModel(
-                daily,
-                forecastRepository,
-                unitProvider
-            ) as T
-        }
+    fun setDaily(daily: Daily) {
+        this.daily = daily
     }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T
+    {
+        return FutureDetailWeatherViewModel().apply {
+            setSelectedDaily(daily)
+        } as T
+    }
+}
 
 
