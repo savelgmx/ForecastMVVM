@@ -48,9 +48,9 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     private lateinit var viewModel: FutureListWeatherViewModel
 
     private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
-    private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by viewModels {
-        futureDetailWeatherViewModelFactory
-    }
+    private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by activityViewModels {
+    FutureDetailWeatherViewModelFactory()
+       }
 
 
     override fun onCreateView(
@@ -118,6 +118,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 "metric"
             ).await()
 
+            group_loading.visibility =View.GONE
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
             for (daily in futureWeatherResponse.daily) {
