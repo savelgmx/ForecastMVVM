@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -47,11 +48,14 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     )
     private lateinit var viewModel: FutureListWeatherViewModel
 
+/*
     private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
     private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by activityViewModels {
     FutureDetailWeatherViewModelFactory()
        }
+*/
 
+    private lateinit var futureDetailWeatherViewModel: FutureDetailWeatherViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -146,8 +150,13 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         // Inside your setOnClickListener in initRecyclerView
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? FutureWeatherItem)?.let {
-                futureDetailWeatherViewModelFactory.setDaily(it.dailyWeather)
-                val actionDetail = FutureListWeatherFragmentDirections.actionDetail(it.dailyWeather.toString())
+                val selectedDaily = it.dailyWeather
+
+                // Initialize futureDetailWeatherViewModel here
+                futureDetailWeatherViewModel = ViewModelProvider(this, FutureDetailWeatherViewModelFactory(selectedDaily))
+                    .get(FutureDetailWeatherViewModel::class.java)
+
+                val actionDetail = FutureListWeatherFragmentDirections.actionDetail(selectedDaily.toString())
                 view.findNavController().navigate(actionDetail)
             }
         }

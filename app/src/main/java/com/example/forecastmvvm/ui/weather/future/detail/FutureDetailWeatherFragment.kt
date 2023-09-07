@@ -2,22 +2,17 @@ package com.example.forecastmvvm.ui.weather.future.detail
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.ui.base.ScopedFragment
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.factory
+import org.kodein.di.generic.instance
 
 
 class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
@@ -40,6 +35,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         super.onActivityCreated(savedInstanceState)
 
         val selectedDay = arguments?.getParcelable<Daily>(ARG_SELECTED_DAY)
+        val viewModelFactory: FutureDetailWeatherViewModelFactory by instance()
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(FutureDetailWeatherViewModel::class.java)
+
+        val currentSelectedDaily = viewModel.retrieveSelectedDaily()
+
+        populateUI(currentSelectedDaily)
 
         selectedDay?.let {
             val viewModelFactory = viewModelFactoryInstanceFactory(it)
