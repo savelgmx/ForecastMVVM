@@ -39,9 +39,11 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FutureDetailWeatherViewModel::class.java)
 
-        val currentSelectedDaily = viewModel.retrieveSelectedDaily()
+        val currentSelectedDaily = viewModel.getDailyObject()
 
-        populateUI(currentSelectedDaily)
+        if (currentSelectedDaily != null) {
+            populateUI(currentSelectedDaily)
+        }
 
         selectedDay?.let {
             val viewModelFactory = viewModelFactoryInstanceFactory(it)

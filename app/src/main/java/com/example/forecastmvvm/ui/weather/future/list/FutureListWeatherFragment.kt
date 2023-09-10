@@ -4,23 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.network.response.forecast.Daily
+import com.example.forecastmvvm.data.provider.DailyObjectProvider
+import com.example.forecastmvvm.data.provider.DailyObjectProviderImpl
 import com.example.forecastmvvm.ui.base.ScopedFragment
-import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
-import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModelFactory
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
@@ -33,7 +28,6 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.M
 import org.kodein.di.generic.instance
-import org.threeten.bp.LocalDate
 
 
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
@@ -47,6 +41,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         )
     )
     private lateinit var viewModel: FutureListWeatherViewModel
+    private lateinit var dailyObjectProvider: DailyObjectProvider
 
 /*
     private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
@@ -72,6 +67,9 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
         val units = "metric"
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
+
+        // Initialize dailyObjectProvider with the implementation
+        dailyObjectProvider = DailyObjectProviderImpl()
 
 
         //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
@@ -152,9 +150,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             (item as? FutureWeatherItem)?.let {
                 val selectedDaily = it.dailyWeather
 
-                // Initialize futureDetailWeatherViewModel here
-                futureDetailWeatherViewModel = ViewModelProvider(this, FutureDetailWeatherViewModelFactory(selectedDaily))
-                    .get(FutureDetailWeatherViewModel::class.java)
+                dailyObjectProvider.setDailyObject(selectedDaily)
 
                 val actionDetail = FutureListWeatherFragmentDirections.actionDetail(selectedDaily.toString())
                 view.findNavController().navigate(actionDetail)
