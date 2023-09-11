@@ -20,9 +20,6 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
 
     private val ARG_SELECTED_DAY = "selected_day"
-
-    private val viewModelFactoryInstanceFactory: ((Daily) -> FutureDetailWeatherViewModelFactory) by factory()
-
     private lateinit var viewModel: FutureDetailWeatherViewModel
 
     override fun onCreateView(
@@ -39,16 +36,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FutureDetailWeatherViewModel::class.java)
 
-        val currentSelectedDaily = viewModel.getDailyObject()
+        val currentSelectedDaily = viewModel.selectedDaily
 
         if (currentSelectedDaily != null) {
             populateUI(currentSelectedDaily)
         }
 
         selectedDay?.let {
-            val viewModelFactory = viewModelFactoryInstanceFactory(it)
-            viewModel = ViewModelProvider(this, viewModelFactory)
-                .get(FutureDetailWeatherViewModel::class.java)
             populateUI(it)
         }
     }
