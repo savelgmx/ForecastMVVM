@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
+import com.resocoder.forecastmvvm.internal.glide.GlideApp
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.android.synthetic.main.future_detail_weather_fragment.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
@@ -46,18 +50,44 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         val currentSelectedDaily = WeatherUtils.getDailyObject() //viewModel.getDailyObject()
 
         if (currentSelectedDaily != null) {
+
+            updateDateToToday(currentSelectedDaily.dt)
             populateUI(currentSelectedDaily)
+
+            group_loading.visibility =View.GONE
         }
 
     }
 
     private fun populateUI(selectedDay: Daily) {
+        val iconurl = "http://openweathermap.org/img/w/"
         // Populate your UI elements with data from selectedDay
         textView_condition.text = selectedDay.weather[0].description
-        textView_temperature.text = selectedDay.temp.toString()
-        textView_feels_like_temperature.text = selectedDay.feelsLike.toString()
+        textView_temperature.text = selectedDay.temp.day.toString()
+        textView_feels_like_temperature.text = selectedDay.feelsLike.day.toString()
         textView_pressure.text= selectedDay.pressure.toString()
+        //==============================================
 
+        GlideApp.with(this@FutureDetailWeatherFragment)
+            .load(
+                "$iconurl${selectedDay.weather[0].icon}"+".png"
+            )
+            .into(imageView_condition_icon)
+        //===============================================
         // Populate more views as needed
     }
+
+    private fun updateDateToToday(dt: Int?) {
+        //API returns date/time as a UnixEpoc integer timestamp
+        //we must transform this with datetime format
+        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+        var today:String="Today"
+        if (dt != null) {
+            today=simpleDateFormat.format(dt * 1000L)
+        }
+
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = today //"Today"
+    }
+
+
 }
