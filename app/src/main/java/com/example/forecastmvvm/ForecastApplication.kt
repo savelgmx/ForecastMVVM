@@ -14,6 +14,7 @@ import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.example.forecastmvvm.data.provider.DailyObjectProvider
+import com.example.forecastmvvm.data.provider.DailyObjectProviderImpl
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModelFactory
 import com.example.forecastmvvm.ui.weather.future.list.FutureListWeatherViewModelFactory
@@ -45,9 +46,11 @@ class ForecastApplication : Application(), KodeinAware {
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance(),instance(),instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind<DailyObjectProvider>() with singleton { DailyObjectProviderImpl() }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
         bind() from factory { latitude:String,longitude:String-> FutureListWeatherViewModelFactory(instance(),latitude ,longitude, instance()) }
-        bind() from factory { dailyObjectProvider: DailyObjectProvider -> FutureDetailWeatherViewModelFactory(dailyObjectProvider) }
+        bind() from factory { dailyObjectProvider: DailyObjectProvider -> FutureDetailWeatherViewModelFactory(dailyObjectProvider, instance(), instance())
+}
 
 
 
