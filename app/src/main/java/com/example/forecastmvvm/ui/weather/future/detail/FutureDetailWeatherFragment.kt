@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.response.forecast.Daily
+import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.current_weather_fragment.*
+import kotlinx.android.synthetic.main.future_detail_weather_fragment.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.factory
@@ -34,28 +36,28 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val selectedDay = arguments?.getParcelable<Daily>(ARG_SELECTED_DAY)
+/*        val selectedDay = arguments?.getParcelable<Daily>(ARG_SELECTED_DAY)
+
         val viewModelFactory: FutureDetailWeatherViewModelFactory by instance()
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(FutureDetailWeatherViewModel::class.java)
+*/
 
-        val currentSelectedDaily = viewModel.getDailyObject()
+        val currentSelectedDaily = WeatherUtils.getDailyObject() //viewModel.getDailyObject()
 
         if (currentSelectedDaily != null) {
             populateUI(currentSelectedDaily)
         }
 
-        selectedDay?.let {
-            val viewModelFactory = viewModelFactoryInstanceFactory(it)
-            viewModel = ViewModelProvider(this, viewModelFactory)
-                .get(FutureDetailWeatherViewModel::class.java)
-            populateUI(it)
-        }
     }
 
     private fun populateUI(selectedDay: Daily) {
         // Populate your UI elements with data from selectedDay
         textView_condition.text = selectedDay.weather[0].description
+        textView_temperature.text = selectedDay.temp.toString()
+        textView_feels_like_temperature.text = selectedDay.feelsLike.toString()
+        textView_pressure.text= selectedDay.pressure.toString()
+
         // Populate more views as needed
     }
 }

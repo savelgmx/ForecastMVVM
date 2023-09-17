@@ -14,6 +14,7 @@ import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.provider.DailyObjectProvider
 import com.example.forecastmvvm.data.provider.DailyObjectProviderImpl
+import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
 import com.xwray.groupie.GroupAdapter
@@ -43,6 +44,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
     private lateinit var viewModel: FutureListWeatherViewModel
     private lateinit var dailyObjectProvider: DailyObjectProvider
 
+
 /*
     private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
     private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by activityViewModels {
@@ -70,6 +72,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         // Initialize dailyObjectProvider with the implementation
         dailyObjectProvider = DailyObjectProviderImpl()
+
+
 
 
         //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
@@ -151,6 +155,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 val selectedDaily = it.dailyWeather
 
                 dailyObjectProvider.setDailyObject(selectedDaily)
+
+                WeatherUtils.setDailyObject(selectedDaily)
 
                 val actionDetail = FutureListWeatherFragmentDirections.actionDetail(selectedDaily.toString())
                 view.findNavController().navigate(actionDetail)
