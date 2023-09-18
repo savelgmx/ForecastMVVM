@@ -75,6 +75,9 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             .into(imageView_condition_icon)
         //===============================================
         // Populate more views as needed
+        updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+
+
     }
 
     private fun updateDateToToday(dt: Int?) {
@@ -87,6 +90,36 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = today //"Today"
+    }
+    private fun updateWind(windDirection: String, windSpeed: Int) {
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
+
+        val wind=degToCompass((windDirection).toInt())
+
+        textView_wind.text = "Wind: $wind , $windSpeed $unitAbbreviation"
+    }
+
+
+    private fun degToCompass(num:Int): String {
+        var winDir = Math.floor((num / 22.5) + 0.5);
+        var directions = listOf<String>("North", "North North East", "North East", "East North East",
+            "East", "East South East", "South East", "South South East", "South",
+            "South South West", "South West", "West South West", "West", "West North West",
+            "North West", "North North West")
+        return directions[(winDir % 16).toInt()]
+
+    }
+
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        // return if (viewModel.isMetricUnit) metric else imperial
+        return metric
+    }
+
+
+    private fun updateLocation(location: String) {
+        // currentWeatherResponse.location.name Update Location
+
+        (activity as? AppCompatActivity)?.supportActionBar?.title = location
     }
 
 
