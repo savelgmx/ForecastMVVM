@@ -124,7 +124,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 "metric"
             ).await()
 
-            group_loading.visibility =View.GONE
+            if(group_loading!=null)  { group_loading.visibility =View.GONE}
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
             for (daily in futureWeatherResponse.daily) {
