@@ -9,13 +9,15 @@ class WeatherUtils {
 
     companion object {
         private var daily: Daily? = null
+        private var latitude: Double = 0.0
+        private var longitude:Double = 0.0
         fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
             // return if (viewModel.isMetricUnit) metric else imperial
             return metric
         }
 
         fun formatDateSubtitle(dt: Int?): String {
-            val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
+            val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault())
             return if (dt != null) {
                 simpleDateFormat.format(dt * 1000L)
             } else {
@@ -24,7 +26,7 @@ class WeatherUtils {
         }
 
 
-
+        //implement Daily object store/read/write
         fun getDailyObject(): Daily? {
             return daily
         }
@@ -32,6 +34,12 @@ class WeatherUtils {
        fun setDailyObject(daily: Daily) {
             this.daily = daily
         }
+
+        //implement latitude and longitude store
+        fun setLongitude():Double{
+            return longitude
+        }
+
 
         // Implement other common update functions here
         // updateTemperatures, updateCondition, updatePressure, updateWind, updateVisibility, degToCompass, etc.
