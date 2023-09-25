@@ -33,25 +33,22 @@ import org.kodein.di.generic.instance
 
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
-
+   private var lon = WeatherUtils.getLongitude().toString()
+   private var lat = WeatherUtils.getLatitude().toString()
     override val kodein by closestKodein()
+
+    /*
+         "lon": 92.7917,
+         "lat": 56.0097
+ */
+
     private val viewModelFactory: FutureListWeatherViewModelFactory by instance(
         arg = M(
-            "92.7917",
-            "56.0097"
+            lon,
+            lat
         )
     )
     private lateinit var viewModel: FutureListWeatherViewModel
-    private lateinit var dailyObjectProvider: DailyObjectProvider
-
-
-/*
-    private val futureDetailWeatherViewModelFactory: FutureDetailWeatherViewModelFactory by instance()
-    private val futureDetailWeatherViewModel: FutureDetailWeatherViewModel by activityViewModels {
-    FutureDetailWeatherViewModelFactory()
-       }
-*/
-
     private lateinit var futureDetailWeatherViewModel: FutureDetailWeatherViewModel
 
     override fun onCreateView(
@@ -63,23 +60,13 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val lon = "92.7917"
-        val lat = "56.0097"
-        // val exclude="current,hourly"
         val units = "metric"
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FutureListWeatherViewModel::class.java)
 
-        // Initialize dailyObjectProvider with the implementation
-        dailyObjectProvider = DailyObjectProviderImpl()
-
-
-
-
         //     viewModel = ViewModelProvider(this).get(FutureListWeatherViewModel::class.java)
         // callViewModel()
         callAPI()
-
 
     }
 
@@ -117,9 +104,12 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
         GlobalScope.launch(Dispatchers.Main) {
 
+/*            var lon = WeatherUtils.getLongitude().toString()
+            var lat = WeatherUtils.getLatitude().toString()*/
+
             val futureWeatherResponse = apiServiceOne.getForecastweather(
-                "92.7917",
-                "56.0097",
+                lon,
+                lat,
                 "current,hourly",
                 "metric"
             ).await()
@@ -154,7 +144,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             (item as? FutureWeatherItem)?.let {
                 val selectedDaily = it.dailyWeather
 
-                dailyObjectProvider.setDailyObject(selectedDaily)
+          //      dailyObjectProvider.setDailyObject(selectedDaily)
 
                 WeatherUtils.setDailyObject(selectedDaily)
 

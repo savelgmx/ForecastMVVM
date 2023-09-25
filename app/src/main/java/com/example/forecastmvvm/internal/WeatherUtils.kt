@@ -1,6 +1,5 @@
 package com.example.forecastmvvm.internal
 
-import androidx.appcompat.app.AppCompatActivity
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,10 +35,18 @@ class WeatherUtils {
         }
 
         //implement latitude and longitude store
-        fun setLongitude():Double{
+        fun setLongitude(lon:Double){
+            this.longitude=lon
+        }
+        fun getLongitude():Double{
             return longitude
         }
-
+        fun setLatitude(lat:Double){
+            this.latitude=lat
+        }
+        fun getLatitude():Double{
+            return latitude
+        }
 
         // Implement other common update functions here
         // updateTemperatures, updateCondition, updatePressure, updateWind, updateVisibility, degToCompass, etc.

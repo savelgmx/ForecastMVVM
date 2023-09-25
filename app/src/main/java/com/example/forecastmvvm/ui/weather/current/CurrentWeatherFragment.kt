@@ -1,7 +1,6 @@
 
 package com.example.forecastmvvm.ui.weather.current
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,11 +9,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
+import com.example.forecastmvvm.internal.WeatherUtils
 
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.resocoder.forecastmvvm.internal.glide.GlideApp
@@ -79,9 +78,6 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
             Observer {
-                //textView.text = it.toString() not present anymore
-
-
                 group_loading.visibility= View.GONE
             })
 
@@ -90,6 +86,10 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
             //    Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
             group_loading.visibility =View.GONE
             weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric")
+
+            currentWeatherResponse.coord?.let { WeatherUtils.setLatitude(it.lat) }
+            currentWeatherResponse.coord?.let { WeatherUtils.setLongitude(it.lon) }
+
             //===========================
             updateLocation(currentWeatherResponse.name.toString())
             updateDateToToday(currentWeatherResponse.dt)
@@ -132,7 +132,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     private fun updateDateToToday(dt: Int?) {
         //API returns date/time as a UnixEpoc integer timestamp
         //we must transform this with datetime format
-        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy, HH:mm:ss", Locale.getDefault())
         var today:String="Today"
         if (dt != null) {
             today=simpleDateFormat.format(dt * 1000L)
