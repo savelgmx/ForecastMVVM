@@ -18,6 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
+import java.util.*
 
 private var longitude:Double = 0.0
 private var latitude:Double = 0.0
@@ -105,7 +106,7 @@ class ForecastRepositoryImpl(
         fetchCurrentWeather()
         var fetchedCurrentWeather = weatherNetworkDataSource.fetchCurrentWeather(
             locationProvider.getPreferredLocationString(),
-            unitProvider.getUnitSystem().toString() )
+            unitProvider.getUnitSystem().toString(), Locale.getDefault().language )
         Log.d("CurrentWeatherResponse","initweatherData fetchedCurrentWeather "+fetchedCurrentWeather.toString())
 
         fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
@@ -121,7 +122,8 @@ class ForecastRepositoryImpl(
 
         weatherNetworkDataSource.fetchCurrentWeather(
             locationProvider.getPreferredLocationString(),
-            unitProvider.getUnitSystem().toString()
+            unitProvider.getUnitSystem().toString(),
+            Locale.getDefault().language
         )
 
 

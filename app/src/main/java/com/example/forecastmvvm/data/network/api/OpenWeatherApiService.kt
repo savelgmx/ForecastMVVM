@@ -24,10 +24,12 @@ import java.util.concurrent.TimeUnit
 
 interface OpenWeatherApiService {
 
-
+//ru Locale.getDefault().language
     @GET("weather")
     fun getCurrentWeather(@Query("q") q: String,
-                          @Query("units") units: String): Deferred<CurrentWeatherResponse>
+                          @Query("units") units: String,
+                          @Query("lang") lang:String
+    ): Deferred<CurrentWeatherResponse>
 
 
 //for Forecast Weather we must use
