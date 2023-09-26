@@ -12,8 +12,7 @@ import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-import com.example.forecastmvvm.data.provider.DailyObjectProvider
-import com.example.forecastmvvm.data.provider.DailyObjectProviderImpl
+
 import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
