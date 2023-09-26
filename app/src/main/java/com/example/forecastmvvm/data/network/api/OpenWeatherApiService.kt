@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 
 //we will use openweather API
 //https://api.openweathermap.org/data/2.5/weather?q=Krasnoyarsk&appid=33cc710b4ef18155198d89c3b2033f56&units=metric
-//https://api.openweathermap.org/data/2.5/weather?appid=33cc710b4ef18155198d89c3b2033f56&units=metric&q=Krasnoyarsk
+//https://api.openweathermap.org/data/2.5/weather?appid=33cc710b4ef18155198d89c3b2033f56&units=metric&q=Krasnoyarsk&lang=ru
 
 interface OpenWeatherApiService {
 
@@ -33,13 +33,15 @@ interface OpenWeatherApiService {
 
 
 //for Forecast Weather we must use
-//https://api.openweathermap.org/data/2.5/onecall?appid=33cc710b4ef18155198d89c3b2033f56&lon=92.791&lat=56.0097&exclude=current,hourly&units=metric
+//https://api.openweathermap.org/data/2.5/onecall?appid=33cc710b4ef18155198d89c3b2033f56&lon=92.791&lat=56.0097&exclude=current,hourly&units=metric&lang=ru
 
     @GET("onecall")
     fun getForecastweather(@Query("lon") lon:String,
                            @Query("lat")  lat:String,
                            @Query("exclude") exclude:String="current,hourly",
-                           @Query("units") units: String
+                           @Query("units") units: String,
+                           @Query("lang") lang:String
+
     ):Deferred<FutureWeatherResponse>
 
 

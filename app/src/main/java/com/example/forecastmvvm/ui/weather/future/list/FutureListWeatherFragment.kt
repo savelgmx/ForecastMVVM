@@ -12,7 +12,6 @@ import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
-
 import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
@@ -28,6 +27,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.M
 import org.kodein.di.generic.instance
+import java.util.Locale
 
 
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
@@ -35,12 +35,6 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
    private var lon = WeatherUtils.getLongitude().toString()
    private var lat = WeatherUtils.getLatitude().toString()
     override val kodein by closestKodein()
-
-    /*
-         "lon": 92.7917,
-         "lat": 56.0097
- */
-
     private val viewModelFactory: FutureListWeatherViewModelFactory by instance(
         arg = M(
             lon,
@@ -110,7 +104,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 lon,
                 lat,
                 "current,hourly",
-                "metric"
+                "metric",
+                Locale.getDefault().language
             ).await()
 
             if(group_loading!=null)  { group_loading.visibility =View.GONE}

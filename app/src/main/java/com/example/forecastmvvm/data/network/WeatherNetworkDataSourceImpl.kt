@@ -11,6 +11,7 @@ import com.example.forecastmvvm.internal.NoConnectivityException
 import com.example.forecastmvvm.internal.NoInternetException
 import com.google.android.gms.common.api.ApiException
 import retrofit2.Response
+import java.util.Locale
 
 class WeatherNetworkDataSourceImpl(
     private val openWeatherApiService: OpenWeatherApiService
@@ -48,7 +49,7 @@ class WeatherNetworkDataSourceImpl(
 
         try{
             val fetchedFutureWeather = openWeatherApiService
-                .getForecastweather(lon,lat,exclude,units)
+                .getForecastweather(lon,lat,exclude,units,Locale.getDefault().language)
                 .await()
 
             Log.d("FetchedWeatherResponse","WeatherNetworkDataSourceImpl "+fetchedFutureWeather.toString())
