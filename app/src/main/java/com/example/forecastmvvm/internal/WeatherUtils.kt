@@ -1,6 +1,7 @@
 package com.example.forecastmvvm.internal
 
 import com.example.forecastmvvm.data.network.response.forecast.Daily
+import kotlinx.android.synthetic.main.current_weather_fragment.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,7 +11,7 @@ class WeatherUtils {
         private var daily: Daily? = null
         private var latitude: Double = 0.0
         private var longitude:Double = 0.0
-        fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
             // return if (viewModel.isMetricUnit) metric else imperial
             return metric
         }
@@ -50,6 +51,36 @@ class WeatherUtils {
 
         // Implement other common update functions here
         // updateTemperatures, updateCondition, updatePressure, updateWind, updateVisibility, degToCompass, etc.
+        fun updateTemperature(temperature: Int):String {
+            val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
+           val temp = "$temperature$unitAbbreviation"
+            return temp
+        }
+
+        fun updatePressure(pressureValue: Int):String {
+            val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
+            val pressure= "Pressure: $pressureValue $unitAbbreviation"
+            return pressure
+        }
+
+        fun updateWind(windDirection: String, windSpeed: Int):String {
+            val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
+            val wind=degToCompass((windDirection).toInt())
+            val windstring  = "Wind: $wind , $windSpeed $unitAbbreviation"
+            return windstring
+        }
+
+
+        private fun degToCompass(num:Int): String {
+            var winDir = Math.floor((num / 22.5) + 0.5);
+            var directions = listOf<String>("North", "North North East", "North East", "East North East",
+                "East", "East South East", "South East", "South South East", "South",
+                "South South West", "South West", "West South West", "West", "West North West",
+                "North West", "North North West")
+            return directions[(winDir % 16).toInt()]
+
+        }
+
 
     }
 }

@@ -71,12 +71,12 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         val iconurl = "http://openweathermap.org/img/w/"
         // Populate your UI elements with data from selectedDay
 
-        textView_temp_day.text="Day:"+selectedDay.temp.day.toString()
-        textView_temp_night.text="Night:"+selectedDay.temp.night.toString()
+        textView_temp_day.text  ="Day:"+WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
+        textView_temp_night.text="Night:"+WeatherUtils.updateTemperature(selectedDay.temp.night.toInt())
 
         textView_condition.text = selectedDay.weather[0].description
-        textView_temperature.text = selectedDay.temp.day.toString()
-        textView_feels_like_temperature.text = "Feels Like:"+selectedDay.feelsLike.day.toString()
+        textView_temperature.text = WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
+        textView_feels_like_temperature.text = "Feels Like:"+WeatherUtils.updateTemperature(selectedDay.feelsLike.day.toInt())
         textView_pressure.text= selectedDay.pressure.toString()
         //==============================================
 
@@ -87,7 +87,7 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             .into(imageView_condition_icon)
         //===============================================
         // Populate more views as needed
-        updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+        WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
 
 
     }
@@ -95,43 +95,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     private fun updateDateToToday(dt: Int?) {
         //API returns date/time as a UnixEpoc integer timestamp
         //we must transform this with datetime format
-        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+        val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy, HH:mm:ss", Locale.getDefault())
         var today:String="Today"
         if (dt != null) {
             today=simpleDateFormat.format(dt * 1000L)
         }
 
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = today //"Today"
-    }
-    private fun updateWind(windDirection: String, windSpeed: Int) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
-
-        val wind=degToCompass((windDirection).toInt())
-
-        textView_wind.text = "Wind: $wind , $windSpeed $unitAbbreviation"
-    }
-
-
-    private fun degToCompass(num:Int): String {
-        var winDir = Math.floor((num / 22.5) + 0.5);
-        var directions = listOf<String>("North", "North North East", "North East", "East North East",
-            "East", "East South East", "South East", "South South East", "South",
-            "South South West", "South West", "West South West", "West", "West North West",
-            "North West", "North North West")
-        return directions[(winDir % 16).toInt()]
-
-    }
-
-    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
-        // return if (viewModel.isMetricUnit) metric else imperial
-        return metric
-    }
-
-
-    private fun updateLocation(location: String) {
-        // currentWeatherResponse.location.name Update Location
-
-        (activity as? AppCompatActivity)?.supportActionBar?.title = location
     }
 
 
