@@ -19,24 +19,14 @@ class FutureWeatherItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
             textView_condition.text = dailyWeather.weather[0].description
-            updateDate(dailyWeather.dt)
-            updateTemperature(dailyWeather.temp.day.toInt())
+            textView_date.text=WeatherUtils.formatDateSubtitle(dailyWeather.dt)
+            textView_temperature.text=WeatherUtils.updateTemperature(dailyWeather.temp.day.toInt())
+
             updateConditionImage(dailyWeather.weather?.get(0)?.icon)
         }
     }
 
     override fun getLayout() = R.layout.item_future_weather
-
-    private fun ViewHolder.updateDate(dt: Int) {
-        val formattedDate = WeatherUtils.formatDateSubtitle(dt)
-        textView_date.text = formattedDate
-    }
-
-    private fun ViewHolder.updateTemperature(temp: Int) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
-        textView_temperature.text = "$temp$unitAbbreviation"
-    }
-
     private fun ViewHolder.updateConditionImage(icon: String) {
         val iconurl = "http://openweathermap.org/img/w/"
         GlideApp.with(this.containerView)
@@ -44,9 +34,4 @@ class FutureWeatherItem(
             .into(imageView_condition_icon)
     }
 
-
-    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
-        // return if (viewModel.isMetricUnit) metric else imperial
-        return metric
-    }
 }

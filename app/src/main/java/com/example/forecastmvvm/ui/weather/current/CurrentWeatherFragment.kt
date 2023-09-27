@@ -122,17 +122,15 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         return metric
     }
 
-
     private fun updateLocation(location: String) {
         // currentWeatherResponse.location.name Update Location
-
         (activity as? AppCompatActivity)?.supportActionBar?.title = location
     }
 
     private fun updateDateToToday(dt: Int?) {
         //API returns date/time as a UnixEpoc integer timestamp
         //we must transform this with datetime format
-        val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy, HH:mm:ss", Locale.getDefault())
+        val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault())
         var today:String="Today"
         if (dt != null) {
             today=simpleDateFormat.format(dt * 1000L)

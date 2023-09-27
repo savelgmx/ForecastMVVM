@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -27,6 +28,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.M
 import org.kodein.di.generic.instance
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 
@@ -63,6 +65,18 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
     }
 
+    private fun updateDateToToday(dt: Int?) {
+        //API returns date/time as a UnixEpoc integer timestamp
+        //we must transform this with datetime format
+        val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault())
+        var today:String="Today"
+        if (dt != null) {
+            today=simpleDateFormat.format(dt * 1000L)
+        }
+
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = today //"Today"
+    }
+
     private fun callViewModel() = launch {
 /*
         val futureWeatherEntries=viewModel.weather.await()
@@ -95,7 +109,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 group_loading.visibility = View.GONE
             })
 
-        GlobalScope.launch(Dispatchers.Main) {
+           GlobalScope.launch(Dispatchers.Main) {
 
 /*            var lon = WeatherUtils.getLongitude().toString()
             var lat = WeatherUtils.getLatitude().toString()*/
@@ -109,6 +123,9 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             ).await()
 
             if(group_loading!=null)  { group_loading.visibility =View.GONE}
+
+            updateDateToToday(futureWeatherResponse.daily[0].dt)
+
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
             for (daily in futureWeatherResponse.daily) {
