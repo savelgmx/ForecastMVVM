@@ -12,6 +12,14 @@ import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.resocoder.forecastmvvm.internal.glide.GlideApp
 import kotlinx.android.synthetic.main.current_weather_fragment.*
+import kotlinx.android.synthetic.main.current_weather_fragment.group_loading
+import kotlinx.android.synthetic.main.current_weather_fragment.imageView_condition_icon
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_condition
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_feels_like_temperature
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_pressure
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_temperature
+import kotlinx.android.synthetic.main.current_weather_fragment.textView_wind
+import kotlinx.android.synthetic.main.future_detail_weather_fragment.*
 import kotlinx.android.synthetic.main.future_detail_weather_fragment.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -62,9 +70,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     private fun populateUI(selectedDay: Daily) {
         val iconurl = "http://openweathermap.org/img/w/"
         // Populate your UI elements with data from selectedDay
+
+        textView_temp_day.text="Day:"+selectedDay.temp.day.toString()
+        textView_temp_night.text="Night:"+selectedDay.temp.night.toString()
+
         textView_condition.text = selectedDay.weather[0].description
         textView_temperature.text = selectedDay.temp.day.toString()
-        textView_feels_like_temperature.text = selectedDay.feelsLike.day.toString()
+        textView_feels_like_temperature.text = "Feels Like:"+selectedDay.feelsLike.day.toString()
         textView_pressure.text= selectedDay.pressure.toString()
         //==============================================
 
