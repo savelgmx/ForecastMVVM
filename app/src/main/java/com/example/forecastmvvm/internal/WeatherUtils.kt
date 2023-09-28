@@ -1,5 +1,6 @@
 package com.example.forecastmvvm.internal
 
+import androidx.appcompat.app.AppCompatActivity
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import java.text.SimpleDateFormat
@@ -11,6 +12,8 @@ class WeatherUtils {
         private var daily: Daily? = null
         private var latitude: Double = 0.0
         private var longitude:Double = 0.0
+        private var timezoneOffset:Int = 25200
+
         private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
             // return if (viewModel.isMetricUnit) metric else imperial
             return metric
@@ -79,6 +82,19 @@ class WeatherUtils {
                 "North West", "North North West")
             return directions[(winDir % 16).toInt()]
 
+        }
+
+        fun updateDateToToday(dt: Int?):String {
+            //API returns date/time as a UnixEpoc integer timestamp
+            //we must transform this with datetime format
+
+            val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy, HH:mm:ss", Locale.getDefault())
+            var today:String="Today"
+            if (dt != null) {
+                today=simpleDateFormat.format((dt + timezoneOffset) * 1000L)
+            }
+
+            return today
         }
 
 

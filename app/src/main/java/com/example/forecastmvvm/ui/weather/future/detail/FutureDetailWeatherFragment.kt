@@ -77,7 +77,7 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         textView_condition.text = selectedDay.weather[0].description
         textView_temperature.text = WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
         textView_feels_like_temperature.text = "Feels Like:"+WeatherUtils.updateTemperature(selectedDay.feelsLike.day.toInt())
-        textView_pressure.text= selectedDay.pressure.toString()
+        textView_pressure.text= "Pressure:"+selectedDay.pressure.toString()
         //==============================================
 
         GlideApp.with(this@FutureDetailWeatherFragment)
@@ -87,8 +87,9 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             .into(imageView_condition_icon)
         //===============================================
         // Populate more views as needed
-        WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
-
+        textView_wind.text=WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+        textView_sunrise.text="Sunrise "+ WeatherUtils.updateDateToToday(selectedDay.sunrise)
+        textView_sunset.text="Sunset "+ WeatherUtils.updateDateToToday(selectedDay.sunset)
 
     }
 
