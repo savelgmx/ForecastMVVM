@@ -1,8 +1,6 @@
 package com.example.forecastmvvm.internal
 
-import androidx.appcompat.app.AppCompatActivity
 import com.example.forecastmvvm.data.network.response.forecast.Daily
-import kotlinx.android.synthetic.main.current_weather_fragment.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,7 +25,13 @@ class WeatherUtils {
                 "Today" // Or another default value if dt is null
             }
         }
-
+        //implement timezoneoffset store/write/read
+        fun getTimeZoneOffest():Int{
+            return timezoneOffset
+        }
+        fun setTimeZoneOffset(timeZone:Int){
+            this.timezoneOffset =timeZone
+        }
 
         //implement Daily object store/read/write
         fun getDailyObject(): Daily? {
@@ -88,14 +92,29 @@ class WeatherUtils {
             //API returns date/time as a UnixEpoc integer timestamp
             //we must transform this with datetime format
 
-            val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy, HH:mm:ss", Locale.getDefault())
+            val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault())
             var today:String="Today"
+            val timeOffset= getTimeZoneOffest()
             if (dt != null) {
-                today=simpleDateFormat.format((dt + timezoneOffset) * 1000L)
+                today=simpleDateFormat.format((dt + timeOffset) * 1000L)
             }
 
             return today
         }
+
+        fun updateTime(dt: Int?):String {
+            //API returns date/time as a UnixEpoc integer timestamp
+            //we must transform this with datetime format with time zone offset relatively to GMT into human readable date/time
+
+            val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            var currentTime="07:00"
+            val timeOffset= getTimeZoneOffest()
+            if (dt != null) {
+                currentTime=simpleDateFormat.format((dt + timeOffset) * 1000L)
+            }
+            return currentTime
+        }
+
 
 
     }

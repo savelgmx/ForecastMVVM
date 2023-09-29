@@ -88,8 +88,8 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         //===============================================
         // Populate more views as needed
         textView_wind.text=WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
-        textView_sunrise.text="Sunrise "+ WeatherUtils.updateDateToToday(selectedDay.sunrise)
-        textView_sunset.text="Sunset "+ WeatherUtils.updateDateToToday(selectedDay.sunset)
+        textView_sunrise.text="Sunrise "+ WeatherUtils.updateTime(selectedDay.sunrise)
+        textView_sunset.text="Sunset "+ WeatherUtils.updateTime(selectedDay.sunset)
 
     }
 

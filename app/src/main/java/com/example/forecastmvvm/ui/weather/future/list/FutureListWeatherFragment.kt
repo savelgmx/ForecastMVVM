@@ -34,8 +34,8 @@ import java.util.Locale
 
 class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 
-   private var lon = WeatherUtils.getLongitude().toString()
-   private var lat = WeatherUtils.getLatitude().toString()
+    private var lon = WeatherUtils.getLongitude().toString()
+    private var lat = WeatherUtils.getLatitude().toString()
     override val kodein by closestKodein()
     private val viewModelFactory: FutureListWeatherViewModelFactory by instance(
         arg = M(
@@ -109,7 +109,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
                 group_loading.visibility = View.GONE
             })
 
-           GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(Dispatchers.Main) {
 
 /*            var lon = WeatherUtils.getLongitude().toString()
             var lat = WeatherUtils.getLatitude().toString()*/
@@ -123,6 +123,8 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             ).await()
 
             if(group_loading!=null)  { group_loading.visibility =View.GONE}
+
+            WeatherUtils.setTimeZoneOffset(futureWeatherResponse.timezoneOffset)
 
             updateDateToToday(futureWeatherResponse.daily[0].dt)
 
@@ -155,7 +157,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             (item as? FutureWeatherItem)?.let {
                 val selectedDaily = it.dailyWeather
 
-          //      dailyObjectProvider.setDailyObject(selectedDaily)
+                //      dailyObjectProvider.setDailyObject(selectedDaily)
 
                 WeatherUtils.setDailyObject(selectedDaily)
 
