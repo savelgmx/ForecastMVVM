@@ -123,11 +123,7 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
             ).await()
 
             if(group_loading!=null)  { group_loading.visibility =View.GONE}
-
-            WeatherUtils.setTimeZoneOffset(futureWeatherResponse.timezoneOffset)
-
             updateDateToToday(futureWeatherResponse.daily[0].dt)
-
             val futureWeatherItems = mutableListOf<FutureWeatherItem>()
 
             for (daily in futureWeatherResponse.daily) {

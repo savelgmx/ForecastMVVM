@@ -10,8 +10,6 @@ class WeatherUtils {
         private var daily: Daily? = null
         private var latitude: Double = 0.0
         private var longitude:Double = 0.0
-        private var timezoneOffset:Int = 25200
-
         private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
             // return if (viewModel.isMetricUnit) metric else imperial
             return metric
@@ -25,14 +23,6 @@ class WeatherUtils {
                 "Today" // Or another default value if dt is null
             }
         }
-        //implement timezoneoffset store/write/read
-        fun getTimeZoneOffest():Int{
-            return timezoneOffset
-        }
-        fun setTimeZoneOffset(timeZone:Int){
-            this.timezoneOffset =timeZone
-        }
-
         //implement Daily object store/read/write
         fun getDailyObject(): Daily? {
             return daily
@@ -94,9 +84,8 @@ class WeatherUtils {
 
             val simpleDateFormat = SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault())
             var today:String="Today"
-            val timeOffset= getTimeZoneOffest()
             if (dt != null) {
-                today=simpleDateFormat.format((dt + timeOffset) * 1000L)
+                today=simpleDateFormat.format(dt  * 1000L)
             }
 
             return today
@@ -108,9 +97,8 @@ class WeatherUtils {
 
             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
             var currentTime="07:00"
-            val timeOffset= getTimeZoneOffest()
             if (dt != null) {
-                currentTime=simpleDateFormat.format((dt + timeOffset) * 1000L)
+                currentTime=simpleDateFormat.format(dt * 1000L)
             }
             return currentTime
         }
