@@ -63,7 +63,7 @@ class WeatherUtils {
         fun updateWind(windDirection: String, windSpeed: Int):String {
             val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
             val wind=degToCompass((windDirection).toInt())
-            val windstring  = "Wind: $wind , $windSpeed $unitAbbreviation"
+            val windstring  = "$wind , $windSpeed $unitAbbreviation"
             return windstring
         }
 

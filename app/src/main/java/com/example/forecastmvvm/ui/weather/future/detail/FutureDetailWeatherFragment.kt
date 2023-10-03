@@ -71,13 +71,13 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         val iconurl = "http://openweathermap.org/img/w/"
         // Populate your UI elements with data from selectedDay
 
-        textView_temp_day.text  ="Day:"+WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
-        textView_temp_night.text="Night:"+WeatherUtils.updateTemperature(selectedDay.temp.night.toInt())
+        textView_temp_day.text  =getString(R.string.day)+":"+WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
+        textView_temp_night.text=getString(R.string.night)+":"+WeatherUtils.updateTemperature(selectedDay.temp.night.toInt())
 
         textView_condition.text = selectedDay.weather[0].description
         textView_temperature.text = WeatherUtils.updateTemperature(selectedDay.temp.day.toInt())
-        textView_feels_like_temperature.text = "Feels Like:"+WeatherUtils.updateTemperature(selectedDay.feelsLike.day.toInt())
-        textView_pressure.text= "Pressure:"+selectedDay.pressure.toString()
+        textView_feels_like_temperature.text = getString(R.string.feels_like)+":"+WeatherUtils.updateTemperature(selectedDay.feelsLike.day.toInt())
+        textView_pressure.text= getString(R.string.pressure)+":"+selectedDay.pressure.toString()+" mm."
         //==============================================
 
         GlideApp.with(this@FutureDetailWeatherFragment)
@@ -87,9 +87,9 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             .into(imageView_condition_icon)
         //===============================================
         // Populate more views as needed
-        textView_wind.text=WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
-        textView_sunrise.text="Sunrise "+ WeatherUtils.updateTime(selectedDay.sunrise)
-        textView_sunset.text="Sunset "+ WeatherUtils.updateTime(selectedDay.sunset)
+        textView_wind.text=getString(R.string.wind)+":"+WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+        textView_sunrise.text=getString(R.string.sunrise)+":"+ WeatherUtils.updateTime(selectedDay.sunrise)
+        textView_sunset.text=getString(R.string.sunset)+":"+ WeatherUtils.updateTime(selectedDay.sunset)
 
     }
 

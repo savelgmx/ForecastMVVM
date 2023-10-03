@@ -143,7 +143,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
     private fun updateTemperatures(temperature: Int, feelsLike: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
         textView_temperature.text = "$temperature$unitAbbreviation"
-        textView_feels_like_temperature.text = "Feels like $feelsLike$unitAbbreviation"
+        textView_feels_like_temperature.text = getString(R.string.feels_like)+":"+"$feelsLike$unitAbbreviation"
     }
 
     private fun updateCondition(condition: String) {
@@ -152,7 +152,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     private fun updatePressure(pressureValue: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("mm", "in")
-        textView_pressure.text = "Pressure: $pressureValue $unitAbbreviation"
+        textView_pressure.text = getString(R.string.pressure)+":"+"$pressureValue $unitAbbreviation"
     }
 
     private fun updateWind(windDirection: String, windSpeed: Int) {
@@ -160,7 +160,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         val wind=degToCompass((windDirection).toInt())
 
-        textView_wind.text = "Wind: $wind , $windSpeed $unitAbbreviation"
+        textView_wind.text = getString(R.string.wind)+":"+" $wind , $windSpeed $unitAbbreviation"
     }
 
 
@@ -176,7 +176,7 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     private fun updateVisibility(visibilityDistance: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("m", "mi.")
-        textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
+        textView_visibility.text = getString(R.string.visibility)+":"+"$visibilityDistance $unitAbbreviation"
     }
 
 

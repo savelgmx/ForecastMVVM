@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ForecastMVVM</string>
+    <string name="feels_like">Fühlt sich an wie</string>
+    <string name="wind">Wind</string>
+    <string name="pressure">Druck</string>
+    <string name="visibility">Sichtbarkeit</string>
+    <string name="day">Tag</string>
+    <string name="night">Nacht</string>
+    <string name="sunrise">Sonnenaufgang</string>
+    <string name="sunset">Sonnenuntergang</string>
+</resources>
