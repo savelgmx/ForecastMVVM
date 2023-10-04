@@ -8,4 +8,41 @@
     <string name="night">Night</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
+
+    <!--
+        "North",
+        "North North East",
+        "North East",
+        "East North East",
+        "East",
+        "East South East",
+        "South East",
+        "South South East",
+        "South",
+        "South South West",
+        "South West",
+        "West South West",
+        "West",
+        "West North West",
+        "North West",
+        "North North West")
+    -->
+
+    <string name="direction_north">North</string>
+    <string name="direction_north_north_east">North North East</string>
+    <string name="direction_north_east">North East</string>
+    <string name="direction_east_north_east">East North East</string>
+    <string name="direction_east">East</string>
+    <string name="direction_east_south_east">East South East</string>
+    <string name="direction_south_east">South East</string>
+    <string name="direction_south_south_east">South South East</string>
+    <string name="direction_south">South</string>
+    <string name="direction_south_south_west">South South West</string>
+    <string name="direction_south_west">South West</string>
+    <string name="direction_west_south_west">West South West</string>
+    <string name="direction_west">West</string>
+    <string name="direction_west_north_west">West North West</string>
+    <string name="direction_north_west">North West</string>
+    <string name="direction_north_north_west">North North West</string>
+
 </resources>

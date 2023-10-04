@@ -163,15 +163,10 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         textView_wind.text = getString(R.string.wind)+":"+" $wind , $windSpeed $unitAbbreviation"
     }
 
-
-    private fun degToCompass(num:Int): String {
-        var winDir = Math.floor((num / 22.5) + 0.5);
-        var directions = listOf<String>("North", "North North East", "North East", "East North East",
-            "East", "East South East", "South East", "South South East", "South",
-            "South South West", "South West", "West South West", "West", "West North West",
-            "North West", "North North West")
+    private fun degToCompass(num: Int): String {
+        val winDir = Math.floor((num / 22.5) + 0.5).toInt()
+        val directions = resources.getStringArray(R.array.directions_array) // Load the array from resources
         return directions[(winDir % 16).toInt()]
-
     }
 
     private fun updateVisibility(visibilityDistance: Int) {

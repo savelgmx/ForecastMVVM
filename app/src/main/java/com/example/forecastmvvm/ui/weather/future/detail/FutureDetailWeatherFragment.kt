@@ -87,10 +87,31 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             .into(imageView_condition_icon)
         //===============================================
         // Populate more views as needed
-        textView_wind.text=getString(R.string.wind)+":"+WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+        //
+      //  textView_wind.text=getString(R.string.wind)+":"+WeatherUtils.updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
+        updateWind(selectedDay.windDeg.toString(),selectedDay.windSpeed.toInt())
         textView_sunrise.text=getString(R.string.sunrise)+":"+ WeatherUtils.updateTime(selectedDay.sunrise)
         textView_sunset.text=getString(R.string.sunset)+":"+ WeatherUtils.updateTime(selectedDay.sunset)
 
+    }
+
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        // return if (viewModel.isMetricUnit) metric else imperial
+        return metric
+    }
+
+    private fun updateWind(windDirection: String, windSpeed: Int) {
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("m/sec.", "mph")
+
+        val wind=degToCompass((windDirection).toInt())
+
+        textView_wind.text = getString(R.string.wind)+":"+" $wind , $windSpeed $unitAbbreviation"
+    }
+
+    private fun degToCompass(num: Int): String {
+        val winDir = Math.floor((num / 22.5) + 0.5).toInt()
+        val directions = resources.getStringArray(R.array.directions_array) // Load the array from resources
+        return directions[(winDir % 16).toInt()]
     }
 
     private fun updateDateToToday(dt: Int?) {

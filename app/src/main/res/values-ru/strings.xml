@@ -8,4 +8,28 @@
     <string name="night">Ночь</string>
     <string name="sunrise">Восход</string>
     <string name="sunset">Закат</string>
+    <!--
+        "North", "North North East", "North East", "East North East",
+        "East", "East South East", "South East", "South South East", "South",
+        "South South West", "South West", "West South West", "West", "West North West",
+        "North West", "North North West")
+    -->
+
+    <string name="direction_north">Север</string>
+    <string name="direction_north_north_east">Северо-северо-восток</string>
+    <string name="direction_north_east">Северо-Восток</string>
+    <string name="direction_east_north_east">Восток Северо Восток</string>
+    <string name="direction_east">Восток</string>
+    <string name="direction_east_south_east">Восток-Юго-Восток</string>
+    <string name="direction_south_east">Юго-восток</string>
+    <string name="direction_south_south_east">Юго-Юго-Восток</string>
+    <string name="direction_south">Юг</string>
+    <string name="direction_south_south_west">Юго-Юго-Запад</string>
+    <string name="direction_south_west">Юго-Запад</string>
+    <string name="direction_west_south_west">Запад-Юго-Запад</string>
+    <string name="direction_west">Запад</string>
+    <string name="direction_west_north_west">Запад Северо-Запад</string>
+    <string name="direction_north_west">Северо-Запад</string>
+    <string name="direction_north_north_west">Северо-северо-запад</string>
+
 </resources>
