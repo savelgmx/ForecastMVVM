@@ -32,4 +32,13 @@
     <string name="direction_west_north_west">West Nordwesten</string>
     <string name="direction_north_west">Nordwesten</string>
     <string name="direction_north_north_west">Nordnordwesten</string>
+
+
+    <string name="pref_use_device_location_title">Gerätestandort verwenden</string>
+    <string name="pref_use_device_location_summary">Erlaube der App, deinen Standort zu ermitteln</string>
+    <string name="pref_custom_location_title">Standort</string>
+    <string name="pref_custom_location_summary">Der Ort, für den das Wetter angezeigt wird</string>
+    <string name="pref_unit_system_title">Einheitensystem</string>
+    <string name="pref_unit_system_summary">Wählen Sie Ihr bevorzugtes Einheitensystem</string>
+    <string name="weather_location_title">Einstellungen</string>
 </resources>

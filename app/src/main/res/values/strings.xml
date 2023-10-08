@@ -45,4 +45,13 @@
     <string name="direction_north_west">North West</string>
     <string name="direction_north_north_west">North North West</string>
 
+    <string name="pref_use_device_location_title">Use device location</string>
+    <string name="pref_use_device_location_summary">Allow the app to get your location</string>
+    <string name="pref_custom_location_title">Location</string>
+    <string name="pref_custom_location_summary">The location for which the weather is displayed</string>
+    <string name="pref_unit_system_title">Unit system</string>
+    <string name="pref_unit_system_summary">Select your preferred unit system</string>
+    <string name="weather_location_title">Settings</string>
+
+
 </resources>

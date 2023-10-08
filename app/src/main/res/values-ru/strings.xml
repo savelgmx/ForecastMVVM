@@ -32,4 +32,12 @@
     <string name="direction_north_west">Северо-Запад</string>
     <string name="direction_north_north_west">Северо-северо-запад</string>
 
+    <string name="pref_use_device_location_title">Использовать местоположение устройства</string>
+    <string name="pref_use_device_location_summary">Разрешить приложению определять ваше местоположение</string>
+    <string name="pref_custom_location_title">Местоположение</string>
+    <string name="pref_custom_location_summary">Место, для которого отображается погода</string>
+    <string name="pref_unit_system_title">Система единиц</string>
+    <string name="pref_unit_system_summary">Выберите предпочитаемую систему единиц</string>
+    <string name="weather_location_title">Настройки</string>
+
 </resources>
