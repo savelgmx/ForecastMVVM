@@ -37,11 +37,21 @@ class ForecastApplication : Application(), KodeinAware {
 
 
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
-        bind() from singleton { OpenWeatherApiService(instance()) }
-        bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
+        bind<OpenWeatherApiService>() with singleton { OpenWeatherApiService(instance()) } // Inject OpenWeatherApiService
+        // Remove WeatherNetworkDataSource and its binding
+
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(),instance(),instance(),instance(),instance()) }
+        bind<ForecastRepository>() with singleton {
+            ForecastRepositoryImpl(
+                instance(),//1
+                instance(),//2
+                instance(),//3
+                instance(),//4
+                instance(),//5
+                instance() // Inject OpenWeatherApiService
+            )
+        }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
       //  bind<DailyObjectProvider>() with singleton { DailyObjectProviderImpl() }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }

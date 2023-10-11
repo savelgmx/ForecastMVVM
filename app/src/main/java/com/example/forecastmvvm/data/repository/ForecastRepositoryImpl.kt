@@ -9,9 +9,11 @@ import com.example.forecastmvvm.data.db.FutureWeatherDao
 import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
+import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
+import com.example.forecastmvvm.internal.NoConnectivityException
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,23 +28,11 @@ private var latitude:Double = 0.0
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao, //1
     private val forecastCityDao: ForecastCityDao, //2
-    private val futureWeatherDao: FutureWeatherDao,
-    private val weatherNetworkDataSource: WeatherNetworkDataSource, //3
-    private val locationProvider: LocationProvider,  //4
-    private val unitProvider: UnitProvider
+    private val futureWeatherDao: FutureWeatherDao,//3
+    private val locationProvider: LocationProvider,//4
+    private val unitProvider: UnitProvider,//5
+    private val openWeatherApiService: OpenWeatherApiService // Injected OpenWeatherApiService 6
 ) :ForecastRepository{
-    init {
-        weatherNetworkDataSource.apply {
-            downloadedCurrentWeather.observeForever { newCurrentWeather ->
-                persistFetchedCurrentWeather(newCurrentWeather)
-            }
-            downloadedFutureWeather.observeForever { newFutureWeather ->
-                persistFetchedFutureWeather(newFutureWeather)
-            }
-        }
-    }
-
-
 
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<CurrentWeatherEntry> {
         return withContext(Dispatchers.IO) {
@@ -65,6 +55,7 @@ class ForecastRepositoryImpl(
     override suspend fun refreshCurrentWeather() {
         fetchCurrentWeather()
     }
+/*
 
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
         GlobalScope.launch(Dispatchers.IO) {
@@ -75,76 +66,90 @@ class ForecastRepositoryImpl(
         }
 
     }
+*/
     fun deleteOldForecastData() {
-        //   forecastCityDao.deleteAllForecastCities()
+        forecastCityDao.deleteAllForecastCities()
         futureWeatherDao.deleteAllFutureWeatherEntrys()
     }
 
-    private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse?) {
+ /*   private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse?) {
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
             val futureWeatherList = fetchedWeather?.futureWeatherEntry
 
-//            futureWeatherDao.insert(futureWeatherList)
-
-            //   weatherLocationDao.upsert(fetchedWeather.location)
-
-
-            // Local Room
-
-            suspend fun insertForecastCity(forecastCity: ForecastCityModel) = try {
-                ResultData.Success(data = forecastCityDao.insertForecastCity(forecastCity))
-            }catch (e : Exception){
-                //       ResultData.Failure(msg = e.message.toString())
+            if (futureWeatherList != null) {
+                //  forecastCityDao.insertForecastCity(futureWeatherList)
             }
 
         }
     }
-
+*/
     private suspend fun initWeatherData(){
         fetchCurrentWeather()
-        var fetchedCurrentWeather = weatherNetworkDataSource.fetchCurrentWeather(
-            locationProvider.getPreferredLocationString(),
-            unitProvider.getUnitSystem().toString(), Locale.getDefault().language )
-        Log.d("CurrentWeatherResponse","initweatherData fetchedCurrentWeather "+fetchedCurrentWeather.toString())
-
-        fetchFutureWeather( "92.7917","56.0097","current,hourly", "metric")
-        return
+     //   fetchFutureWeather(locationProvider.getPreferredLocationString(), "metric", Locale.getDefault().language)
+     //TODO change parameters
     }
 
 
 
     private suspend fun fetchCurrentWeather(){
-
-        Log.d("CurrentWeatherResponse","fetchCurrentWeather location "+locationProvider.getPreferredLocationString())
-        Log.d("CurrentWeatherResponse","fetchCurrentWeather units "+unitProvider.getUnitSystem().toString())
-
-        weatherNetworkDataSource.fetchCurrentWeather(
+        val fetchedCurrentWeather = fetchCurrentWeatherFromApi(
             locationProvider.getPreferredLocationString(),
             unitProvider.getUnitSystem().toString(),
             Locale.getDefault().language
         )
 
-
-
+        if (fetchedCurrentWeather != null) {
+            currentWeatherDao.deleteAllCurrentWeather()
+            currentWeatherDao.upsert(fetchedCurrentWeather.main)
+        }
     }
 
-    private suspend fun fetchFutureWeather(
-        lon:String,
-        lat:String,
-        exclude:String="current,hourly",
-        units:String="metric"
-    ){
-        weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)
-        Log.d("FetchedWeatherResponse","ForecastRepostoryImpl "+(weatherNetworkDataSource.fetchFutureWeather(lon, lat,exclude,units)).toString())
-
+    private suspend fun fetchCurrentWeatherFromApi(
+        q: String,
+        units: String,
+        lang: String
+    ): CurrentWeatherResponse? {
+        return try {
+            openWeatherApiService.getCurrentWeather(q, units, lang).await()
+        } catch (e: NoConnectivityException) {
+            handleConnectivityException()
+            null
+        }
     }
 
-    private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime): Boolean {
-        val thirtyMinutesAgo =ZonedDateTime.now().minusMinutes(30)
-        return lastFetchTime.isBefore(thirtyMinutesAgo)
+    private suspend fun handleConnectivityException() {
+        // Handle the connectivity issue gracefully
+        Log.e("Connectivity", "No internet connection.")
+        // Attempt to retrieve data from local cache
+        retrieveDataFromLocalCache()
     }
 
+    private suspend fun retrieveDataFromLocalCache() {
+        // TODO Implement logic to retrieve data from the local cache
+        // You can return default or cached data
+    }
+
+    private suspend fun fetchFutureWeather(lon: String, lat: String, exclude: String, units: String) {
+        val fetchedFutureWeather = fetchFutureWeatherFromApi(lon, lat, exclude, units)
+
+        if (fetchedFutureWeather != null) {
+            deleteOldForecastData()
+            val futureWeatherList = fetchedFutureWeather.futureWeatherEntry
+
+            if (futureWeatherList != null) {
+                //   forecastCityDao.insertAllForecastCities(futureWeatherList)
+            }
+        }
+    }
+
+    private suspend fun fetchFutureWeatherFromApi(lon: String, lat: String, exclude: String, units: String): FutureWeatherResponse? {
+        return try {
+            openWeatherApiService.getForecastweather(lon, lat, exclude, units, Locale.getDefault().language).await()
+        } catch (e: NoConnectivityException) {
+            handleConnectivityException()
+            null
+        }
+    }
 }
-
