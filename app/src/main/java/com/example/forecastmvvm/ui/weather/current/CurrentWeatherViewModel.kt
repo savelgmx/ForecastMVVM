@@ -24,11 +24,12 @@ class CurrentWeatherViewModel (
         get() = _weather
 
     init {
-        fetchWeather()
+        // No need to fetch weather in the constructor
     }
 
-    private fun fetchWeather()= viewModelScope.launch{
+    // Function to fetch weather data
+    fun fetchWeather() = viewModelScope.launch {
         val currentWeather = forecastRepository.getCurrentWeather(isMetric)
-        _weather.postValue(currentWeather.value) // Use postValue() to update LiveData from background thread
+        _weather.postValue(currentWeather.value) // Use postValue() to update LiveData from a background thread
     }
 }

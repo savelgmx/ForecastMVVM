@@ -55,45 +55,18 @@ class ForecastRepositoryImpl(
     override suspend fun refreshCurrentWeather() {
         fetchCurrentWeather()
     }
-/*
 
-    private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse?) {
-        GlobalScope.launch(Dispatchers.IO) {
-            if (fetchedWeather != null) {
-                currentWeatherDao.deleteAllCurrentWeather()
-                currentWeatherDao.upsert(fetchedWeather.main)
-            }
-        }
-
-    }
-*/
     fun deleteOldForecastData() {
         forecastCityDao.deleteAllForecastCities()
         futureWeatherDao.deleteAllFutureWeatherEntrys()
     }
 
- /*   private fun persistFetchedFutureWeather(fetchedWeather: FutureWeatherResponse?) {
-
-        GlobalScope.launch(Dispatchers.IO) {
-            deleteOldForecastData()
-            val futureWeatherList = fetchedWeather?.futureWeatherEntry
-
-            if (futureWeatherList != null) {
-                //  forecastCityDao.insertForecastCity(futureWeatherList)
-            }
-
-        }
-    }
-*/
-    private suspend fun initWeatherData(){
+  private suspend fun initWeatherData(){
         fetchCurrentWeather()
      //   fetchFutureWeather(locationProvider.getPreferredLocationString(), "metric", Locale.getDefault().language)
      //TODO change parameters
     }
-
-
-
-    private suspend fun fetchCurrentWeather(){
+   private suspend fun fetchCurrentWeather(){
         val fetchedCurrentWeather = fetchCurrentWeatherFromApi(
             locationProvider.getPreferredLocationString(),
             unitProvider.getUnitSystem().toString(),
@@ -126,7 +99,7 @@ class ForecastRepositoryImpl(
         retrieveDataFromLocalCache()
     }
 
-    private suspend fun retrieveDataFromLocalCache() {
+    private fun retrieveDataFromLocalCache() {
         // TODO Implement logic to retrieve data from the local cache
         // You can return default or cached data
     }
@@ -140,6 +113,8 @@ class ForecastRepositoryImpl(
 
             if (futureWeatherList != null) {
                 //   forecastCityDao.insertAllForecastCities(futureWeatherList)
+                futureWeatherDao.deleteAllFutureWeatherEntrys()
+                futureWeatherDao.insert(futureWeatherList)
             }
         }
     }
