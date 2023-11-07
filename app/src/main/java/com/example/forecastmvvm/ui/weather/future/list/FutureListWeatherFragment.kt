@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
-import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
+//import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.internal.WeatherUtils
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import com.example.forecastmvvm.ui.weather.future.detail.FutureDetailWeatherViewModel
@@ -102,13 +102,13 @@ class FutureListWeatherFragment() : ScopedFragment(), KodeinAware {
 */
 
         val apiServiceOne = OpenWeatherApiService(ConnectivityInterceptorImpl(this.context!!))
-        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
+ /*       val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedFutureWeather.observe(viewLifecycleOwner,
             Observer {
                 textView_condition.text = it.toString()
                 group_loading.visibility = View.GONE
             })
-
+*/
         GlobalScope.launch(Dispatchers.Main) {
 
 /*            var lon = WeatherUtils.getLongitude().toString()

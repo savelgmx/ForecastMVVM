@@ -8,7 +8,7 @@ import com.example.forecastmvvm.data.db.ForecastCityDao
 import com.example.forecastmvvm.data.db.FutureWeatherDao
 import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
-import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
+//import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResponse
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse

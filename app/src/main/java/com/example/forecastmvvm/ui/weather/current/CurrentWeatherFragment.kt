@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
-import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
+//import com.example.forecastmvvm.data.network.WeatherNetworkDataSourceImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.WeatherUtils
 
@@ -75,17 +75,19 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
         val apiServiceOne = OpenWeatherApiService(ConnectivityInterceptorImpl(this.requireContext()))
         // val apiServiceOne = WeatherstackApiService(ConnectivityInterceptorImpl(this.context!!))
+/*
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiServiceOne)
         weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner,
             Observer {
                 group_loading.visibility= View.GONE
             })
+*/
 
         GlobalScope.launch(Dispatchers.Main) {
             val currentWeatherResponse = apiServiceOne.getCurrentWeather("Krasnoyarsk","metric",Locale.getDefault().language) .await()
             //    Log.d("CurrentWeatherresponse",currentWeatherResponse.toString())
             group_loading.visibility =View.GONE
-            weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric",Locale.getDefault().language)
+      //      weatherNetworkDataSource.fetchCurrentWeather("Krasnoyarsk", "metric",Locale.getDefault().language)
 
             currentWeatherResponse.coord?.let { WeatherUtils.setLatitude(it.lat) }
             currentWeatherResponse.coord?.let { WeatherUtils.setLongitude(it.lon) }
