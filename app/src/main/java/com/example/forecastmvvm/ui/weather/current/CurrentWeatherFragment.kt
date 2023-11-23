@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.example.forecastmvvm.R
+import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.WeatherUtils
@@ -30,38 +31,80 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
 
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
-    private val viewModel: CurrentWeatherViewModel by viewModels {
-        viewModelFactory
-    }
+
+    // Your ViewModel instance
+    private lateinit var currentWeatherViewModel: CurrentWeatherViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.current_weather_fragment, container, false)
-    }
+        val view = inflater.inflate(R.layout.current_weather_fragment, container, false)
 
+        // Initialize ViewModel
+        currentWeatherViewModel = ViewModelProvider(this, viewModelFactory)
+            .get(CurrentWeatherViewModel::class.java)
+
+        currentWeatherViewModel.fetchWeather()
+        // Observe the weather LiveData for changes
+        currentWeatherViewModel.weather.observe(viewLifecycleOwner) { currentWeatherEntry ->
+            // Update UI with weather data
+            if (currentWeatherEntry != null) {
+                // Use the data to update UI components Call the bindUI method
+                bindUI(currentWeatherEntry)
+
+            } else {
+                // Handle the case where the data is null or an error occurred
+                // You might want to show an error message or handle it accordingly
+            }
+        }
+
+        return view
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bindUI()
+        //  bindUI()
         oldBindUI()
     }
 
-    private fun bindUI() {
-        val currentWeatherLiveData = viewModel.weather
+    private fun bindUI(currentWeatherEntry: CurrentWeatherEntry) {
 
-        currentWeatherLiveData.observe(viewLifecycleOwner, Observer { currentWeather ->
-            // Check if the data is not null and process it
-            if (currentWeather != null) {
-                Log.d("UnitCurrentWeatherEntry", currentWeather.toString())
+        val iconurl = "http://openweathermap.org/img/w/"
+        // Update UI with weather data
 
-                // Now you have access to the actual data in the currentWeather variable.
-                // You can use it to update your UI or perform any other processing.
-                // For example, if the data is a String, you can update a TextView like this:
-                // textView.text = currentWeather.someProperty
-            } else {
-                // Handle the case when data is null (if needed)
-            }
-        })
+
+
+        if (currentWeatherEntry != null) {
+
+            Log.d("CurrentWeatherResponse", "CurrentWeatherFragment-bindUI: $currentWeatherEntry")
+           group_loading.visibility = View.GONE
+
+/*
+            WeatherUtils.setLatitude(currentWeatherEntry.coord.lat)
+            WeatherUtils.setLongitude(currentWeatherEntry.coord.lon)
+
+            //===========================
+            updateLocation(currentWeatherEntry.name)
+            updateDateToToday(currentWeatherEntry.dt)
+            updateTemperatures(
+                currentWeatherEntry.main.temp.toInt(),
+                currentWeatherEntry.main.feelsLike.toInt()
+            )
+            updateCondition(currentWeatherEntry.weather[0].description)
+            updatePressure(currentWeatherEntry.main.pressure)
+            updateWind(currentWeatherEntry.wind.deg.toString(), currentWeatherEntry.wind.speed.toInt())
+            updateVisibility(currentWeatherEntry.visibility)
+            //==============================================
+
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load("${iconurl}${currentWeatherEntry.weather[0].icon}.png")
+                .into(imageView_condition_icon)
+*/
+           //===============================================
+        } else {
+            // Handle the case where the data is null or an error occurred
+            // You might want to show an error message or handle it accordingly
+        }
     }
 
 

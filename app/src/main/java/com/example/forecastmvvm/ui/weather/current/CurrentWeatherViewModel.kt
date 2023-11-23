@@ -18,18 +18,25 @@ class CurrentWeatherViewModel (
 
     // Using MutableLiveData to hold the weather data
     private val _weather = MutableLiveData<CurrentWeatherEntry>()
-
-    // Exposing LiveData to be observed
-    val weather: LiveData<CurrentWeatherEntry>
-        get() = _weather
+    val weather: LiveData<CurrentWeatherEntry> get() = _weather
 
     init {
         // No need to fetch weather in the constructor
     }
 
-    // Function to fetch weather data
-    fun fetchWeather() = viewModelScope.launch {
-        val currentWeather = forecastRepository.getCurrentWeather(isMetric)
-        _weather.postValue(currentWeather.value) // Use postValue() to update LiveData from a background thread
+    fun fetchWeather() {
+        viewModelScope.launch {
+            try {
+                val currentWeather = forecastRepository.getCurrentWeather(isMetric).value
+                if (currentWeather != null) {
+                    _weather.postValue(currentWeather)
+                } else {
+                    // Handle the case where the data is null or an error occurred
+                }
+            } catch (e: Exception) {
+                // Handle exceptions if any
+                e.printStackTrace()
+            }
+        }
     }
 }
