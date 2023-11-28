@@ -34,7 +34,7 @@ class ForecastRepositoryImpl(
     private val openWeatherApiService: OpenWeatherApiService // Injected OpenWeatherApiService 6
 ) :ForecastRepository{
 
-    override suspend fun getCurrentWeather(metric: Boolean): LiveData<CurrentWeatherEntry> {
+    override suspend fun getCurrentWeather(metric: Boolean): CurrentWeatherEntry {
         return withContext(Dispatchers.IO) {
             initWeatherData()
             return@withContext currentWeatherDao.getWeather()

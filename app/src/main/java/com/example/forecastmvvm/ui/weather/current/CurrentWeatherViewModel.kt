@@ -27,12 +27,8 @@ class CurrentWeatherViewModel (
     fun fetchWeather() {
         viewModelScope.launch {
             try {
-                val currentWeather = forecastRepository.getCurrentWeather(isMetric).value
-                if (currentWeather != null) {
+                val currentWeather = forecastRepository.getCurrentWeather(isMetric)
                     _weather.postValue(currentWeather)
-                } else {
-                    // Handle the case where the data is null or an error occurred
-                }
             } catch (e: Exception) {
                 // Handle exceptions if any
                 e.printStackTrace()

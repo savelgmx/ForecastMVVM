@@ -17,7 +17,7 @@ interface CurrentWeatherDao {
     fun upsert(weatherEntry: CurrentWeatherEntry)
 
     @Query("select * from current_weather where id = $CURRENT_WEATHER_ID")
-    fun getWeather(): LiveData<CurrentWeatherEntry>
+    fun getWeather(): (CurrentWeatherEntry)
 
     @Query("delete from current_weather")
     fun deleteAllCurrentWeather()
