@@ -2,6 +2,9 @@ package com.example.forecastmvvm.data.db
 
 import androidx.room.TypeConverter
 import com.example.forecastmvvm.data.db.entity.ForecastRow
+import com.example.forecastmvvm.data.network.response.Coord
+import com.example.forecastmvvm.data.network.response.Weather
+import com.example.forecastmvvm.data.network.response.Wind
 import com.example.forecastmvvm.data.network.response.forecast.Alert
 import com.example.forecastmvvm.data.network.response.forecast.Daily
 import com.google.gson.Gson
@@ -45,6 +48,32 @@ class Converters {
         val listType: Type = object : TypeToken<List<Daily>>() {}.type
         return Gson().fromJson(jsonModel, listType)
     }
+
+    @TypeConverter
+    fun setCoord(coord: Coord?): String = Gson().toJson(coord)
+
+    @TypeConverter
+    fun getCoord(coordString: String): Coord? {
+        return Gson().fromJson(coordString, Coord::class.java)
+    }
+
+    @TypeConverter
+    fun setWeatherList(weatherList: List<Weather?>?): String = Gson().toJson(weatherList)
+
+    @TypeConverter
+    fun getWeatherList(weatherListString: String): List<Weather?>? {
+        val listType: Type = object : TypeToken<List<Weather?>>() {}.type
+        return Gson().fromJson(weatherListString, listType)
+    }
+
+    @TypeConverter
+    fun setWind(wind: Wind?): String = Gson().toJson(wind)
+
+    @TypeConverter
+    fun getWind(windString: String): Wind? {
+        return Gson().fromJson(windString, Wind::class.java)
+    }
+
 
 }
 

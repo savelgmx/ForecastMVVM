@@ -1,47 +1,47 @@
 package com.example.forecastmvvm.data.network.response.current
 
 
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 import com.example.forecastmvvm.data.network.response.*
 import com.google.gson.annotations.SerializedName
 
 data class CurrentWeatherResponse(
 
-        @field:SerializedName("coord")
+    @field:SerializedName("coord")
         val coord: Coord?=null,
 
-        @field:SerializedName("dt")
+    @field:SerializedName("dt")
         val dt: Int? = null,
 
-        @field:SerializedName("visibility")
+    @field:SerializedName("visibility")
         val visibility: Int? = null,
 
 
-        @field:SerializedName("weather")
+    @field:SerializedName("weather")
         val weather: List<Weather?>? = null,
 
-        @field:SerializedName("name")
+    @field:SerializedName("name")
         val name: String? = null,
 
-        @field:SerializedName("cod")
+    @field:SerializedName("cod")
         val cod: Int? = null,
 
-        @field:SerializedName("main")
+    @field:SerializedName("main")
         //val main: Main? = null,
-        val main:CurrentWeatherEntry,
+        val main:CurrentMainEntry,
 
-        @field:SerializedName("clouds")
+    @field:SerializedName("clouds")
         val clouds: Clouds? = null,
 
-        @field:SerializedName("id")
+    @field:SerializedName("id")
         val id: Int? = null,
 
-        @field:SerializedName("sys")
+    @field:SerializedName("sys")
         val sys: Sys? = null,
 
-        @field:SerializedName("base")
+    @field:SerializedName("base")
         val base: String? = null,
 
-        @field:SerializedName("wind")
+    @field:SerializedName("wind")
         val wind: Wind? = null
 )

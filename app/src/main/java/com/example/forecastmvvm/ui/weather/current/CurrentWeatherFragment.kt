@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.forecastmvvm.R
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 import com.example.forecastmvvm.data.network.api.ConnectivityInterceptorImpl
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
 import com.example.forecastmvvm.internal.WeatherUtils
@@ -67,37 +67,37 @@ class CurrentWeatherFragment() : ScopedFragment(),KodeinAware {
         oldBindUI()
     }
 
-    private fun bindUI(currentWeatherEntry: CurrentWeatherEntry) {
+    private fun bindUI(currentMainEntry: CurrentMainEntry) {
 
         val iconurl = "http://openweathermap.org/img/w/"
         // Update UI with weather data
 
 
 
-        if (currentWeatherEntry != null) {
+        if (currentMainEntry != null) {
 
-            Log.d("CurrentWeatherResponse", "CurrentWeatherFragment-bindUI: $currentWeatherEntry")
+            Log.d("CurrentWeatherResponse", "CurrentWeatherFragment-bindUI: $currentMainEntry")
            group_loading.visibility = View.GONE
 
 /*
-            WeatherUtils.setLatitude(currentWeatherEntry.coord.lat)
-            WeatherUtils.setLongitude(currentWeatherEntry.coord.lon)
+            WeatherUtils.setLatitude(currentMainEntry.coord.lat)
+            WeatherUtils.setLongitude(currentMainEntry.coord.lon)
 
             //===========================
-            updateLocation(currentWeatherEntry.name)
-            updateDateToToday(currentWeatherEntry.dt)
+            updateLocation(currentMainEntry.name)
+            updateDateToToday(currentMainEntry.dt)
             updateTemperatures(
-                currentWeatherEntry.main.temp.toInt(),
-                currentWeatherEntry.main.feelsLike.toInt()
+                currentMainEntry.main.temp.toInt(),
+                currentMainEntry.main.feelsLike.toInt()
             )
-            updateCondition(currentWeatherEntry.weather[0].description)
-            updatePressure(currentWeatherEntry.main.pressure)
-            updateWind(currentWeatherEntry.wind.deg.toString(), currentWeatherEntry.wind.speed.toInt())
-            updateVisibility(currentWeatherEntry.visibility)
+            updateCondition(currentMainEntry.weather[0].description)
+            updatePressure(currentMainEntry.main.pressure)
+            updateWind(currentMainEntry.wind.deg.toString(), currentMainEntry.wind.speed.toInt())
+            updateVisibility(currentMainEntry.visibility)
             //==============================================
 
             GlideApp.with(this@CurrentWeatherFragment)
-                .load("${iconurl}${currentWeatherEntry.weather[0].icon}.png")
+                .load("${iconurl}${currentMainEntry.weather[0].icon}.png")
                 .into(imageView_condition_icon)
 */
            //===============================================

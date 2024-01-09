@@ -1,12 +1,10 @@
 package com.example.forecastmvvm.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.forecastmvvm.data.db.entity.CURRENT_WEATHER_ID
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 
 
 
@@ -14,13 +12,13 @@ import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 interface CurrentWeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(weatherEntry: CurrentWeatherEntry)
+    fun upsert(mainEntry: CurrentMainEntry)
 
-    @Query("select * from current_weather")
-    fun getWeather(): (CurrentWeatherEntry)
+    @Query("select * from current_main")
+    fun getMainWeather(): (CurrentMainEntry)
 
-    @Query("delete from current_weather")
-    fun deleteAllCurrentWeather()
+    @Query("delete from current_main")
+    fun deleteAllMainWeather()
 
 
 

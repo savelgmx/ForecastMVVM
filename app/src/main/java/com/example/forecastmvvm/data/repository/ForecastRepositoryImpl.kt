@@ -1,12 +1,10 @@
 package com.example.forecastmvvm.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.example.forecastmvvm.data.ResultData
 import com.example.forecastmvvm.data.db.CurrentWeatherDao
 import com.example.forecastmvvm.data.db.ForecastCityDao
 import com.example.forecastmvvm.data.db.FutureWeatherDao
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 //import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.api.OpenWeatherApiService
@@ -14,12 +12,10 @@ import com.example.forecastmvvm.data.network.response.current.CurrentWeatherResp
 import com.example.forecastmvvm.data.network.response.forecast.FutureWeatherResponse
 import com.example.forecastmvvm.data.provider.LocationProvider
 import com.example.forecastmvvm.internal.NoConnectivityException
+import com.example.forecastmvvm.internal.WeatherUtils
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.ZonedDateTime
 import java.util.*
 
 private var longitude:Double = 0.0
@@ -34,10 +30,10 @@ class ForecastRepositoryImpl(
     private val openWeatherApiService: OpenWeatherApiService // Injected OpenWeatherApiService 6
 ) :ForecastRepository{
 
-    override suspend fun getCurrentWeather(metric: Boolean): CurrentWeatherEntry {
+    override suspend fun getCurrentWeather(metric: Boolean): CurrentMainEntry {
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext currentWeatherDao.getWeather()
+            return@withContext currentWeatherDao.getMainWeather()
 
         }
     }
@@ -61,20 +57,27 @@ class ForecastRepositoryImpl(
         futureWeatherDao.deleteAllFutureWeatherEntrys()
     }
 
-  private suspend fun initWeatherData(){
+    private suspend fun initWeatherData(){
         fetchCurrentWeather()
-     //   fetchFutureWeather(locationProvider.getPreferredLocationString(), "metric", Locale.getDefault().language)
-     //TODO change parameters
+        longitude=WeatherUtils.getLongitude()
+        latitude=WeatherUtils.getLatitude()
+        fetchFutureWeather(longitude.toString(), latitude.toString(),"current,hourly","metric")
+
     }
-   private suspend fun fetchCurrentWeather(){
+    private suspend fun fetchCurrentWeather(){
         val fetchedCurrentWeather = fetchCurrentWeatherFromApi(
             locationProvider.getPreferredLocationString(),
             unitProvider.getUnitSystem().toString(),
             Locale.getDefault().language
         )
 
+
         if (fetchedCurrentWeather != null) {
-            currentWeatherDao.deleteAllCurrentWeather()
+
+            fetchedCurrentWeather.coord?.let { WeatherUtils.setLatitude(it.lat) }
+            fetchedCurrentWeather.coord?.let { WeatherUtils.setLongitude(it.lon) }
+
+            currentWeatherDao.deleteAllMainWeather()
             currentWeatherDao.upsert(fetchedCurrentWeather.main)
         }
     }

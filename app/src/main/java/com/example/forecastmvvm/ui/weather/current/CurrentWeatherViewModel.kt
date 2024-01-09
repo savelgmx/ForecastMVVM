@@ -1,7 +1,7 @@
 package com.example.forecastmvvm.ui.weather.current
 
 import androidx.lifecycle.*
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.internal.UnitSystem
 import com.resocoder.forecastmvvm.data.provider.UnitProvider
@@ -17,8 +17,8 @@ class CurrentWeatherViewModel (
     private val isMetric: Boolean = unitProvider.getUnitSystem() == UnitSystem.METRIC
 
     // Using MutableLiveData to hold the weather data
-    private val _weather = MutableLiveData<CurrentWeatherEntry>()
-    val weather: LiveData<CurrentWeatherEntry> get() = _weather
+    private val _weather = MutableLiveData<CurrentMainEntry>()
+    val weather: LiveData<CurrentMainEntry> get() = _weather
     private val _isDataFetched = MutableLiveData<Boolean>()
     val isDataFetched: LiveData<Boolean> get() = _isDataFetched
 

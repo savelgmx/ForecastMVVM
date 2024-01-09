@@ -5,15 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
+import com.example.forecastmvvm.data.db.entity.CurrentMainEntry
 import com.example.forecastmvvm.data.db.entity.ForecastCityModel
 import com.example.forecastmvvm.data.db.entity.FutureWeatherEntry
 
 
 @Database(
 
-//    entities = [CurrentWeatherEntry::class, WeatherLocation::class],version = 1
-        entities = [CurrentWeatherEntry::class , ForecastCityModel::class,FutureWeatherEntry::class], version = 2
+//    entities = [CurrentMainEntry::class, WeatherLocation::class],version = 1
+        entities = [CurrentMainEntry::class , ForecastCityModel::class,FutureWeatherEntry::class], version = 2
 
 )
 @TypeConverters(Converters::class)
